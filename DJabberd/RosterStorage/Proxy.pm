@@ -6,7 +6,6 @@ use base 'DJabberd::RosterStorage';
 
 use DJabberd::Log;
 use DJabberd::RosterItem;
-use Net::XMPP::Roster;
 our $logger = DJabberd::Log->get_logger();
 our $client = Client::get_client();
 
@@ -30,11 +29,20 @@ sub get_roster {
     my $jidstr = $jid->as_bare_string;
 
     $logger->debug("Getting roster for '$jid'");
-    my $clientRoster = new Net::XMPP::Roster(connection=>$client);
     
+    $client->RosterRequest();
 
-    my @jids    = $clientRoster->jids();    
-    print "ROSTER: $clientRoster | JIDS: @jids\n";    
+    #Sending presence to tell world that we are logged in
+    $client->PresenceSend();
+    $client->Process(5);
+
+    #Getting Roster to tell server to send presence info
+    $client->RosterGet();
+    $client->Process(5);  
+
+    
+    my @jids  = $client->RosterDBJIDs();
+
 
 
     my $roster = DJabberd::Roster->new; 
@@ -43,12 +51,13 @@ sub get_roster {
 	#TODO fix subscriptiion
         my $subscription = DJabberd::Subscription->from_bitmask(12);
 	my $item = {};
-	$item->{jid} = $jid;
+	$item->{jid} = $jid->GetJID();
+	print $item->{jid} . "\n";
 	$item->{name} = "";
 	$item->{groups} = [];
 	$item->{remove} = "";
 	$item->{subscription} = 12;
-        $roster->add(DJabberd::RosterItem->new(%$item, subscription => $subscription));
+	$roster->add(DJabberd::RosterItem->new(%$item, subscription => $subscription));
     }
 
     $logger->debug("  ... got groups, calling set_roster..");
