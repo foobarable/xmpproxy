@@ -6,6 +6,7 @@ use base 'DJabberd::RosterStorage';
 
 use DJabberd::Log;
 use DJabberd::RosterItem;
+use Net::XMPP::Roster;
 our $logger = DJabberd::Log->get_logger();
 our $client = Client::get_client();
 

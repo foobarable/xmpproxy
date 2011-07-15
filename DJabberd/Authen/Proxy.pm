@@ -50,10 +50,9 @@ sub check_cleartext {
     my $pass = $args{'password'};
     
     my @result = $client->AuthSend( username=>$user,
-                             	password=>$pass,
-                             	resource=>"xmpproxy"
-			      );
-    #print "@result\n";
+                         	password=>$pass,
+                         	resource=>"xmpproxy"
+   		      );
     if($result[0] eq "ok")
     {
         $cb->accept;
