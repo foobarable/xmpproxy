@@ -1,5 +1,5 @@
 package DJabberd::RosterStorage::Proxy;
-
+#NEED TO BE CHANGED, COPIED FROM "In mem only" Roster Storage
 use strict;
 use warnings;
 use base 'DJabberd::RosterStorage';

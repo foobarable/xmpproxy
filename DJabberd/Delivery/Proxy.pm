@@ -5,6 +5,7 @@ use base 'DJabberd::Delivery';
 
 #sub run_before { ("DJabberd::Delivery::S2S") }
 
+##NEED TO BE CHANGED, COPIED FROM local delivery example
 sub deliver {
     my ($self, $vhost, $cb, $stanza) = @_;
     my $to = $stanza->to_jid                or return $cb->declined;
