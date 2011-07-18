@@ -10,7 +10,7 @@ our $client = new Net::XMPP::Client();
 $client->PresenceDB();
 $client->RosterDB();
 
-$client->Connect(hostname=>"milk-and-cookies.net");
+$client->Connect(hostname=>"jabber.linuxlovers.at");
 	
 sub get_client
 {
