@@ -2,6 +2,7 @@
 #
 # foobarable's Jabber Proxy
 #
+package Proxy;
 
 BEGIN {
     $^P |= 0x01 if $ENV{TRACE_DJABBERD};
@@ -38,30 +39,9 @@ BEGIN {
     }
     use DJabberd::Log;
     DJabberd::Log->set_logger(@try_logconf_conf);
-
 }
 
 use FindBin qw($Bin);
-
-#for parsing our config file
-use Config::IniFiles;
-
-#the config-file hash
-my %ini;
-tie %ini, 'Config::IniFiles', ( -file => $conffile );
-
-
-use Client;
-use DJabberd;
-use DJabberd::Delivery::Proxy;
-use DJabberd::Authen::Proxy;
-use DJabberd::PresenceChecker::Local;
-use DJabberd::RosterStorage::Proxy;
-#use DJabberd::Plugin::MUC;
-#use DJabberd::Plugin::VCard::SQLite;
-
-
-
 #my $vcard = DJabberd::Plugin::VCard::SQLite->new;
 #$vcard->set_config_storage("$Bin/roster.sqlite");
 #$vcard->finalize;
@@ -69,29 +49,20 @@ use DJabberd::RosterStorage::Proxy;
 #my $muc = DJabberd::Plugin::MUC->new;
 #$muc->set_config_subdomain("conference");
 #$muc->finalize;
-my %hosts = ();
-
-foreach my $section ( keys(%ini) )
-{
-	# account for accessing proxy
-	if  ( ( $section eq 'access' ) )
-	{
-		($user,$host) = ($ini{$section}{'jid'} =~ m/(.*)@(.*)/);
-		$pass = $ini{$section}{'passwd'};
-		$resource = $ini{$section}{'resource'};
-	}
-	#configured jabber accounts to proxy
-	if ( ( $section eq 'account' ) )
-	{
-		$accounts->{$section}{'jid'}  = $ini{$section}{'jid'};
-		$accounts->{$section}{'passwd'} = $ini{$section}{'passwd'};
-		$accounts->{$section}{'resource'} = $ini{$section}{'resource'};
-	}
-}
-
-
+use Proxy::Client;
+use DJabberd;
+use DJabberd::Log;
+use DJabberd::Delivery::Proxy;
+use DJabberd::Authen::Proxy;
+use DJabberd::PresenceChecker::Local;
+use DJabberd::RosterStorage::Proxy;
+#use DJabberd::Plugin::MUC;
+#use DJabberd::Plugin::VCard::SQLite;
+our $logger = DJabberd::Log->get_logger();
+print "host " .Proxy::Config::get_host();
+$logger->info("host ",Proxy::Config::get_host()); # das mit dem logger geht einfach noch nicht.. ich glaube das liegt daran, dass wir teil von djabberd sein muessen
 my $vhost = DJabberd::VHost->new(
-                                 server_name => $host,
+                                 server_name => Proxy::Config::get_host(),
                                  require_ssl => 0,
                                  s2s       => 0,
                                  plugins   => [
@@ -109,18 +80,7 @@ my $server = DJabberd->new(
                            );
 
 $server->add_vhost($vhost);
+#TODO: register user from config..
 
-#iterate over configured JIDs and make connections
-foreach my $jid ($jids) {
-	my @result = $client->AuthSend( username=>$user,
-                         	password=>$pass,
-                         	resource=>$resource
-   		      );
-}
 $server->run;
-#register proxy-access-account
-
-
-1;
-
 
