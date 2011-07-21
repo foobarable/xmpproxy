@@ -1,7 +1,7 @@
-package Proxy::Config;
+package DJabberd::Config::Config;
 use strict;
 use warnings;
-use diagnostics;
+use base 'DJabberd::Plugin';
 
 use DJabberd::Log;
 our $logger = DJabberd::Log->get_logger();
@@ -11,7 +11,7 @@ use Config::IniFiles;
 
 #the config-file hash
 my %ini;
-tie %ini, 'Config::IniFiles', ( -file => $Proxy::conffile );
+tie %ini, 'Config::IniFiles', ( -file => $xmpproxy::conffile );
 
 my %accounts = ();
 my $user=undef;
@@ -25,7 +25,7 @@ foreach my $section ( keys(%ini) )
 	if  ( ( $section eq 'access' ) )
 	{
 		($user,$host) = ($ini{$section}{'jid'} =~ m/(.*)@(.*)/);
-		print "host " .$host;
+		$logger->info("hostname: ", $host);
 		$pass = $ini{$section}{'passwd'};
 		$resource = $ini{$section}{'resource'};
 	}
@@ -38,8 +38,7 @@ foreach my $section ( keys(%ini) )
 		$accounts{$jid}{'host'} =  $host;
 		$accounts{$jid}{'passwd'} =  $ini{$section}{'passwd'};
 		$accounts{$jid}{'resource'} = $ini{$section}{'resource'};
-		$logger->warn("jid: ", $jid);
-		$logger->info("jid: ", $Config::accounts->{$jid}{'user'});
+		$logger->info("jid: ", $jid);
 	}
 }
 
