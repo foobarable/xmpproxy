@@ -2,7 +2,7 @@
 #
 # foobarable's Jabber Proxy
 #
-package Proxy;
+package xmpproxy;
 
 BEGIN {
     $^P |= 0x01 if $ENV{TRACE_DJABBERD};
@@ -49,9 +49,9 @@ use FindBin qw($Bin);
 #my $muc = DJabberd::Plugin::MUC->new;
 #$muc->set_config_subdomain("conference");
 #$muc->finalize;
-use Proxy::Client;
 use DJabberd;
 use DJabberd::Log;
+use DJabberd::Client::Client;
 use DJabberd::Delivery::Proxy;
 use DJabberd::Authen::Proxy;
 use DJabberd::PresenceChecker::Local;
@@ -59,10 +59,10 @@ use DJabberd::RosterStorage::Proxy;
 #use DJabberd::Plugin::MUC;
 #use DJabberd::Plugin::VCard::SQLite;
 our $logger = DJabberd::Log->get_logger();
-print "host " .Proxy::Config::get_host();
-$logger->info("host ",Proxy::Config::get_host()); # das mit dem logger geht einfach noch nicht.. ich glaube das liegt daran, dass wir teil von djabberd sein muessen
+
+$logger->info("host ",DJabberd::Config::Config::get_host()); 
 my $vhost = DJabberd::VHost->new(
-                                 server_name => Proxy::Config::get_host(),
+                                 server_name => DJabberd::Config::Config::get_host(),
                                  require_ssl => 0,
                                  s2s       => 0,
                                  plugins   => [

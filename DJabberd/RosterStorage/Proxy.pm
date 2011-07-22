@@ -7,7 +7,7 @@ use base 'DJabberd::RosterStorage';
 use DJabberd::Log;
 use DJabberd::RosterItem;
 our $logger = DJabberd::Log->get_logger();
-our $client = Proxy::Client::get_client();
+our $client = DJabberd::Client::Client::get_client();
 
 
 sub finalize {

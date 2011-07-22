@@ -2,7 +2,7 @@ package DJabberd::Authen::Proxy;
 use strict;
 use base 'DJabberd::Authen';
 
-our $client=Proxy::Client::get_client();
+our $client=DJabberd::Client::Client::get_client();
 
 use Carp qw(croak);
 
