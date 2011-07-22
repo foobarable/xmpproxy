@@ -1,28 +1,28 @@
-package Proxy::Client;
+package DJabberd::Client::Client;
 use strict;
 use warnings;
+use base 'DJabberd::Plugin';
 
-use DJabberd::Log;
-use Proxy::Config;
+use DJabberd::Config::Config;
 use Net::XMPP;
 use Net::XMPP::Client;
+use DJabberd::Log;
 our $logger = DJabberd::Log->get_logger();
 
 our $client = new Net::XMPP::Client();
-our $accounts = Proxy::Config::get_accounts();
+our $accounts = DJabberd::Config::Config::get_accounts();
 
 $client->PresenceDB();
 $client->RosterDB();
 
 
-#register proxy-access-account
+$logger->info("register proxy-access-accounts.");
 #iterate over configured JIDs and make connections
 foreach my $jid ( keys %{$accounts}) {
-	print "username: " . $accounts->{$jid}{'user'} . "\n";
-	print "username: " . $accounts->{$jid}{'host'} . "\n";
-	print "passwd: " . $accounts->{$jid}{'passwd'} . "\n";
-	print "resource: " . $accounts->{$jid}{'resource'} . "\n";
-	$logger->info("connecting account ...");
+	$logger->info("connecting account " . $jid);
+	$logger->debug("user: " . $accounts->{$jid}{'user'} . "\n");
+	$logger->debug("host: " . $accounts->{$jid}{'host'} . "\n");
+	$logger->debug("resource: " . $accounts->{$jid}{'resource'} . "\n");
 	$client->Connect(hostname=>$accounts->{$jid}{'host'});
 	my @result = $client->AuthSend( username=>$accounts->{$jid}{'user'},
                          	password=>$accounts->{$jid}{'passwd'},
