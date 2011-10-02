@@ -1,0 +1,79 @@
+\documentclass[a4paper,10pt,numbers=noendperiod]{scrartcl} 
+\setlength\oddsidemargin{0.2cm}
+\setlength\evensidemargin{0.2cm}
+\setlength\textwidth{15.8cm}
+
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{tikz}
+\usepackage{wasysym}
+\usepackage{ucs}
+\usepackage{stmaryrd}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{nicefrac}
+\usepackage[english]{babel}
+\usepackage{marvosym}
+\usepackage{dsfont}
+\usepackage{listings}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{enumitem}
+\usepackage{tabularx}
+
+\usepackage{eurosym}
+
+\def\thesubsubsection{Exercise \arabic{section}.\alph{subsection}.\arabic{subsubsection}} 
+\def\thesubsection{\arabic{section}.\alph{subsection} - } 
+\def\thesection{\arabic{section}}
+
+
+
+\lstset{ %
+language=C++,                % the language of the code
+basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+numbers=left,                   % where to put the line-numbers
+numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=single,                   % adds a frame around the code
+tabsize=2,                      % sets default tabsize to 2 spaces
+captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+title=\lstname,                 % show the filename of files included with \lstinputlisting;
+}
+
+
+
+\author{Ralph Krimmel}
+\title{xmpproxy, a proxy server for the xmpp protocol}
+\subtitle{ Project description and plan }
+
+
+\begin{document}
+\maketitle{}
+\thispagestyle{empty}
+\newpage
+\tableofcontents{}
+\newpage
+
+\section{Abstract}
+\section{Technology}
+\section{Literature}
+http://xmpp.org/rfcs/rfc6120.html\\
+http://xmpp.org/rfcs/rfc6121.html\\
+http://xmpp.org/rfcs/rfc6122.html\\
+http://search.cpan.org/~hacker/Net-XMPP-1.02/\\
+http://search.cpan.org/~mart/DJabberd-0.85/ \\
+
+
+
+\section{Schedule}
+\end{document} 
