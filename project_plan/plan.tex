@@ -22,7 +22,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{enumitem}
 \usepackage{tabularx}
-
+\usepackage{url}
 \usepackage{eurosym}
 
 \def\thesubsubsection{Exercise \arabic{section}.\alph{subsection}.\arabic{subsubsection}} 
@@ -90,7 +90,7 @@ This behaviour leads to the problem, that conversations and logfiles of conversa
 \end{figure}
 
 
-A possible solution for this issue may be the use of a proxy server as it can be seen in figure \ref{fig:2clientsproxy}.
+A possible solution for this issue may be the use of a proxy server as it can be seen in figure \ref{fig:2clientsproxy}. This server will make sure, that every incoming stanza will reach both clients and every outgoing stanza will be sent to every ressource as well as to the targetet server.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -103,13 +103,14 @@ A possible solution for this issue may be the use of a proxy server as it can be
 \section{Technology}
 
 \section{Literature}
-Programming jabber\\
-http://xmpp.org/rfcs/rfc6120.html\\
-http://xmpp.org/rfcs/rfc6121.html\\
-http://xmpp.org/rfcs/rfc6122.html\\
-http://search.cpan.org/~hacker/Net-XMPP-1.02/\\
-http://search.cpan.org/~mart/DJabberd-0.85/ \\
-
+\begin{itemize}
+	\item \texttt{Programming jabber - extending XML messaging} by DJ Adams\\
+	\item \url{http://xmpp.org/rfcs/rfc6120.html}\\
+	\item \url{http://xmpp.org/rfcs/rfc6121.html}\\
+	\item \url{http://xmpp.org/rfcs/rfc6122.html}\\
+	\item \url{http://search.cpan.org/~hacker/Net-XMPP-1.02/}\\
+	\item \url{http://search.cpan.org/~mart/DJabberd-0.85/}\\
+\end{itemize}
 
 
 \section{Schedule}
