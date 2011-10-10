@@ -42,6 +42,8 @@ BEGIN {
 }
 
 use FindBin qw($Bin);
+
+
 #my $vcard = DJabberd::Plugin::VCard::SQLite->new;
 #$vcard->set_config_storage("$Bin/roster.sqlite");
 #$vcard->finalize;
