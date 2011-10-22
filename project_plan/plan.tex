@@ -25,9 +25,9 @@
 \usepackage{url}
 \usepackage{eurosym}
 
-\def\thesubsubsection{Exercise \arabic{section}.\alph{subsection}.\arabic{subsubsection}} 
-\def\thesubsection{\arabic{section}.\alph{subsection} - } 
-\def\thesection{\arabic{section}}
+%\def\thesubsubsection{Exercise \arabic{section}.\alph{subsection}.\arabic{subsubsection}} 
+%\def\thesubsection{\arabic{section}.\alph{subsection} - } 
+%\def\thesection{\arabic{section}}
 
 
 
@@ -101,6 +101,13 @@ A possible solution for this issue may be the use of a proxy server as it can be
 \end{figure}
 
 \section{Technology}
+\subsection{Software choice}
+For implementing the xmpp proxy server several design descisions had to me made. First of all a programing language was chosen. Possible languages were Perl, C, C++ and Java because of the preferences of the author. The criteria for the programing language was first of all the availability of proper libraries that deal with the xmpp protocol, both server and client side.  Unfortunately, this excluded all languages except perl because there are just few xmpp server libraries at all. Therefore the xmpp proxy server will make use of the \texttt{djabberd} xmpp/jabber server and the perl modules \texttt{Net::XMPP / Net::XMPP::Client} although it lacks a proper documentation.
+\subsection{Djabberd}
+Djabberd is a modular, scalable and extensible jabber server where almost everything defers to hooks to be implemented by plugins. %cite
+It is written and maintained by \textit{Brad Fitzpatrick}, \textit{Artur Bergman} and \textit{Jonathan Steinert}.
+
+\subsection{Net::XMPP}
 
 \section{Literature}
 \begin{itemize}
