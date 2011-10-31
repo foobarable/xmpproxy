@@ -1,257 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created by diasvg.py -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="20.990cm"
-   height="21.650cm"
-   viewBox="4.950 1.950 25.940 23.600"
-   id="svg3085"
-   version="1.1"
-   inkscape:version="0.48.2 r9819"
-   sodipodi:docname="diagram3.pdf">
-  <metadata
-     id="metadata3145">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <defs
-     id="defs3143" />
-  <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="1436"
-     inkscape:window-height="877"
-     id="namedview3141"
-     showgrid="false"
-     showguides="true"
-     inkscape:guide-bbox="true"
-     inkscape:zoom="0.86296126"
-     inkscape:cx="371.87009"
-     inkscape:cy="563.76959"
-     inkscape:window-x="0"
-     inkscape:window-y="19"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg3085">
-    <sodipodi:guide
-       orientation="0,1"
-       position="760.17317,221.33091"
-       id="guide3147" />
-  </sodipodi:namedview>
-  <rect
-     x="14.817969"
-     y="0.77684844"
-     width="4.7524223"
-     height="3.9077966"
-     id="rect3087"
-     style="fill:#ffffff;stroke:none" />
-  <rect
-     x="14.817969"
-     y="0.77684844"
-     width="4.7524223"
-     height="3.9077966"
-     id="rect3089"
-     style="fill:none;stroke:#000000;stroke-width:0.07867973" />
-  <text
-     x="17.079714"
-     y="2.5877547"
-     font-size="0.80"
-     font-style="normal"
-     font-weight="400"
-     id="text3091"
-     style="font-size:0.62943786px;font-style:normal;font-weight:400;text-anchor:middle;fill:#000000;font-family:sans"
-     transform="scale(1.006702,0.99334262)">Server</text>
-  <text
-     x="17.079714"
-     y="3.2171924"
-     font-size="0.80"
-     font-style="normal"
-     font-weight="400"
-     id="text3093"
-     style="font-size:0.62943786px;font-style:normal;font-weight:400;text-anchor:middle;fill:#000000;font-family:sans"
-     transform="scale(1.006702,0.99334262)">example.com</text>
-  <line
-     x1="14.046492"
-     y1="14.024281"
-     x2="15.747859"
-     y2="11.299764"
-     id="line3095"
-     style="stroke:#000000;stroke-width:0.07867973" />
-  <polygon
-     points="13.37,15.145 13.321,15.702 13.174,15.464 12.895,15.44 "
-     id="polygon3097"
-     transform="matrix(0.79207042,0,0,0.78155934,5.3131242,-0.78627025)"
-     style="fill:#000000;stroke:none" />
-  <polygon
-     points="13.37,15.145 13.321,15.702 13.174,15.464 12.895,15.44 "
-     id="polygon3099"
-     transform="matrix(0.79207042,0,0,0.78155934,5.3131242,-0.78627025)"
-     style="fill:none;stroke:#000000;stroke-width:0.1" />
-  <rect
-     x="9.2734756"
-     y="14.063357"
-     width="7.2775426"
-     height="3.5560951"
-     id="rect3101"
-     style="fill:#ffffff;stroke:none" />
-  <rect
-     x="9.2734756"
-     y="14.063357"
-     width="7.2775426"
-     height="3.5560951"
-     id="rect3103"
-     style="fill:none;stroke:#000000;stroke-width:0.07867973" />
-  <text
-     x="12.826286"
-     y="15.471561"
-     font-size="0.80"
-     font-style="normal"
-     font-weight="400"
-     id="text3105"
-     style="font-size:0.62943786px;font-style:normal;font-weight:400;text-anchor:middle;fill:#000000;font-family:sans"
-     transform="scale(1.006702,0.99334262)">Client A</text>
-  <text
-     x="13.863351"
-     y="14.820065"
-     font-size="0.80"
-     font-style="normal"
-     font-weight="400"
-     id="text3107"
-     style="font-size:0.57936221px;font-style:normal;font-weight:400;text-anchor:middle;fill:#000000;font-family:sans"
-     transform="scale(0.92661262,1.0791996)">foo@example.com/Home</text>
-  <text
-     x="12.826286"
-     y="16.730436"
-     font-size="0.80"
-     font-style="normal"
-     font-weight="400"
-     id="text3109"
-     style="font-size:0.62943786px;font-style:normal;font-weight:400;text-anchor:middle;fill:#000000;font-family:sans"
-     transform="scale(1.006702,0.99334262)">Priority 5</text>
-  <rect
-     x="17.98625"
-     y="14.063357"
-     width="7.8335767"
-     height="3.5560951"
-     id="rect3111"
-     style="fill:#ffffff;stroke:none" />
-  <rect
-     x="17.98625"
-     y="14.063357"
-     width="7.8335767"
-     height="3.5560951"
-     id="rect3113"
-     style="fill:none;stroke:#000000;stroke-width:0.07867973" />
-  <text
-     x="21.757223"
-     y="15.471561"
-     font-size="0.80"
-     font-style="normal"
-     font-weight="400"
-     id="text3115"
-     style="font-size:0.62943786px;font-style:normal;font-weight:400;text-anchor:middle;fill:#000000;font-family:sans"
-     transform="scale(1.006702,0.99334262)">Client B</text>
-  <text
-     x="22.55242"
-     y="15.488194"
-     font-size="0.80"
-     font-style="normal"
-     font-weight="400"
-     id="text3117"
-     style="font-size:0.60548139px;font-style:normal;font-weight:400;text-anchor:middle;fill:#000000;font-family:sans"
-     transform="scale(0.96838673,1.0326453)">foo@example.com/Work</text>
-  <text
-     x="21.757223"
-     y="16.730436"
-     font-size="0.80"
-     font-style="normal"
-     font-weight="400"
-     id="text3119"
-     style="font-size:0.62943786px;font-style:normal;font-weight:400;text-anchor:middle;fill:#000000;font-family:sans"
-     transform="scale(1.006702,0.99334262)">Priority 7</text>
-  <line
-     x1="20.655529"
-     y1="14.024281"
-     x2="18.779112"
-     y2="11.291167"
-     id="line3121"
-     style="stroke:#000000;stroke-width:0.07867973" />
-  <polygon
-     points="16.79,15.142 17.278,15.416 17.001,15.453 16.864,15.697 "
-     id="polygon3123"
-     transform="matrix(0.79207042,0,0,0.78155934,5.3131242,-0.78627025)"
-     style="fill:#000000;stroke:none" />
-  <polygon
-     points="16.79,15.142 17.278,15.416 17.001,15.453 16.864,15.697 "
-     id="polygon3125"
-     transform="matrix(0.79207042,0,0,0.78155934,5.3131242,-0.78627025)"
-     style="fill:none;stroke:#000000;stroke-width:0.1" />
-  <rect
-     x="14.025899"
-     y="7.0293236"
-     width="6.3365636"
-     height="3.9077966"
-     id="rect3127"
-     style="fill:#ffffff;stroke:none" />
-  <rect
-     x="14.025899"
-     y="7.0293236"
-     width="6.3365636"
-     height="3.9077966"
-     id="rect3129"
-     style="fill:none;stroke:#000000;stroke-width:0.07867973" />
-  <text
-     x="17.079714"
-     y="8.8821335"
-     font-size="0.80"
-     font-style="normal"
-     font-weight="400"
-     id="text3131"
-     style="font-size:0.62943786px;font-style:normal;font-weight:400;text-anchor:middle;fill:#000000;font-family:sans"
-     transform="scale(1.006702,0.99334262)">Proxy-Server</text>
-  <text
-     x="17.079714"
-     y="9.5115719"
-     font-size="0.80"
-     font-style="normal"
-     font-weight="400"
-     id="text3133"
-     style="font-size:0.62943786px;font-style:normal;font-weight:400;text-anchor:middle;fill:#000000;font-family:sans"
-     transform="scale(1.006702,0.99334262)">proxy.example.com</text>
-  <line
-     x1="17.19418"
-     y1="6.9910274"
-     x2="17.19418"
-     y2="5.1035604"
-     id="line3135"
-     style="stroke:#000000;stroke-width:0.07867973" />
-  <polygon
-     points="15,7.161 15.25,7.661 15,7.536 14.75,7.661 "
-     id="polygon3137"
-     transform="matrix(0.79207042,0,0,0.78155934,5.3131242,-0.78627025)"
-     style="fill:#000000;stroke:none" />
-  <polygon
-     points="15,7.161 15.25,7.661 15,7.536 14.75,7.661 "
-     id="polygon3139"
-     transform="matrix(0.79207042,0,0,0.78155934,5.3131242,-0.78627025)"
-     style="fill:none;stroke:#000000;stroke-width:0.1" />
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="21cm" height="22cm" viewBox="99 39 420 434" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffff" x="240" y="40" width="120" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="240" y="40" width="120" height="100"/>
+    <text style="fill: #000000;text-anchor:middle;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="300" y="85.9">
+      <tspan x="300" y="85.9">Server</tspan>
+      <tspan x="300" y="101.9">example.com</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="225.63" y1="370.711" x2="263.473" y2="309.287"/>
+    <polygon style="fill: #000000" points="221.696,377.097 222.684,365.96 225.63,370.711 231.198,371.206 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="221.696,377.097 222.684,365.96 225.63,370.711 231.198,371.206 "/>
+    <polygon style="fill: #000000" points="267.407,302.902 266.419,314.039 263.473,309.287 257.905,308.793 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="267.407,302.902 266.419,314.039 263.473,309.287 257.905,308.793 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="100" y="380" width="183.75" height="91"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="100" y="380" width="183.75" height="91"/>
+    <text style="fill: #000000;text-anchor:middle;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="191.875" y="413.4">
+      <tspan x="191.875" y="413.4">Client A</tspan>
+      <tspan x="191.875" y="429.4">foo@example.com/Home</tspan>
+      <tspan x="191.875" y="445.4">Priority 5</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="320" y="380" width="197.8" height="91"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="320" y="380" width="197.8" height="91"/>
+    <text style="fill: #000000;text-anchor:middle;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="418.9" y="413.4">
+      <tspan x="418.9" y="413.4">Client B</tspan>
+      <tspan x="418.9" y="429.4">foo@example.com/Work</tspan>
+      <tspan x="418.9" y="445.4">Priority 7</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="381.936" y1="370.94" x2="340.012" y2="309.059"/>
+    <polygon style="fill: #000000" points="386.143,377.149 376.394,371.675 381.936,370.94 384.673,366.066 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="386.143,377.149 376.394,371.675 381.936,370.94 384.673,366.066 "/>
+    <polygon style="fill: #000000" points="335.805,302.849 345.553,308.324 340.012,309.059 337.275,313.933 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="335.805,302.849 345.553,308.324 340.012,309.059 337.275,313.933 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="220" y="200" width="160" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="220" y="200" width="160" height="100"/>
+    <text style="fill: #000000;text-anchor:middle;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="300" y="245.9">
+      <tspan x="300" y="245.9">Proxy-Server</tspan>
+      <tspan x="300" y="261.9">proxy.example.com</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="300" y1="189.287" x2="300" y2="150.713"/>
+    <polygon style="fill: #000000" points="300,196.787 295,186.787 300,189.287 305,186.787 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="300,196.787 295,186.787 300,189.287 305,186.787 "/>
+    <polygon style="fill: #000000" points="300,143.213 305,153.213 300,150.713 295,153.213 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="300,143.213 305,153.213 300,150.713 295,153.213 "/>
+  </g>
 </svg>
