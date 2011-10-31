@@ -65,12 +65,18 @@ our $logger = DJabberd::Log->get_logger();
 $logger->info("host ",DJabberd::Config::Config::get_host()); 
 my $vhost = DJabberd::VHost->new(
                                  server_name => DJabberd::Config::Config::get_host(),
+				 
+				 #TODO: read this from options file
                                  require_ssl => 0,
+				 
+				 #we don't need server to server communication in a proxy server
                                  s2s       => 0,
                                  plugins   => [
                                                DJabberd::Authen::Proxy->new,
                                                DJabberd::RosterStorage::Proxy->new,
 					       #$vcard,
+					       
+					       #TODO:
 					       #$muc,
                                                DJabberd::Delivery::Proxy->new,
                                                ],

@@ -2,6 +2,9 @@ package DJabberd::Authen::Proxy;
 use strict;
 use base 'DJabberd::Authen';
 
+use DJabberd::Log;
+our $logger = DJabberd::Log->get_logger();
+
 our $client=DJabberd::Client::Client::get_client();
 
 use Carp qw(croak);
@@ -48,17 +51,22 @@ sub check_cleartext {
     my ($self, $cb, %args) = @_;
     my $user = $args{'username'};
     my $pass = $args{'password'};
+    $logger->debug("user: " . $user . "\n");
+    $logger->debug("host: " . $pass . "\n");
+    $logger->debug(keys(%{$self->{_users}}));    
     unless (defined $self->{_users}{$user}) {
+	#the user did not exist
         return $cb->reject;
     }
 
     my $goodpass = $self->{_users}{$user};
     unless ($pass eq $goodpass) {
+	#password was wrong
         return $cb->reject;
     }
 
-    $cb->decline;
-    
+    $cb->accept;
+
     #initial pass-through an writing new proxy-account to config
     #my @result = $client->AuthSend( username=>$user,
     #                     	password=>$pass,
