@@ -78,9 +78,9 @@ of Gothenburg.
 
 \section{Introduction}
 The \texttt{XMPP} or ``jabber''-protocol supports multiple clients to be connected to the same account at the same time. From the server sides view a connected client is called a \textit{ressource}. The consequence of multiple ressources for the same account is that the server has to decide to which ressource an incoming message, or \textit{stanza} in xmpp terminology, is routed to. This is done via the so called \textit{presence priority} a client can connect with.  The client with the higher priority will receive the message. 
-If two or more resources have the same priority, the server may use some other rule to decide between those or deliver the message to all of them. For example, the server could use the most recent connect time or the most recent activity time. However, the server is not allowed to deliver the stanza to an available resource with a negative priority. %TODO cite 
+If two or more ressources have the same priority, the server may use some other rule to decide between those or deliver the message to all of them. For example, the server could use the most recent connect time or the most recent activity time. However, the server is not allowed to deliver the stanza to an available resource with a negative priority. %TODO cite 
 
-This behaviour leads to the problem, that conversations and logfiles of conversations may not be complete on every client, if one client with a higher priority connects. Figure \ref{fig:2clients} shows an example where this would be the case. Client A does not know the parts of the conversation that are held from Client B. Also, not just incoming messages will be missing, Client A will not even know about outgoing stanzas from Client B. 
+This behaviour leads to the problem, that conversations and logfiles of conversations may not be complete on every client, if one client connects with a higher priority. Figure \ref{fig:2clients} shows an example where this would be the case. Client A does not know the parts of the conversation that are held from Client B. Also, not just incoming messages will be missing, Client A will not even know about outgoing stanzas from Client B. 
 \begin{figure}[h!]
 	\begin{center}
 		\includegraphics[scale=0.6]{figures/diagram1.pdf}
@@ -94,7 +94,7 @@ A possible solution for this issue may be the use of a proxy server as it can be
 
 \begin{figure}[h!]
 	\begin{center}
-		\includegraphics[scale=0.5]{figures/diagram3.pdf}
+		\includegraphics[scale=0.4]{figures/diagram3.pdf}
 	\end{center}
 	\caption{Two clients connected to a proxy.}
 	\label{fig:2clientsproxy}
@@ -106,10 +106,73 @@ For implementing the xmpp proxy server several design descisions had to me made.
 \subsection{Djabberd}
 Djabberd is a modular, scalable and extensible jabber server written in perl where almost everything defers to hooks to be implemented by plugins. %cite
 It is written and maintained by \textit{Brad Fitzpatrick}, \textit{Artur Bergman} and \textit{Jonathan Steinert}.
-When this document was created, the most recent version of djabberd was 0.85, released on the thirteenth of June in 2011. Having a modular structure, djabberd is a perfect framework for building the required proxy server because it offers hooks for modifying the behaviour of authentication and authorization process, roster storage and message delivery. Also, \texttt{djabberd} can be used in environments which require a high performance for it is asynchrone/event-based, using epoll on linux 2.6.
+When this document was created, the most recent version of djabberd was 0.85, released on the thirteenth of June in 2011. Having a modular structure, djabberd is a perfect framework for building the required proxy server because it offers hooks for modifying the behaviour of the authentication and authorization process, roster storage and message delivery. Also, \texttt{djabberd} can be used in environments which require a high performance for it is asynchrone/event-based, using epoll on linux 2.6.
 
 \subsection{Net::XMPP}
+\texttt{Net::XMPP} is a perl package that provides access to XMPP client side functions for the perl programming language. It is maintaned by \textit{Eric Hacker} and versioned 1.02 at the time this document was written.
+It can be utilized using its object oriented interface. 
+There are objects available which hold the actual client functions like login, wait for messages, send messages and logout. 
+Also there are objects for storing and handling Jabber IDs (\texttt{Net::XMPP::JID}), messages (\texttt{Net::XMPP::Message}), presence information (\texttt{Net::XMPP::Presence}) and Info/Query namespaces (\texttt{Net::XMPP::IQ}).  
 
+\section{Tasks}
+\begin{itemize}
+	\item Studies of literature
+	\item Write and test wrapper classes for djabberd and Net::XMPP data structures 
+	\item Write and test module for proxy authentication
+	\item Write and test module for proxy roster handling
+	\item Write and test module for proxy presence handling 
+	\item Write and test module for message delivery 
+	\item (Optional) Write and test module for proxy groupchat
+	\item (Optional) Write and test module for proxy jingle (Voice/Video via jabber)	
+	\item Write Documentation	
+	\item Write Report
+	\item Create presentation
+\end{itemize}
+
+
+\section{Schedule}
+The xmpproxy software will be written in the context of the course ``Applied IT Project'' course at the University of Gothenburg. This requires to ``formulate and execute a finite Applied IT project within a limited time-frame''. 
+Therefore it is neccessary to schedule the tasks described in the previous sections. Table  
+
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|c|c|}
+	\hline
+	\textbf{Task} & \textbf{Percentage} & \textbf{Estimated time} \\
+	\hline
+	\hline
+	Studies of literature & 10 & \\
+	\hline
+	Wrapper classes for djabberd and Net::XMPP data structures & 4 & \\
+	Testing & 1 & \\
+	\hline
+	Module for proxy authentication & 4 & \\
+	Testing & 1 & \\
+	\hline
+	Module for proxy roster handling & 9 & \\ 
+	Testing & 1 & \\ 
+	\hline
+	Module for proxy presence handling & 9 & \\ 
+	Testing & 1 & \\ 
+	\hline
+	Write module for message delivery & 18 & \\
+	Testing & 2 & \\
+	\hline
+	Documentation & 20 & \\
+	\hline
+        Report & 10 & \\
+	\hline
+	Presentation & 10 & \\
+	\hline
+	(Optional) Module for proxy groupchat & - & \\
+	\hline
+	(Optional) Module for proxy jingle (Voice/Video via jabber) & - & \\
+	\hline
+	\end{tabular}
+	\caption{Estimated time for several tasks}
+	\label{tab:estimatedtime}
+\end{table}
 
 
 \section{Literature}
@@ -123,5 +186,4 @@ When this document was created, the most recent version of djabberd was 0.85, re
 \end{itemize}
 
 
-\section{Schedule}
 \end{document} 
