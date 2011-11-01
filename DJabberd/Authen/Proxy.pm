@@ -12,9 +12,14 @@ use Carp qw(croak);
 sub new {
     my $class = shift;
     my $self = $class->SUPER::new;
+    
+    #TODO: 
     $self->{_users} = {};  # username -> $password
     return $self;
 }
+
+
+
 
 sub can_register_jids { 0 }
 sub can_unregister_jids { 0 }

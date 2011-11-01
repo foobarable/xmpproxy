@@ -55,12 +55,19 @@ use DJabberd;
 use DJabberd::Log;
 use DJabberd::Client::Client;
 use DJabberd::Delivery::Proxy;
+use DJabberd::Delivery::Local;
 use DJabberd::Authen::Proxy;
 use DJabberd::PresenceChecker::Local;
 use DJabberd::RosterStorage::Proxy;
 #use DJabberd::Plugin::MUC;
 #use DJabberd::Plugin::VCard::SQLite;
 our $logger = DJabberd::Log->get_logger();
+
+
+#create plugins
+$auth = DJabberd::Authen::Proxy->new();
+$roster = DJabberd::RosterStorage::Proxy->new();
+$delivery = DJabberd::Delivery::Proxy->new();
 
 $logger->info("host ",DJabberd::Config::Config::get_host()); 
 my $vhost = DJabberd::VHost->new(
@@ -71,14 +78,16 @@ my $vhost = DJabberd::VHost->new(
 				 
 				 #we don't need server to server communication in a proxy server
                                  s2s       => 0,
+
+				 #register required plugins
                                  plugins   => [
-                                               DJabberd::Authen::Proxy->new,
-                                               DJabberd::RosterStorage::Proxy->new,
-					       #$vcard,
-					       
+                                               $auth, 
+                                               $roster,
+					       $delivery,
+					       DJabberd::Delivery::Local->new(),
 					       #TODO:
+					       #$vcard,
 					       #$muc,
-                                               DJabberd::Delivery::Proxy->new,
                                                ],
                                  );
 
@@ -89,6 +98,5 @@ my $server = DJabberd->new(
 
 $server->add_vhost($vhost);
 #TODO: register user from config..
-
 $server->run;
 
