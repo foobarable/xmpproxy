@@ -1,0 +1,10 @@
+<config>
+	<node name="fluttershy"></node>
+
+	<user name="test" passwd="bar" resource="access">
+		<account jid="test@milk-and-cookies.net" passwd="blubb" resource="xmpproxy"/>
+	</user>
+	<!--	<user name="blubb" passwd="fasel" resource="access">
+		<account jid="test@milk-and-cookies.net" passwd="bla" resource="xmpproxy"/>
+	</user> -->
+</config>

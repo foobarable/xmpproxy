@@ -7,7 +7,7 @@ use base 'DJabberd::RosterStorage';
 use DJabberd::Log;
 use DJabberd::RosterItem;
 our $logger = DJabberd::Log->get_logger();
-our $client = DJabberd::Client::Client::get_client();
+our $userdb = DJabberd::UserDB->get_userdb();
 
 
 sub finalize {
@@ -25,44 +25,11 @@ sub finalize {
 sub blocking { 0 }
 
 sub get_roster {
-    my ($self, $cb, $jid) = @_;
-    my $jidstr = $jid->as_bare_string;
 
-    $logger->debug("Getting roster for '$jid'");
-    
-    $client->RosterRequest();
-
-    #Sending presence to tell world that we are logged in
-    $client->PresenceSend();
-    $client->Process(5);
-
-    #Getting Roster to tell server to send presence info
-    $client->RosterGet();
-    $client->Process(5);  
-
-    
-    my @jids  = $client->RosterDBJIDs();
-
-
-
-    my $roster = DJabberd::Roster->new; 
-    foreach my $jid (@jids) 
-    {
-	#TODO fix subscriptiion
-        my $subscription = DJabberd::Subscription->from_bitmask(12);
-	my $item = {};
-	$item->{jid} = $jid->GetJID();
-	print $item->{jid} . "\n";
-	$item->{name} = "";
-	$item->{groups} = [];
-	$item->{remove} = "";
-	$item->{subscription} = 12;
-	$roster->add(DJabberd::RosterItem->new(%$item, subscription => $subscription));
-    }
-
-    $logger->debug("  ... got groups, calling set_roster..");
-
-    $cb->set_roster($roster);
+	my ($self, $cb, $jid) = @_;
+	my $user = $jid->node();
+	
+	$cb->set_roster($userdb->{users}->{$user}->get_roster());
 }
 
 sub set_roster_item {

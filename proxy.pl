@@ -19,7 +19,7 @@ BEGIN {
 
     $DEBUG = 0;
     $daemonize = 0;
-    $conffile = "proxy.conf";
+    $conffile = "proxy.xml";
     $logconf = undef;
 
     Getopt::Long::GetOptions(
@@ -51,6 +51,7 @@ use FindBin qw($Bin);
 #my $muc = DJabberd::Plugin::MUC->new;
 #$muc->set_config_subdomain("conference");
 #$muc->finalize;
+
 use DJabberd;
 use DJabberd::Log;
 use DJabberd::Client::Client;
@@ -59,9 +60,12 @@ use DJabberd::Delivery::Local;
 use DJabberd::Authen::Proxy;
 use DJabberd::PresenceChecker::Local;
 use DJabberd::RosterStorage::Proxy;
+use DJabberd::UserDB;
 #use DJabberd::Plugin::MUC;
 #use DJabberd::Plugin::VCard::SQLite;
+
 our $logger = DJabberd::Log->get_logger();
+
 
 
 #create plugins
@@ -69,7 +73,7 @@ $auth = DJabberd::Authen::Proxy->new();
 $roster = DJabberd::RosterStorage::Proxy->new();
 $delivery = DJabberd::Delivery::Proxy->new();
 
-$logger->info("host ",DJabberd::Config::Config::get_host()); 
+
 my $vhost = DJabberd::VHost->new(
                                  server_name => DJabberd::Config::Config::get_host(),
 				 
@@ -99,4 +103,5 @@ my $server = DJabberd->new(
 $server->add_vhost($vhost);
 #TODO: register user from config..
 $server->run;
+
 

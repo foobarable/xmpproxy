@@ -5,57 +5,47 @@ use base 'DJabberd::Plugin';
 
 use DJabberd::Log;
 our $logger = DJabberd::Log->get_logger();
-
+use Data::Dumper;
 #for parsing our config file
-use Config::Scoped;
 
-our $config = Config::Scoped->new( file => $xmpproxy::conffile )->parse;
-die "Could not read config!\n" unless ref $config;
+use XML::Simple; 
+
+our $config = &read_config;
+#&print_config();
+
+sub read_config
+{
+	$logger->info("Reading config file...");
+	my $config = XMLin($xmpproxy::conffile, KeyAttr => {user => 'name'}, ForceArray => [ 'user' , 'user' => 'account' ],ContentKey => '-content'); 
+	$logger->info("Setting node name to $config->{node}->{name}");
+	#TODO: Log some statistics to info log level...
+	return $config; 
+}
+
+sub print_config
+{
+	$logger->debug(Dumper($config));
+}
 
 
-my %accounts = ();
-my $user=undef;
-my $host=undef;
-my $pass=undef;
-my $resource=undef;
-
-#foreach my $foo (keys(%{$config}))
-#{
-#	print $config->{$foo}->{accounts}{"test\@milk-and-cookies.net"}{passwd};
-#} 
-
-
-#foreach my $section ( keys(%ini) )
-#{
-#	# account for accessing proxy
-#	if  ( ( $section eq 'access' ) )
-#	{
-#		($user,$host) = ($ini{$section}{'jid'} =~ m/(.*)@(.*)/);
-#		$logger->info("hostname: ", $host);
-#		$pass = $ini{$section}{'passwd'};
-#		$resource = $ini{$section}{'resource'};
-#	}
-#	#configured jabber accounts to proxy traffic for
-#	if ( ( $section eq 'account' ) )
-#	{
-#		my $jid = $ini{$section}{'jid'};
-#		($user,$host) = ($jid) =~ m/(.*)@(.*)/;
-#		$accounts{$jid}{'user'} =  $user;
-#		$accounts{$jid}{'host'} =  $host;
-#		$accounts{$jid}{'passwd'} =  $ini{$section}{'passwd'};
-#		$accounts{$jid}{'resource'} = $ini{$section}{'resource'};
-#		$logger->info("jid: ", $jid);
-#	}
-#}
+sub write_config
+{
+	if(open (FH,$xmpproxy::conffile))
+	{
+		
+		print(FH XMLout($config,KeyAttr => {user => 'name'}, ForceArray => [ 'user', 'user' => 'account'],ContentKey => '-content')); 
+	}
+}
 
 sub get_config
 {
+	#TODO: Implement singleton here
 	return $config;
 }
 
 sub get_host
 {
-	return "milk-and-cookies.net";
+	$config->{node}->{name};
 }
 
 1;
