@@ -28,7 +28,6 @@ sub get_roster {
 
 	my ($self, $cb, $jid) = @_;
 	my $user = $jid->node();
-	
 	$cb->set_roster($userdb->{users}->{$user}->get_roster());
 }
 

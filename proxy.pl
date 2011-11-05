@@ -63,9 +63,9 @@ use DJabberd::RosterStorage::Proxy;
 use DJabberd::UserDB;
 #use DJabberd::Plugin::MUC;
 #use DJabberd::Plugin::VCard::SQLite;
-
+use Data::Dumper;
+use threads;
 our $logger = DJabberd::Log->get_logger();
-
 
 
 #create plugins
@@ -94,6 +94,9 @@ my $vhost = DJabberd::VHost->new(
 					       #$muc,
                                                ],
                                  );
+
+our $userdb = new DJabberd::UserDB($vhost);
+DJabberd::UserDB->set_userdb($userdb);
 
 my $server = DJabberd->new(
                            daemonize => $daemonize,

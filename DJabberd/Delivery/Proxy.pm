@@ -3,38 +3,46 @@ use strict;
 use warnings;
 use base 'DJabberd::Delivery';
 
-#sub run_before { ("DJabberd::Delivery::S2S") }
+use DJabberd::Queue::ClientOut;
+use DJabberd::Log;
+use DJabberd::UserDB;
+our $logger = DJabberd::Log->get_logger;
+our $userdb = DJabberd::UserDB->get_userdb();
+#sub run_after { ("DJabberd::Delivery::Local") }
 
-##NEED TO BE CHANGED, COPIED FROM local delivery example
+sub new {
+    my $class = shift;
+    my $self = $class->SUPER::new(@_);
+    return $self;
+}
+
 sub deliver {
     my ($self, $vhost, $cb, $stanza) = @_;
-    my $to = $stanza->to_jid                or return $cb->declined;
+    die unless $vhost == $self->{vhost}; # sanity check
 
-    my @dconns;
-    my $find_bares = sub {
-        @dconns = grep { $_->is_available || $stanza->deliver_when_unavailable } $vhost->find_conns_of_bare($to)
-    };
 
-    if ($to->is_bare) {
-        $find_bares->();
-    } else {
-        my $dest;
-        if (($dest = $vhost->find_jid($to)) && ($dest->is_available || $stanza->deliver_when_unavailable)) {
-            push @dconns, $dest;
-        } else {
-            $find_bares->();
-        }
-    }
 
-    return $cb->declined unless @dconns;
+    my $to = $stanza->to_jid
+        or return $cb->declined;
 
-    $DJabberd::Stats::counter{deliver_local}++;
+    my $from = $stanza->from_jid;
 
-    foreach my $c (@dconns) {
-        $c->send_stanza($stanza);
-    }
+    my $out_queue = $self->get_queue_for_user($from) or
+        return $cb->declined;
 
-    $cb->delivered;
+	#TODO: rewrite stanza->from_jid here
+
+    $DJabberd::Stats::counter{deliver_proxy}++;
+    $out_queue->queue_stanza($stanza, $cb);
+}
+
+sub get_queue_for_user {
+    my ($self, $fromjid) = @_;
+    # TODO: we need to clean this periodically, like when connections timeout or fail
+    return $userdb->{users}->{$fromjid}->{queues}->{$fromjid};
+   #Jabberd::Queue::ServerOut->new(source => $self,
+   #                                    domain => $domain,
+   #                                     vhost  => $self->{vhost});
 }
 
 1;
