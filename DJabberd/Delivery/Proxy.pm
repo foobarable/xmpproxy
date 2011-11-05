@@ -5,9 +5,8 @@ use base 'DJabberd::Delivery';
 
 use DJabberd::Queue::ClientOut;
 use DJabberd::Log;
-use DJabberd::UserDB;
+use xmpproxy::UserDB;
 our $logger = DJabberd::Log->get_logger;
-our $userdb = DJabberd::UserDB->get_userdb();
 #sub run_after { ("DJabberd::Delivery::Local") }
 
 sub new {
@@ -39,7 +38,7 @@ sub deliver {
 sub get_queue_for_user {
     my ($self, $fromjid) = @_;
     # TODO: we need to clean this periodically, like when connections timeout or fail
-    return $userdb->{users}->{$fromjid}->{queues}->{$fromjid};
+    return $xmpproxy::userdb->{users}->{$fromjid}->{queues}->{$fromjid};
    #Jabberd::Queue::ServerOut->new(source => $self,
    #                                    domain => $domain,
    #                                     vhost  => $self->{vhost});

@@ -60,7 +60,7 @@ use DJabberd::Delivery::Local;
 use DJabberd::Authen::Proxy;
 use DJabberd::PresenceChecker::Local;
 use DJabberd::RosterStorage::Proxy;
-use DJabberd::UserDB;
+use xmpproxy::UserDB;
 #use DJabberd::Plugin::MUC;
 #use DJabberd::Plugin::VCard::SQLite;
 use Data::Dumper;
@@ -94,13 +94,13 @@ my $vhost = DJabberd::VHost->new(
 					       #$muc,
                                                ],
                                  );
-
-our $userdb = new DJabberd::UserDB($vhost);
-DJabberd::UserDB->set_userdb($userdb);
+		
+#we want a global userdb and every user needs a reference to the vhost because DJabberd::Queue requires it. Maybe find something better than this..
+our $userdb = new xmpproxy::UserDB($vhost);
 
 my $server = DJabberd->new(
                            daemonize => $daemonize,
-                           old_ssl   => 0,
+                           old_ssl   => 1,
                            );
 
 $server->add_vhost($vhost);

@@ -24,7 +24,6 @@ sub new {
 
 	my $jid = delete $opts{jid} or Carp::confess "JID required";
 	my $passwd = delete $opts{passwd} or Carp::confess "Password required";
-	#my $del_source = delete $opts{source} or $logger->error("delivery 'source' required");
 	my $resource= delete $opts{resource};
 	my $self = fields::new($class);
 	$self->{jid} = $jid;
@@ -33,11 +32,12 @@ sub new {
 	
 	defined($resource) ? $self->{resource} = $resource : $self->{resource} = "xmppproxy";
 
-	$self->SUPER::new( %opts ); #??
-	#$self->{del_source} = $del_source;
+	$self->SUPER::new( %opts ); 
 	$self->start_connecting;
 	return $self;
 }
+
+
 
 sub give_up_connecting {
     my $self = shift;

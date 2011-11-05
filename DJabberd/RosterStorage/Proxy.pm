@@ -7,8 +7,6 @@ use base 'DJabberd::RosterStorage';
 use DJabberd::Log;
 use DJabberd::RosterItem;
 our $logger = DJabberd::Log->get_logger();
-our $userdb = DJabberd::UserDB->get_userdb();
-
 
 sub finalize {
 #    my $self = shift;
@@ -28,7 +26,7 @@ sub get_roster {
 
 	my ($self, $cb, $jid) = @_;
 	my $user = $jid->node();
-	$cb->set_roster($userdb->{users}->{$user}->get_roster());
+	$cb->set_roster($xmpproxy::userdb->{users}->{$user}->get_roster());
 }
 
 sub set_roster_item {

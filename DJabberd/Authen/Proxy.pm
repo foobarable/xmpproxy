@@ -1,13 +1,10 @@
-
 package DJabberd::Authen::Proxy;
 use strict;
 use base 'DJabberd::Authen';
 
-use DJabberd::UserDB;
 use DJabberd::Log;
 our $logger = DJabberd::Log->get_logger();
 
-our $userdb = DJabberd::UserDB->get_userdb(); 
 
 use Carp qw(croak);
 
@@ -52,26 +49,26 @@ sub register_jid {
 }
 
 sub check_cleartext {
-    my ($self, $cb, %args) = @_;
-    my $user = $args{'username'};
-    my $pass = $args{'password'};
+	my ($self, $cb, %args) = @_;
+	my $user = $args{'username'};
+	my $pass = $args{'password'};
+	my $userdb = $xmpproxy::userdb;
+	#TODO: Sanitize input
+	$logger->debug("User " . $user . " tries to authenticate");
+	unless (defined $userdb->{users}->{$user}) {
+	    #the user did not exist
+	    $logger->info("Authentication failed: User $user does not exist");
+	    return $cb->reject;
+	}
 
-    #TODO: Sanitize input
-    $logger->debug("User " . $user . " tries to authenticate");
-    unless (defined $userdb->{users}->{$user}) {
-	#the user did not exist
-	$logger->info("Authentication failed: User $user does not exist");
-        return $cb->reject;
-    }
+	my $goodpass = $userdb->{users}->{$user}->{passwd};
+	unless ($pass eq $goodpass) {
+	    $logger->info("Authentication failed: Wrong credentials");
+	    #password was wrong
+	    return $cb->reject;
+	}
 
-    my $goodpass = $userdb->{users}->{$user}->{passwd};
-    unless ($pass eq $goodpass) {
-	$logger->info("Authentication failed: Wrong credentials");
-	#password was wrong
-        return $cb->reject;
-    }
-
-    $cb->accept;
+	$cb->accept;
 }
 
 
