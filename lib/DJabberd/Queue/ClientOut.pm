@@ -49,6 +49,21 @@ sub jid {
     return $self->{jid};
 }
 
+sub user {
+    my $self = shift;
+    return $self->{user};
+}
+
+sub passwd {
+    my $self = shift;
+    return $self->{passwd};
+}
+
+sub resource {
+    my $self = shift;
+    return $self->{resource};
+}
+
 sub queue_stanza {
     my $self = shift;
     # Passthrough, maybe we should warn and depricate?

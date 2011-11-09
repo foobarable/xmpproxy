@@ -77,25 +77,65 @@ sub on_stream_start {
 
     $self->{in_stream} = 1;
     $self->log->debug("We got a stream back from connection $self->{id}!\n");
-    #authenticate here
 }
 
+my %element2class = (
+             "{jabber:client}iq"       => 'DJabberd::IQ',
+             "{jabber:client}message"  => 'DJabberd::Message',
+             "{jabber:client}presence" => 'DJabberd::Presence',
+             "{urn:ietf:params:xml:ns:xmpp-tls}starttls" => 'DJabberd::Stanza::StartTLS',
+	     "{urn:ietf:params:xml:ns:xmpp-sasl}challenge" => 'DJabberd::Stanza:SASL',
+	     "{urn:ietf:params:xml:ns:xmpp-sasl}failure" => 'DJabberd::Stanza:SASL',
+	     "{urn:ietf:params:xml:ns:xmpp-sasl}success" => 'DJabberd::Stanza:SASL'
+             );
+
+
+
 sub on_stanza_received {
-    my ($self, $node) = @_;
+	my ($self, $node) = @_;
 
-      if ($self->xmllog->is_info) {
-        $self->log_incoming_data($node);
-    }
+	if ($self->xmllog->is_info) {
+	    $self->log_incoming_data($node);
+	}
+	
+
+	if($node->element eq "{http://etherx.jabber.org/streams}features")
+	{
+		$self->log->debug("Got feature stream");
+		DJabberd::Stanza::SASL->auth_sasl($self->{queue}->user(),
+						  $self->{queue}->passwd(),
+						  $self->{queue}->resource(),
+						  $self);
+		return;
+	}
+
+	if ($node->element =~ m/xmpp-sasl/)
+	{
+		DJabberd::Stanza::SASL->on_recv_from_server($self,$node);		
+	}
+
+	my $class = $element2class{$node->element};
+	$self->vhost->hook_chain_fast("HandleStanza",
+				      [ $node, $self ],
+				      {
+					  handle => sub {
+					    my ($self, $handling_class) = @_;
+					    $class = $handling_class;
+					  },
+				      }
+				      ) unless $class;
+	return $self->stream_error("unsupported-stanza-type") unless $class;
 
 
-    #unless ($node->attr("{}type") eq "valid") {
-    #    # FIXME: also verify other attributes
-    #    warn "Not valid?\n";
-    #    return;
-    #}
 
-    $self->log->debug("Connection $self->{id} established");
-    $self->{queue}->on_connection_connected($self);
+	#unless ($node->attr("{}type") eq "valid") {
+	#    # FIXME: also verify other attributes
+	#    warn "Not valid?\n";
+	#    return;
+	#}
+
+	#$self->log->debug("Connection $self->{id} established");
+	#$self->{queue}->on_connection_connected($self);
 }
 
 sub event_err {
