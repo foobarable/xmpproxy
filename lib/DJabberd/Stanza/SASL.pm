@@ -21,7 +21,14 @@ $XMLNS{'xmpp-session'}  = "urn:ietf:params:xml:ns:xmpp-session";
 $XMLNS{'xmpp-tls'}      = "urn:ietf:params:xml:ns:xmpp-tls";
 
 
-sub on_recv_from_server { die "unimplemented"; }
+sub on_recv_from_server 
+{  
+	my $self = shift;
+	my $conn = shift;
+	my $node = shift;
+	&ProcessSASLStanza($self,$conn,$node);
+
+}
 
 
 
@@ -32,7 +39,6 @@ sub SASLClient
 	my $conn = shift;
 	my $username = shift;
 	my $passwd = shift;
-
 	#my $mechanisms = $self->GetStreamFeature("xmpp-sasl");
 	#return unless defined($mechanisms);
 
@@ -63,9 +69,6 @@ sub auth_sasl
 	my $self =shift;
 	my ($username, $passwd, $resource, $conn) = @_;
 	
-	
-	
-
 	if (ref($conn) ne "DJabberd::Connection::ClientOut")
 	{
 		Carp::croak "Connection needed..";
