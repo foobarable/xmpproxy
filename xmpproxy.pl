@@ -54,7 +54,7 @@ use FindBin qw($Bin);
 
 use DJabberd;
 use DJabberd::Log;
-use DJabberd::Client::Client;
+use DJabberd::Client;
 use DJabberd::Delivery::Proxy;
 use DJabberd::Delivery::Local;
 use DJabberd::Authen::Proxy;
@@ -89,6 +89,7 @@ my $vhost = DJabberd::VHost->new(
                                                $roster,
 					       $delivery,
 					       DJabberd::Delivery::Local->new(),
+					       DJabberd::Client,
 					       #TODO:
 					       #$vcard,
 					       #$muc,
