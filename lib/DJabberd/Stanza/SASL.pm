@@ -99,7 +99,7 @@ sub SASLClientSuccess
 	$conn->{sasl}->{done} = 1;
 	$logger->info("SASL Authentication for " . $conn->{queue}->jid() . " successfull");
 	$conn->restart_stream();
-	$conn->bind_resource();
+	$conn->watch_write(1);
 
 }
 

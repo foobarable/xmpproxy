@@ -24,6 +24,8 @@ sub register {
 }
 
 
+
+
 sub on_handle_stanza {
 	$logger->debug("Stanza received");
 }

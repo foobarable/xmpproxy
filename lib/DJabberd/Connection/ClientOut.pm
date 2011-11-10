@@ -9,7 +9,7 @@ use fields (
 use IO::Handle;
 use Socket qw(PF_INET IPPROTO_TCP SOCK_STREAM);
 use Carp qw(croak);
-
+use Data::Dumper;
 
 sub new {
     my ($class, %opts) = @_;
@@ -58,8 +58,12 @@ sub restart_stream
 sub bind_resource
 {
 	my $self = shift;
-
+	$self->log->info("Binding resource " . $self->{queue}->resource . " to " . $self->{queue}->jid);
+	my $xml = "<iq type='set' id='$self->{stream_id}'><bind xmlns='urn:ietf:params:xml:ns:xmpp-bind'><resource>" . $self->{queue}->resource ."</resource></bind></iq>";
+	$self->log_outgoing_data($xml);		
+	$self->write($xml);
 }
+
 
 sub namespace {
     return "jabber:client";
@@ -122,7 +126,11 @@ sub on_stanza_received {
 		$self->log->debug("Got feature stream");
 		my $stanza = $class->downbless($node, $self);
 		$self->set_rcvd_features($stanza);
-
+		
+		if($self->{rcvd_features}->as_xml() =~ m/bind/ )
+		{
+			$self->bind_resource();
+		}
 		#TODO: Implement old auth methods as well
 		if(not $self->{sasl}->{authed})
 		{
