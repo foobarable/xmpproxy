@@ -64,6 +64,11 @@ sub resource {
     return $self->{resource};
 }
 
+sub domain {
+    my $self = shift;
+    return $self->{domain};
+}
+
 sub queue_stanza {
     my $self = shift;
     # Passthrough, maybe we should warn and depricate?

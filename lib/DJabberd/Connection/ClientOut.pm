@@ -10,6 +10,7 @@ use IO::Handle;
 use Socket qw(PF_INET IPPROTO_TCP SOCK_STREAM);
 use Carp qw(croak);
 
+
 sub new {
     my ($class, %opts) = @_;
 
@@ -34,7 +35,7 @@ sub new {
     $DJabberd::Stats::counter{connect}++;
 
     my $self = $class->SUPER::new($sock, $queue->vhost->server);
-    $self->log->debug("Connecting to '$ip' for '$queue->{domain}'");
+    $self->log->debug("Connecting to '$ip' for '$queue->domain'");
     $self->{state}     = "connecting";
     $self->{queue}     = $queue;
     $self->{vhost}     = $queue->vhost;
@@ -42,6 +43,22 @@ sub new {
     Scalar::Util::weaken($self->{queue});
 
     return $self;
+}
+
+sub restart_stream
+{
+	my $self = shift;
+	my $to = $self->{queue}->domain;
+	$self->SUPER::restart_stream;
+	my $xml = "<stream:stream xmlns:stream='http://etherx.jabber.org/streams' xmlns='jabber:client' to='$to' id='$self->{stream_id}' version='1.0'>";
+	$self->log_outgoing_data($xml);		
+	$self->write($xml);
+}
+
+sub bind_resource
+{
+	my $self = shift;
+
 }
 
 sub namespace {
@@ -55,14 +72,14 @@ sub start_connecting {
 
 sub on_connected {
     my $self = shift;
-    print("Fooo");
     $self->start_init_stream(xmlns => "jabber:client",
                              to    => $self->{queue}->{domain});
     $self->watch_read(1);
 }
 
 sub event_write {
-    my $self = shift;
+    
+	my $self = shift;
 
     if ($self->{state} eq "connecting") {
         $self->{state} = "connected";
@@ -76,6 +93,7 @@ sub on_stream_start {
     my ($self, $ss) = @_;
 
     $self->{in_stream} = 1;
+    $self->{stream_id} = $ss->id();
     $self->log->debug("We got a stream back from connection $self->{id}!\n");
 }
 
@@ -86,10 +104,9 @@ my %element2class = (
              "{urn:ietf:params:xml:ns:xmpp-tls}starttls" => 'DJabberd::Stanza::StartTLS',
 	     "{urn:ietf:params:xml:ns:xmpp-sasl}challenge" => 'DJabberd::Stanza:SASL',
 	     "{urn:ietf:params:xml:ns:xmpp-sasl}failure" => 'DJabberd::Stanza:SASL',
-	     "{urn:ietf:params:xml:ns:xmpp-sasl}success" => 'DJabberd::Stanza:SASL'
+	     "{urn:ietf:params:xml:ns:xmpp-sasl}success" => 'DJabberd::Stanza:SASL',
+	     "{http://etherx.jabber.org/streams}features" => 'DJabberd::Stanza::StreamFeatures'
              );
-
-
 
 sub on_stanza_received {
 	my ($self, $node) = @_;
@@ -97,15 +114,23 @@ sub on_stanza_received {
 	if ($self->xmllog->is_info) {
 	    $self->log_incoming_data($node);
 	}
+	my $class = $element2class{$node->element};
 	
 
 	if($node->element eq "{http://etherx.jabber.org/streams}features")
 	{
 		$self->log->debug("Got feature stream");
-		DJabberd::Stanza::SASL->auth_sasl($self->{queue}->user(),
-						  $self->{queue}->passwd(),
-						  $self->{queue}->resource(),
-						  $self);
+		my $stanza = $class->downbless($node, $self);
+		$self->set_rcvd_features($stanza);
+
+		#TODO: Implement old auth methods as well
+		if(not $self->{sasl}->{authed})
+		{
+			DJabberd::Stanza::SASL->auth_sasl($self->{queue}->user(),
+							  $self->{queue}->passwd(),
+							  $self->{queue}->resource(),
+							  $self);
+		}
 		return;
 	}
 
@@ -114,7 +139,6 @@ sub on_stanza_received {
 		DJabberd::Stanza::SASL->on_recv_from_server($self,$node);		
 	}
 
-	my $class = $element2class{$node->element};
 	$self->vhost->hook_chain_fast("HandleStanza",
 				      [ $node, $self ],
 				      {

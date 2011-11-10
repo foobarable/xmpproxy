@@ -8,7 +8,7 @@ use Data::Dumper;
 
 
 use MIME::Base64 qw/encode_base64 decode_base64/;
-
+our $logger = DJabberd::Log->get_logger();
 
 
 #CLIENT SUBS
@@ -51,7 +51,7 @@ sub SASLClient
                                           }
                                );
        
-	$conn->{sasl}->{client} = $sasl->client_new("xmpp","milk-and-cookies.net");
+	$conn->{sasl}->{client} = $sasl->client_new("xmpp",$conn->{queue}->{domain});
 	$conn->{sasl}->{username} = $username;
 	$conn->{sasl}->{password} = $passwd;
 	$conn->{sasl}->{authed} = 0;
@@ -87,47 +87,20 @@ sub auth_sasl
 	my $sid = $conn->{stream_id};
 	my $status = SASLClient($conn,$username,$passwd);
 
-#    # Phew... Restart the <stream:stream> per XMPP
-#    #-------------------------------------------------------------------------
-#    $self->{DEBUG}->Log1("AuthSASL: We authed!");
-#    $self->{SESSION} = $self->{STREAM}->OpenStream($sid);
-#    $sid = $self->{SESSION}->{id};
-#
-#    $self->{DEBUG}->Log1("AuthSASL: We got a new session. sid($sid)");
-#
-#    #-------------------------------------------------------------------------
-#    # Look in the new set of <stream:feature/>s and see if xmpp-bind was
-#    # offered.
-#    #-------------------------------------------------------------------------
-#    my $bind = $self->{STREAM}->GetStreamFeature($sid,"xmpp-bind");
-#    if ($bind)
-#    {
-#        $self->{DEBUG}->Log1("AuthSASL: Binding to resource");
-#        $self->BindResource($args{resource});
-#    }
-#
-#    #-------------------------------------------------------------------------
-#    # Look in the new set of <stream:feature/>s and see if xmpp-session was
-#    # offered.
-#    #-------------------------------------------------------------------------
-#    my $session = $self->{STREAM}->GetStreamFeature($sid,"xmpp-session");
-#    if ($session)
-#    {
-#        $self->{DEBUG}->Log1("AuthSASL: Starting session");
-#        $self->StartSession();
-#    }
-#
-#    return ("ok","");
 }
 
 # SASLClientSuccess - handle a received <success/>
 sub SASLClientSuccess
 {
-    my $conn = shift;
-    my $node = shift;
+	my $conn = shift;
+	my $node = shift;
 
-    $conn->{sasl}->{authed} = 1;
-    $conn->{sasl}->{done} = 1;
+	$conn->{sasl}->{authed} = 1;
+	$conn->{sasl}->{done} = 1;
+	$logger->info("SASL Authentication for " . $conn->{queue}->jid() . " successfull");
+	$conn->restart_stream();
+	$conn->bind_resource();
+
 }
 
 
@@ -136,7 +109,6 @@ sub SASLClientSuccess
 sub SASLClientDone
 {
 	my $conn = shift;
-
 	return $conn->{sasl}->{done};
 }
 
@@ -181,13 +153,14 @@ sub SASLSendResponse
 # SASLClientFailure - handle a received <failure/>
 sub SASLClientFailure
 {
-    my $conn = shift;
-    my $node = shift;
+	my $conn = shift;
+	my $node = shift;
 
-    my $type = $node->first_child();
+	my $type = $node->first_child();
 
-    $conn->{sasl}->{error} = $type;
-    $conn->{sasl}->{done} = 1;
+	$conn->{sasl}->{error} = $type;
+	$conn->{sasl}->{done} = 1;
+	$logger->warn("SASL Authentication for " . $conn->{queue}->jid() . " failed");
 }
 
 # SASLGetClient - This is a helper function to return the SASL client object.
