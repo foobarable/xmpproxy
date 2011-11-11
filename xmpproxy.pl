@@ -54,7 +54,7 @@ use FindBin qw($Bin);
 
 use DJabberd;
 use DJabberd::Log;
-use DJabberd::Client;
+use DJabberd::ClientHandler;
 use DJabberd::Delivery::Proxy;
 use DJabberd::Delivery::Local;
 use DJabberd::Authen::Proxy;
@@ -69,10 +69,10 @@ our $logger = DJabberd::Log->get_logger();
 
 
 #create plugins
-$auth = DJabberd::Authen::Proxy->new();
-$roster = DJabberd::RosterStorage::Proxy->new();
-$delivery = DJabberd::Delivery::Proxy->new();
-
+my $auth = DJabberd::Authen::Proxy->new();
+my $roster = DJabberd::RosterStorage::Proxy->new();
+my $delivery = DJabberd::Delivery::Proxy->new();
+my $client = DJabberd::ClientHandler->new();
 
 my $vhost = DJabberd::VHost->new(
                                  server_name => DJabberd::Config::Config::get_host(),
@@ -85,11 +85,11 @@ my $vhost = DJabberd::VHost->new(
 
 				 #register required plugins
                                  plugins   => [
+					       $client,
                                                $auth, 
                                                $roster,
 					       $delivery,
 					       DJabberd::Delivery::Local->new(),
-					       DJabberd::Client,
 					       #TODO:
 					       #$vcard,
 					       #$muc,
@@ -98,7 +98,6 @@ my $vhost = DJabberd::VHost->new(
 		
 #we want a global userdb and every user needs a reference to the vhost because DJabberd::Queue requires it. Maybe find something better than this..
 our $userdb = new xmpproxy::UserDB($vhost);
-
 my $server = DJabberd->new(
                            daemonize => $daemonize,
                            old_ssl   => 1,

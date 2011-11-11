@@ -28,7 +28,7 @@ sub new {
 	my $self = fields::new($class);
 	$self->{jid} = $jid;
 	$self->{passwd} = $passwd;
-	($self->{user},$self->{domain}) = split(/@/,$self->{jid});
+	($self->{user},$self->{domain}) = (split(/@/,$self->{jid}))[0..1];
 	
 	defined($resource) ? $self->{resource} = $resource : $self->{resource} = "xmppproxy";
 
