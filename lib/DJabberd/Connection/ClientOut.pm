@@ -49,6 +49,31 @@ sub new {
     return $self;
 }
 
+sub log_outgoing_data {
+    my ($self, $text) = @_;
+    my $id = $self->{id} ||= 'no_id';
+    
+    if($self->xmllog->is_debug) {
+        $self->xmllog->debug("$id > " . $text);
+    } else {
+#        local $DJabberd::ASXML_NO_TEXT = 1;
+#        $self->xmllog->info("$id > " . $text);
+    }
+}
+
+sub log_incoming_data {
+    my ($self, $node) = @_;
+    if($self->xmllog->is_debug) {
+        $self->xmllog->debug("$self->{id} < " . $node->as_xml);
+    } else {
+#        local $DJabberd::ASXML_NO_TEXT = 1;
+#        $self->xmllog->info("$self->{id} < " . $node->as_xml);
+    }
+}
+
+
+
+
 sub restart_stream
 {
 	my $self = shift;
@@ -105,6 +130,10 @@ sub on_stream_start {
 	#$self->set_vhost($vhost);
 
 }
+
+
+
+
 
 
 sub on_stanza_received {
