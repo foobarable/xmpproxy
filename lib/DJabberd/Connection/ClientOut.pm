@@ -9,7 +9,11 @@ use fields (
 use IO::Handle;
 use Socket qw(PF_INET IPPROTO_TCP SOCK_STREAM);
 use Carp qw(croak);
-use Data::Dumper;
+use DJabberd::Client::IQ;
+use DJabberd::Client::Message;
+use DJabberd::Client::Presence;
+use DJabberd::Stanza::SASL;
+
 
 sub new {
     my ($class, %opts) = @_;
@@ -55,14 +59,6 @@ sub restart_stream
 	$self->write($xml);
 }
 
-sub bind_resource
-{
-	my $self = shift;
-	$self->log->info("Binding resource " . $self->{queue}->resource . " to " . $self->{queue}->jid);
-	my $xml = "<iq type='set' id='$self->{stream_id}'><bind xmlns='urn:ietf:params:xml:ns:xmpp-bind'><resource>" . $self->{queue}->resource ."</resource></bind></iq>";
-	$self->log_outgoing_data($xml);		
-	$self->write($xml);
-}
 
 
 sub namespace {
@@ -98,7 +94,7 @@ sub on_stream_start {
 
 	$self->{in_stream} = 1;
 	$self->{stream_id} = $ss->id();
-	$self->log->debug("We got a stream back from connection $self->{id}!\n");
+	$self->log->debug("We got a stream back from connection $self->{id}!");
 
 	#my $to_host = $ss->to;
 	#DJabberd::Log->get_logger->info($to_host);
@@ -115,13 +111,13 @@ sub on_stanza_received {
 	my ($self, $node) = @_;
 	
 	my %element2class = (
-             "{jabber:client}iq"       => 'DJabberd::ClientHandler',
-             "{jabber:client}message"  => 'DJabberd::ClientHandler',
-             "{jabber:client}presence" => 'DJabberd::ClientHandler',
+             "{jabber:client}iq"       => 'DJabberd::Client::IQ',
+             "{jabber:client}message"  => 'DJabberd::Message',
+             "{jabber:client}presence" => 'DJabberd::Presence',
              "{urn:ietf:params:xml:ns:xmpp-tls}starttls" => 'DJabberd::Stanza::StartTLS',
-	     "{urn:ietf:params:xml:ns:xmpp-sasl}challenge" => 'DJabberd::Stanza:SASL',
-	     "{urn:ietf:params:xml:ns:xmpp-sasl}failure" => 'DJabberd::Stanza:SASL',
-	     "{urn:ietf:params:xml:ns:xmpp-sasl}success" => 'DJabberd::Stanza:SASL',
+	     "{urn:ietf:params:xml:ns:xmpp-sasl}challenge" => 'DJabberd::Stanza::SASL',
+	     "{urn:ietf:params:xml:ns:xmpp-sasl}failure" => 'DJabberd::Stanza::SASL',
+	     "{urn:ietf:params:xml:ns:xmpp-sasl}success" => 'DJabberd::Stanza::SASL',
 	     "{http://etherx.jabber.org/streams}features" => 'DJabberd::Stanza::StreamFeatures'
 	);
 
@@ -129,16 +125,17 @@ sub on_stanza_received {
 	    $self->log_incoming_data($node);
 	}
 	my $class = $element2class{$node->element};
+	my $stanza = $class->downbless($node, $self);
 
+	
 	if($node->element eq "{http://etherx.jabber.org/streams}features")
 	{
 		$self->log->debug("Got feature stream");
-		my $stanza = $class->downbless($node, $self);
 		$self->set_rcvd_features($stanza);
 		
 		if($self->{rcvd_features}->as_xml() =~ m/bind/ )
 		{
-			$self->bind_resource();
+			DJabberd::Client::IQ->send_bind_resource($self);
 		}
 		#TODO: Implement old auth methods as well
 		if(not $self->{sasl}->{authed})
@@ -153,23 +150,23 @@ sub on_stanza_received {
 
 	if ($node->element =~ m/xmpp-sasl/)
 	{
+		#todo: rewrite to object methods...
 		DJabberd::Stanza::SASL->on_recv_from_server($self,$node);		
 	}
 	if($node->element eq "{jabber:client}iq")
 	{
-		$self->log->debug("IQ received");			
+		$stanza->on_recv_from_server($self);
 	}
 	if($node->element eq "{jabber:client)presence")
 	{
-		$self->log->debug("PRESENCE received");
+		#DJabberd::Client::Presence->on_recv_from_server($stanza,$self);
 	}
 	if($node->element eq "{jabber:client}message)")
 	{
-		$self->log->debug("MESSAGE received");
+		#DJabberd::Client::Message->on_recv_from_server($self,$node);
 	}
 
 
-	#WHY Y NO WORKING?
 	$self->vhost->hook_chain_fast("HandleStanza",
 				      [ $node, $self ],
 				      {
@@ -180,11 +177,6 @@ sub on_stanza_received {
 				      }
 				      ) unless $class;
 	return $self->stream_error("unsupported-stanza-type") unless $class;
-
-
-
-	#$self->log->debug("Connection $self->{id} established");
-	#$self->{queue}->on_connection_connected($self);
 }
 
 sub event_err {

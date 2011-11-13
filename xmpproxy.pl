@@ -44,10 +44,6 @@ BEGIN {
 use FindBin qw($Bin);
 
 
-#my $vcard = DJabberd::Plugin::VCard::SQLite->new;
-#$vcard->set_config_storage("$Bin/roster.sqlite");
-#$vcard->finalize;
-
 #my $muc = DJabberd::Plugin::MUC->new;
 #$muc->set_config_subdomain("conference");
 #$muc->finalize;
@@ -55,6 +51,7 @@ use FindBin qw($Bin);
 use DJabberd;
 use DJabberd::Log;
 use DJabberd::ClientHandler;
+use DJabberd::Plugin::Ping;
 use DJabberd::Delivery::Proxy;
 use DJabberd::Delivery::Local;
 use DJabberd::Authen::Proxy;
@@ -63,8 +60,7 @@ use DJabberd::RosterStorage::Proxy;
 use xmpproxy::UserDB;
 #use DJabberd::Plugin::MUC;
 #use DJabberd::Plugin::VCard::SQLite;
-use Data::Dumper;
-use threads;
+
 our $logger = DJabberd::Log->get_logger();
 
 
@@ -72,7 +68,7 @@ our $logger = DJabberd::Log->get_logger();
 my $auth = DJabberd::Authen::Proxy->new();
 my $roster = DJabberd::RosterStorage::Proxy->new();
 my $delivery = DJabberd::Delivery::Proxy->new();
-my $client = DJabberd::ClientHandler->new();
+#my $client = DJabberd::ClientHandler->new();
 
 my $vhost = DJabberd::VHost->new(
                                  server_name => DJabberd::Config::Config::get_host(),
@@ -85,11 +81,12 @@ my $vhost = DJabberd::VHost->new(
 
 				 #register required plugins
                                  plugins   => [
-					       $client,
+					       #$client,
                                                $auth, 
                                                $roster,
 					       $delivery,
 					       DJabberd::Delivery::Local->new(),
+					       DJabberd::Plugin::Ping,
 					       #TODO:
 					       #$vcard,
 					       #$muc,
