@@ -5,7 +5,7 @@ use base 'DJabberd::Delivery';
 
 use DJabberd::Queue::ClientOut;
 use DJabberd::Log;
-use xmpproxy::UserDB;
+#use xmpproxy::UserDB;
 our $logger = DJabberd::Log->get_logger;
 #sub run_after { ("DJabberd::Delivery::Local") }
 
@@ -16,23 +16,24 @@ sub new {
 }
 
 sub deliver {
-    my ($self, $vhost, $cb, $stanza) = @_;
-    die unless $vhost == $self->{vhost}; # sanity check
+	my ($self, $vhost, $cb, $stanza) = @_;
+	die unless $vhost == $self->{vhost}; # sanity check
+	
+	$logger->warn($stanza->signature);
 
 
+	my $to = $stanza->to_jid
+	    or return $cb->declined;
 
-    my $to = $stanza->to_jid
-        or return $cb->declined;
+	my $from = $stanza->from_jid;
 
-    my $from = $stanza->from_jid;
+	my $out_queue = $self->get_queue_for_user($from) or
+	    return $cb->declined;
 
-    my $out_queue = $self->get_queue_for_user($from) or
-        return $cb->declined;
+	    #TODO: rewrite stanza->from_jid here
 
-	#TODO: rewrite stanza->from_jid here
-
-    $DJabberd::Stats::counter{deliver_proxy}++;
-    $out_queue->queue_stanza($stanza, $cb);
+	$DJabberd::Stats::counter{deliver_proxy}++;
+	$out_queue->queue_stanza($stanza, $cb);
 }
 
 sub get_queue_for_user {
