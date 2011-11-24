@@ -11,6 +11,7 @@ use fields (
 	    'user',
 	    'domain',
             'del_source',
+	    'roster'
             );
 
 use DJabberd::Connection::ClientOut;
@@ -31,12 +32,19 @@ sub new {
 	($self->{user},$self->{domain}) = (split(/@/,$self->{jid}))[0..1];
 	
 	defined($resource) ? $self->{resource} = $resource : $self->{resource} = "xmppproxy";
+	$self->{roster} = DJabberd::Roster->new;
 
 	$self->SUPER::new( %opts ); 
 	$self->start_connecting;
 	return $self;
 }
 
+
+sub fetch_roster
+{	
+	my $self = shift;
+	DJabberd::Client::IQ->send_request_roster($self);
+}
 
 
 sub give_up_connecting {

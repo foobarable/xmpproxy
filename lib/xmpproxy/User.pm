@@ -39,8 +39,6 @@ sub _init
 
 }
 
-
-
 sub add_account
 {
 	my $self = shift;
@@ -69,7 +67,6 @@ sub delete_account
 
 }
 
-#not needed so far
 sub fetch_rosters
 {
 	my $self = shift;
@@ -95,10 +92,10 @@ sub get_roster
 	foreach my $client (keys(%{$self->{queues}}))
 	{
 		#TODO: Merge rosters properly...
-		#foreach my $item ($self->{queues}->{$client}->{roster}->items())
-		#{
-		#		$roster->add($item);
-		#}
+		foreach my $item ($self->{queues}->{$client}->{roster}->items())
+		{
+				$roster->add($item);
+		}
 	}
 	return $roster; 
 }

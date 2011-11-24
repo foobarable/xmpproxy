@@ -1,5 +1,4 @@
 package DJabberd::RosterStorage::Proxy;
-#NEED TO BE CHANGED, COPIED FROM "In mem only" Roster Storage
 use strict;
 use warnings;
 use base 'DJabberd::RosterStorage';
@@ -26,6 +25,8 @@ sub get_roster {
 
 	my ($self, $cb, $jid) = @_;
 	my $user = $jid->node();
+	$xmpproxy::userdb->{users}->{$user}->fetch_rosters();
+	#TODO: Wait here for rosters to arrive
 	$cb->set_roster($xmpproxy::userdb->{users}->{$user}->get_roster());
 }
 

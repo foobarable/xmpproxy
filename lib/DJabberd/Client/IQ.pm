@@ -3,15 +3,32 @@ use strict;
 use base qw(DJabberd::IQ);
 use DJabberd::Util qw(exml);
 use DJabberd::Roster;
+use Data::Dumper;
 
 use DJabberd::Log;
 our $logger = DJabberd::Log->get_logger();
 
+my $iq_handler = {
+#    'get-{jabber:iq:roster}query' => \&process_iq_getroster,
+#    'set-{jabber:iq:roster}query' => \&process_iq_setroster,
+#    'get-{jabber:iq:auth}query' => \&process_iq_getauth,
+#    'set-{jabber:iq:auth}query' => \&process_iq_setauth,
+	'result-{jabber:iq:roster}query' => \&process_iq_roster,
+	'result-{urn:ietf:params:xml:ns:xmpp-session}session' => \&process_iq_session,
+	'result-{urn:ietf:params:xml:ns:xmpp-bind}bind' => \&process_iq_bind,
+#    'get-{http://jabber.org/protocol/disco#info}query'  => \&process_iq_disco_info_query,
+#    'get-{http://jabber.org/protocol/disco#items}query' => \&process_iq_disco_items_query,
+#    'get-{jabber:iq:register}query' => \&process_iq_getregister,
+#    'set-{jabber:iq:register}query' => \&process_iq_setregister,
+};
+
 sub on_recv_from_server {
 	my ($self, $conn) = @_;
-
 	my $to = $self->to_jid;
-	if (! $to || $conn->vhost->uses_jid($to)) {
+	#TODO: Check if $to is handled by any of our accounts
+	#if (! $to || $conn->vhost->uses_jid($to)) {
+	if( 1 )
+	{
 	    $self->process($conn);
 	    return;
 	}
@@ -33,7 +50,6 @@ sub process_iq_bind
 {
 	my $conn = shift;
 	my DJabberd::Client::IQ $self = shift;
-	#my $conn = $self->connection;
 	$conn->log->debug("Received an iq bind response, connection now established");
 	$conn->{queue}->on_connection_connected($conn);
 	#TODO: Actually parse xml package
@@ -48,7 +64,7 @@ sub send_iq_session
 	my DJabberd::Client::IQ $self = shift;
 	my $conn = shift;
 	my $xml = "<iq to='" . $conn->{queue}->domain() . "' type='set' id='$conn->{stream_id}'> <session xmlns='urn:ietf:params:xml:ns:xmpp-session'/></iq>";
-	$conn->log->debug("Requesting session for " . $conn->{queue}->jid());
+	$conn->log->info("Requesting session for " . $conn->{queue}->jid());
 	$conn->log_outgoing_data($xml);		
 	$conn->write($xml);
 }
@@ -58,24 +74,52 @@ sub process_iq_session
 {
 	my $conn=shift;
 	my DJabberd::Client::IQ $self = shift;
-
 	$conn->log->debug("Session established for " . $conn->{queue}->jid());
+	$conn->{queue}->fetch_roster();
 	DJabberd::Client::Presence->initial_presence($conn,"Hello world");
 
 }
 
-my $iq_handler = {
-#    'get-{jabber:iq:roster}query' => \&process_iq_getroster,
-#    'set-{jabber:iq:roster}query' => \&process_iq_setroster,
-#    'get-{jabber:iq:auth}query' => \&process_iq_getauth,
-#    'set-{jabber:iq:auth}query' => \&process_iq_setauth,
-    'result-{urn:ietf:params:xml:ns:xmpp-session}session' => \&process_iq_session,
-    'result-{urn:ietf:params:xml:ns:xmpp-bind}bind' => \&process_iq_bind,
-#    'get-{http://jabber.org/protocol/disco#info}query'  => \&process_iq_disco_info_query,
-#    'get-{http://jabber.org/protocol/disco#items}query' => \&process_iq_disco_items_query,
-#    'get-{jabber:iq:register}query' => \&process_iq_getregister,
-#    'set-{jabber:iq:register}query' => \&process_iq_setregister,
-};
+
+sub send_request_roster
+{
+	my DJabberd::Client::IQ $self = shift;
+	my $queue = shift;
+	my $conn = $queue->{connection};
+	$conn->log->info("Requesting roster for " . $conn->{queue}->jid());
+		
+	my $xml = "<iq type='get' id='rosterplz'><query xmlns='jabber:iq:roster'/></iq>";
+	$conn->log_outgoing_data($xml);		
+	$conn->write($xml);
+}
+
+sub process_iq_roster
+{
+	my $conn=shift;
+	my DJabberd::Client::IQ $self = shift;
+	$conn->log->info("Got roster for " . $conn->{queue}->jid());
+	my $query = $self->first_child();
+	foreach my $resultitem ($query->children())
+	{
+		my $subscription; 
+		if($resultitem->attrs()->{'{}subscription'} eq "both")
+		{
+			$subscription = DJabberd::Subscription->new();
+			$subscription->set_to();
+			$subscription->set_from();
+		}
+		else
+		{
+			$subscription =  DJabberd::Subscription->new_from_name($resultitem->attrs()->{'{}subscription'});
+		}
+		my $name = $resultitem->attrs()->{'{}name'};
+		my $groups = $resultitem->attrs()->{'{}groups'};
+		my $jid = $resultitem->attrs()->{'{}jid'};
+		$conn->{queue}->{roster}->add(DJabberd::RosterItem->new(jid => $jid, name => $name, groups => $groups , subscription => $subscription));
+		#$conn->log->error(Dumper($conn->{queue}->{roster}));
+	}
+
+}
 
 # DO NOT OVERRIDE THIS
 sub process {
@@ -113,95 +157,8 @@ sub process {
                                  });
 }
 
-sub signature {
-    my $iq = shift;
-    my $fc = $iq->first_element;
-    # FIXME: should signature ever get called on a bogus IQ packet?
-    return $iq->type . "-" . ($fc ? $fc->element : "(BOGUS)");
-}
-
-sub send_result {
-    my DJabberd::IQ $self = shift;
-    $self->send_reply("result");
-}
-
-sub send_error {
-    my DJabberd::IQ $self = shift;
-    my $raw = shift || '';
-    $self->send_reply("error", $self->innards_as_xml . "\n" . $raw);
-}
-
-# caller must send well-formed XML (but we do the wrapping element)
-sub send_result_raw {
-    my DJabberd::IQ $self = shift;
-    my $raw = shift;
-    return $self->send_reply("result", $raw);
-}
-
-sub send_reply {
-    my DJabberd::IQ $self = shift;
-    my ($type, $raw) = @_;
-
-    my $conn = $self->{connection}
-        or return;
-
-    $raw ||= "";
-    my $id = $self->id;
-    my $bj = $conn->bound_jid;
-    my $from_jid = $self->to;
-    my $to = $bj ? (" to='" . $bj->as_string_exml . "'") : "";
-    my $from = $from_jid ? (" from='" . $from_jid . "'") : "";
-    my $xml = qq{<iq$to$from type='$type' id='$id'>$raw</iq>};
-    $conn->xmllog->info($xml);
-    $conn->write(\$xml);
-}
 
 
 
-sub id {
-    return $_[0]->attr("{}id");
-}
-
-sub type {
-    return $_[0]->attr("{}type");
-}
-
-sub from {
-    return $_[0]->attr("{}from");
-}
-
-sub query {
-    my $self = shift;
-    my $child = $self->first_element
-        or return;
-    my $ele = $child->element
-        or return;
-    return undef unless $child->element =~ /\}query$/;
-    return $child;
-}
-
-sub bind {
-    my $self = shift;
-    my $child = $self->first_element
-        or return;
-    my $ele = $child->element
-        or return;
-    return unless $child->element =~ /\}bind$/;
-    return $child;
-}
-
-sub deliver_when_unavailable {
-    my $self = shift;
-    return $self->type eq "result" ||
-        $self->type eq "error";
-}
-
-sub make_response {
-    my ($self) = @_;
-
-    my $response = $self->SUPER::make_response();
-    $response->attrs->{"{}type"} = "result";
-    return $response;
-}
 
 1;
