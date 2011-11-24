@@ -66,7 +66,7 @@ sub register {
 sub _get_ping {
 	my ($self, $vhost, $iq) = @_;
 
-	$logger->info('Get ping from : ' . $iq->from_jid);
+	#$logger->info('Get ping from : ' . $iq->from_jid);
 	#TODO: proxy this..
 
 	$iq->send_result();
