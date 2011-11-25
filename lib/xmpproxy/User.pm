@@ -6,6 +6,7 @@ use DJabberd::Config::Config;
 use DJabberd::Log;
 use DJabberd::Roster;
 use DJabberd::RosterItem;
+use Data::Dumper;
 our $logger = DJabberd::Log->get_logger();
 
 sub new 
@@ -25,6 +26,7 @@ sub _init
 	my $passwd = shift;
 	my $vhost = shift;
 	$self->{queues} = {};
+	$self->{jid2queue} = {};
 	if(defined($name) && defined($passwd) && defined($vhost))
 	{
 		$self->{name} = $name;
@@ -89,11 +91,16 @@ sub get_roster
 {
 	my $self = shift;
 	my $roster = new DJabberd::Roster; 
+	
+	#Howto properly reset this hash reference?
+	#$self->{jid2queue} = undef;
+	#delete $self->{jid2queue};
 	foreach my $client (keys(%{$self->{queues}}))
 	{
 		#TODO: Merge rosters properly...
 		foreach my $item ($self->{queues}->{$client}->{roster}->items())
 		{
+				$self->{jid2queue}->{$item->jid} = $client;
 				$roster->add($item);
 		}
 	}

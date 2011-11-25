@@ -135,7 +135,6 @@ sub on_stream_start {
 
 
 
-
 sub on_stanza_received {
 	my ($self, $node) = @_;
 	
