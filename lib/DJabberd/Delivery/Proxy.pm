@@ -8,7 +8,7 @@ use DJabberd::Log;
 use Data::Dumper;
 #use xmpproxy::UserDB;
 our $logger = DJabberd::Log->get_logger;
-#sub run_after { ("DJabberd::Delivery::Local") }
+sub run_after { ("DJabberd::Delivery::Local") }
 $Data::Dumper::Maxdepth = 2;
 
 sub new {
@@ -27,14 +27,17 @@ sub deliver {
 	    or return $cb->declined;
 
 	my $from = $stanza->from_jid;
-	my $out_queue = $self->get_queue_for_user($from,$to) or
-	    return $cb->declined;
-	    #TODO: rewrite stanza->from_jid here
-	my $newfrom = DJabberd::JID->new($out_queue->jid);
-	$stanza->set_from($newfrom);	
-	#print("DELIVERING: " . $stanza->as_xml . "\n");
-	$DJabberd::Stats::counter{deliver_proxy}++;
-	$out_queue->queue_stanza($stanza, $cb);
+	
+	#TODO: check if incoming from DJabberd or DJabberd::Client
+	if( 1)
+	{
+		my $out_queue = $self->get_queue_for_user($from,$to) or return $cb->declined;
+		my $newfrom = DJabberd::JID->new($out_queue->jid);
+		$stanza->set_from($newfrom);	
+		$DJabberd::Stats::counter{deliver_proxy}++;
+		$out_queue->queue_stanza($stanza, $cb);
+		#$cb->delivered;
+	}
 }
 
 sub get_queue_for_user {

@@ -68,7 +68,6 @@ our $logger = DJabberd::Log->get_logger();
 my $auth = DJabberd::Authen::Proxy->new();
 my $roster = DJabberd::RosterStorage::Proxy->new();
 my $delivery = DJabberd::Delivery::Proxy->new();
-#my $client = DJabberd::ClientHandler->new();
 
 my $vhost = DJabberd::VHost->new(
                                  server_name => DJabberd::Config::Config::get_host(),

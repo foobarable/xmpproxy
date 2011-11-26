@@ -26,7 +26,7 @@ sub _init
 	my $passwd = shift;
 	my $vhost = shift;
 	$self->{queues} = {};
-	$self->{jid2queue} = {};
+	$self->{jid2queue} = {};  
 	if(defined($name) && defined($passwd) && defined($vhost))
 	{
 		$self->{name} = $name;

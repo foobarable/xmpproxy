@@ -31,6 +31,7 @@ sub _init
 		die "Vhost required";
 	}
 	$self->{users} = {};
+	$self->{proxy2local} = {};
 	$self->create_from_config();
 }
 
@@ -77,9 +78,9 @@ sub create_from_config
 		foreach my $account (@{$config->{user}->{$user}->{account}})
 		{
 			$self->{users}->{$user}->add_account($account->{jid},$account->{passwd},$account->{resource});
+			$self->{proxy2local}->{$account->{jid}} = $user . "@" .$self->{vhost}->server_name();
 		}
 	}
-	#$self->print_db;
 }
 
 1;

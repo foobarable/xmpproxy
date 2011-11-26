@@ -140,8 +140,8 @@ sub on_stanza_received {
 	
 	my %element2class = (
              "{jabber:client}iq"       => 'DJabberd::Client::IQ',
-             "{jabber:client}message"  => 'DJabberd::Message',
-             "{jabber:client}presence" => 'DJabberd::Presence',
+             "{jabber:client}message"  => 'DJabberd::Client::Message',
+             "{jabber:client}presence" => 'DJabberd::Client::Presence',
              "{urn:ietf:params:xml:ns:xmpp-tls}starttls" => 'DJabberd::Stanza::StartTLS',
 	     "{urn:ietf:params:xml:ns:xmpp-sasl}challenge" => 'DJabberd::Stanza::SASL',
 	     "{urn:ietf:params:xml:ns:xmpp-sasl}failure" => 'DJabberd::Stanza::SASL',
@@ -155,7 +155,6 @@ sub on_stanza_received {
 	my $class = $element2class{$node->element};
 	my $stanza = $class->downbless($node, $self);
 
-	
 	if($node->element eq "{http://etherx.jabber.org/streams}features")
 	{
 		$self->log->debug("Got feature stream");
@@ -185,13 +184,13 @@ sub on_stanza_received {
 	{
 		$stanza->on_recv_from_server($self);
 	}
-	if($node->element eq "{jabber:client)presence")
+	if($node->element eq "{jabber:client}presence")
 	{
-		#DJabberd::Client::Presence->on_recv_from_server($stanza,$self);
+		$stanza->on_recv_from_server($self);
 	}
-	if($node->element eq "{jabber:client}message)")
+	if($node->element eq "{jabber:client}message")
 	{
-		#DJabberd::Client::Message->on_recv_from_server($self,$node);
+		$stanza->on_recv_from_server($self);
 	}
 
 
