@@ -20,6 +20,20 @@ sub on_recv_from_client {
     $self->deliver;
 }
 
+sub on_recv_from_server {
+	my ($self, $conn) = @_;
+	my $to = $self->to_jid;
+	#TODO: Check if $to is handled by any of our accounts
+	#if (! $to || $conn->vhost->uses_jid($to)) {
+	if( 1 )
+	{
+	    $self->process($conn);
+	    return;
+	}
+
+	$self->deliver;
+}
+
 my $iq_handler = {
 	'get-{jabber:iq:roster}query' => \&process_iq_getroster,
 	'set-{jabber:iq:roster}query' => \&process_iq_setroster,
@@ -37,6 +51,11 @@ my $iq_handler = {
 	'get-{jabber:iq:register}query' => \&process_iq_getregister,
 	'set-{jabber:iq:register}query' => \&process_iq_setregister,
 	'set-{djabberd:test}query' => \&process_iq_set_djabberd_test,
+	
+	#client side iq handlers
+	'result-{jabber:iq:roster}query' => \&process_iq_roster,
+	'result-{urn:ietf:params:xml:ns:xmpp-session}session' => \&process_iq_session,
+	'result-{urn:ietf:params:xml:ns:xmpp-bind}bind' => \&process_iq_bind,
 };
 
 
@@ -119,6 +138,89 @@ sub send_reply {
     my $xml = qq{<iq$to$from type='$type' id='$id'>$raw</iq>};
     $conn->log_outgoing_data($xml);
     $conn->write(\$xml);
+}
+
+sub send_bind_resource
+{
+	my DJabberd::IQ $self = shift;
+	my $conn = shift;
+	$conn->log->info("Binding resource " . $conn->{queue}->resource . " to " . $conn->{queue}->jid);
+	my $xml = "<iq type='set' id='$conn->{stream_id}'><bind xmlns='urn:ietf:params:xml:ns:xmpp-bind'><resource>" . $conn->{queue}->resource ."</resource></bind></iq>";
+	$conn->log_outgoing_data($xml);		
+	$conn->write($xml);
+}
+
+sub process_iq_bind
+{
+	my $conn = shift;
+	my DJabberd::IQ $self = shift;
+	$conn->log->debug("Received an iq bind response, connection now established");
+	$conn->{queue}->on_connection_connected($conn);
+	#TODO: Actually parse xml package
+	$conn->{queue}->{jid} = $conn->{queue}->jid() . "/" . $conn->{queue}->resource();
+	$self->send_iq_session($conn);
+}
+
+
+sub send_iq_session
+{
+	my DJabberd::IQ $self = shift;
+	my $conn = shift;
+	my $xml = "<iq to='" . $conn->{queue}->domain() . "' type='set' id='$conn->{stream_id}'> <session xmlns='urn:ietf:params:xml:ns:xmpp-session'/></iq>";
+	$conn->log->info("Requesting session for " . $conn->{queue}->jid());
+	$conn->log_outgoing_data($xml);		
+	$conn->write($xml);
+}
+
+
+sub process_iq_session
+{
+	my $conn=shift;
+	my DJabberd::IQ $self = shift;
+	$conn->log->debug("Session established for " . $conn->{queue}->jid());
+	$conn->{queue}->fetch_roster();
+	DJabberd::Presence->send_initial_presence($conn,"Hello world");
+
+}
+
+
+sub send_request_roster
+{
+	my DJabberd::IQ $self = shift;
+	my $queue = shift;
+	my $conn = $queue->{connection};
+	$conn->log->info("Requesting roster for " . $conn->{queue}->jid());
+		
+	my $xml = "<iq type='get' id='rosterplz'><query xmlns='jabber:iq:roster'/></iq>";
+	$conn->log_outgoing_data($xml);		
+	$conn->write($xml);
+}
+
+sub process_iq_roster
+{
+	my $conn=shift;
+	my DJabberd::IQ $self = shift;
+	$conn->log->info("Got roster for " . $conn->{queue}->jid());
+	my $query = $self->first_child();
+	foreach my $resultitem ($query->children())
+	{
+		my $subscription; 
+		if($resultitem->attrs()->{'{}subscription'} eq "both")
+		{
+			$subscription = DJabberd::Subscription->new();
+			$subscription->set_to();
+			$subscription->set_from();
+		}
+		else
+		{
+			$subscription =  DJabberd::Subscription->new_from_name($resultitem->attrs()->{'{}subscription'});
+		}
+		my $name = $resultitem->attrs()->{'{}name'};
+		my $groups = $resultitem->attrs()->{'{}groups'};
+		my $jid = $resultitem->attrs()->{'{}jid'};
+		$conn->{queue}->{roster}->add(DJabberd::RosterItem->new(jid => $jid, name => $name, groups => $groups , subscription => $subscription));
+	}
+
 }
 
 

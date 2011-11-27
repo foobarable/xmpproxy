@@ -9,7 +9,7 @@ use fields (
 use IO::Handle;
 use Socket qw(PF_INET IPPROTO_TCP SOCK_STREAM);
 use Carp qw(croak);
-use DJabberd::Client::IQ;
+use DJabberd::IQ;
 use DJabberd::Client::Message;
 use DJabberd::Client::Presence;
 use DJabberd::Stanza::SASL;
@@ -115,7 +115,7 @@ sub on_stanza_received {
 	my ($self, $node) = @_;
 	
 	my %element2class = (
-             "{jabber:client}iq"       => 'DJabberd::Client::IQ',
+             "{jabber:client}iq"       => 'DJabberd::IQ',
              "{jabber:client}message"  => 'DJabberd::Client::Message',
              "{jabber:client}presence" => 'DJabberd::Client::Presence',
              "{urn:ietf:params:xml:ns:xmpp-tls}starttls" => 'DJabberd::Stanza::StartTLS',
