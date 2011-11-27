@@ -42,12 +42,12 @@ sub deliver {
 		my $out_queue = $self->get_queue_for_user($from,$to) or return $cb->declined;
 
 
+		my $clone = $stanza->clone();
 		my @conns = $vhost->find_conns_of_bare($from);
 		foreach my $c (@conns)
 		{
-			if ($c->carbon() )
+			if ($c->carbon() and ( not $from->eq($c->bound_jid()))
 			{
-				my $clone = $stanza->clone();
 				my $mirrorfrom = DJabberd::JID->new($from->as_bare_string());
 				my $mirrorto = DJabberd::JID->new($from);
 				$clone->set_from($mirrorfrom);
@@ -70,6 +70,7 @@ sub deliver {
 	}
 	$cb->declined;
 }
+
 
 sub get_queue_for_user {
 	my ($self, $from,$to) = @_;	
