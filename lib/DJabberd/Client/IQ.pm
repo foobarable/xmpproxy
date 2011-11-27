@@ -116,7 +116,6 @@ sub process_iq_roster
 		my $groups = $resultitem->attrs()->{'{}groups'};
 		my $jid = $resultitem->attrs()->{'{}jid'};
 		$conn->{queue}->{roster}->add(DJabberd::RosterItem->new(jid => $jid, name => $name, groups => $groups , subscription => $subscription));
-		#$conn->log->error(Dumper($conn->{queue}->{roster}));
 	}
 
 }

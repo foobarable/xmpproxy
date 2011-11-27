@@ -54,6 +54,8 @@ use DJabberd::ClientHandler;
 use DJabberd::Plugin::Ping;
 use DJabberd::Delivery::Proxy;
 use DJabberd::Delivery::Local;
+use DJabberd::Delivery::OfflineStorage;
+use DJabberd::Delivery::OfflineStorage::InMemoryOnly;
 use DJabberd::Authen::Proxy;
 use DJabberd::PresenceChecker::Local;
 use DJabberd::RosterStorage::Proxy;
@@ -67,7 +69,10 @@ our $logger = DJabberd::Log->get_logger();
 #create plugins
 my $auth = DJabberd::Authen::Proxy->new();
 my $roster = DJabberd::RosterStorage::Proxy->new();
-my $delivery = DJabberd::Delivery::Proxy->new();
+my $proxydelivery = DJabberd::Delivery::Proxy->new();
+my $localdelivery = DJabberd::Delivery::Local->new();
+my $offlinedelivery = DJabberd::Delivery::OfflineStorage::InMemoryOnly->new();
+
 
 my $vhost = DJabberd::VHost->new(
                                  server_name => DJabberd::Config::Config::get_host(),
@@ -83,8 +88,9 @@ my $vhost = DJabberd::VHost->new(
 					       #$client,
                                                $auth, 
                                                $roster,
-					       $delivery,
-					       DJabberd::Delivery::Local->new(),
+					       $proxydelivery,
+					       $localdelivery,
+					       $offlinedelivery,
 					       DJabberd::Plugin::Ping,
 					       #TODO:
 					       #$vcard,

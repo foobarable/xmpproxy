@@ -15,7 +15,6 @@ sub on_recv_from_server {
 	}
 	my $newto = DJabberd::JID->new($xmpproxy::userdb->{proxy2local}->{$to->as_bare_string});
 	$self->set_to($newto);
-	$conn->log->error($self->as_xml);
 	$DJabberd::Stats::counter{"c2s-Message"}++;
 	$self->deliver;
 }

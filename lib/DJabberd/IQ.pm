@@ -21,18 +21,25 @@ sub on_recv_from_client {
 }
 
 my $iq_handler = {
-    'get-{jabber:iq:roster}query' => \&process_iq_getroster,
-    'set-{jabber:iq:roster}query' => \&process_iq_setroster,
-    'get-{jabber:iq:auth}query' => \&process_iq_getauth,
-    'set-{jabber:iq:auth}query' => \&process_iq_setauth,
-    'set-{urn:ietf:params:xml:ns:xmpp-session}session' => \&process_iq_session,
-    'set-{urn:ietf:params:xml:ns:xmpp-bind}bind' => \&process_iq_bind,
-    'get-{http://jabber.org/protocol/disco#info}query'  => \&process_iq_disco_info_query,
-    'get-{http://jabber.org/protocol/disco#items}query' => \&process_iq_disco_items_query,
-    'get-{jabber:iq:register}query' => \&process_iq_getregister,
-    'set-{jabber:iq:register}query' => \&process_iq_setregister,
-    'set-{djabberd:test}query' => \&process_iq_set_djabberd_test,
+	'get-{jabber:iq:roster}query' => \&process_iq_getroster,
+	'set-{jabber:iq:roster}query' => \&process_iq_setroster,
+	'get-{jabber:iq:auth}query' => \&process_iq_getauth,
+	'set-{jabber:iq:auth}query' => \&process_iq_setauth,
+	'set-{urn:ietf:params:xml:ns:xmpp-session}session' => \&process_iq_session,
+	'set-{urn:ietf:params:xml:ns:xmpp-bind}bind' => \&process_iq_bind,
+	'set-{urn:xmpp:carbons:1}enable' => \&process_iq_setcarbon,
+	#TODO: Forward/proxy those
+	
+	'get-{http://jabber.org/protocol/disco#info}query'  => \&process_iq_disco_info_query,
+	'get-{http://jabber.org/protocol/disco#items}query' => \&process_iq_disco_items_query,
+	#'get-{jabber:iq:private}query ...
+	
+	'get-{jabber:iq:register}query' => \&process_iq_getregister,
+	'set-{jabber:iq:register}query' => \&process_iq_setregister,
+	'set-{djabberd:test}query' => \&process_iq_set_djabberd_test,
 };
+
+
 
 # DO NOT OVERRIDE THIS
 sub process {
@@ -69,6 +76,7 @@ sub process {
                                      $meth->($conn, $self);
                                  });
 }
+
 
 sub signature {
     my $iq = shift;
@@ -109,9 +117,19 @@ sub send_reply {
     my $to = $bj ? (" to='" . $bj->as_string_exml . "'") : "";
     my $from = $from_jid ? (" from='" . $from_jid . "'") : "";
     my $xml = qq{<iq$to$from type='$type' id='$id'>$raw</iq>};
-    $conn->xmllog->info($xml);
+    $conn->log_outgoing_data($xml);
     $conn->write(\$xml);
 }
+
+
+sub process_iq_setcarbon
+{
+	my ($conn,$iq) = @_;
+	$iq->send_result();
+	$conn->set_carbon(1);
+}
+
+
 
 sub process_iq_disco_info_query {
     my ($conn, $iq) = @_;
