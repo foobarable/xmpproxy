@@ -10,10 +10,20 @@ use IO::Handle;
 use Socket qw(PF_INET IPPROTO_TCP SOCK_STREAM);
 use Carp qw(croak);
 use DJabberd::IQ;
-use DJabberd::Client::Message;
-use DJabberd::Client::Presence;
+use DJabberd::Message;
+use DJabberd::Presence;
 use DJabberd::Stanza::SASL;
 
+my %element2class = (
+     "{jabber:client}iq"       => 'DJabberd::IQ',
+     "{jabber:client}message"  => 'DJabberd::Message',
+     "{jabber:client}presence" => 'DJabberd::Presence',
+     "{urn:ietf:params:xml:ns:xmpp-tls}starttls" => 'DJabberd::Stanza::StartTLS',
+     "{urn:ietf:params:xml:ns:xmpp-sasl}challenge" => 'DJabberd::Stanza::SASL',
+     "{urn:ietf:params:xml:ns:xmpp-sasl}failure" => 'DJabberd::Stanza::SASL',
+     "{urn:ietf:params:xml:ns:xmpp-sasl}success" => 'DJabberd::Stanza::SASL',
+     "{http://etherx.jabber.org/streams}features" => 'DJabberd::Stanza::StreamFeatures'
+);
 
 sub new {
     my ($class, %opts) = @_;
@@ -96,34 +106,19 @@ sub on_stream_start {
 	$self->{in_stream} = 1;
 	$self->{stream_id} = $ss->id();
 	$self->log->debug("We got a stream back from connection $self->{id}!");
-
 	#my $to_host = $ss->to;
 	#DJabberd::Log->get_logger->info($to_host);
 	#my $vhost = $self->server->lookup_vhost($to_host);
 	#return $self->close_no_vhost($to_host)
 	#    unless ($vhost);
-
 	#$self->set_vhost($vhost);
 
 }
 
 
-
-
-
 sub on_stanza_received {
 	my ($self, $node) = @_;
 	
-	my %element2class = (
-             "{jabber:client}iq"       => 'DJabberd::IQ',
-             "{jabber:client}message"  => 'DJabberd::Client::Message',
-             "{jabber:client}presence" => 'DJabberd::Client::Presence',
-             "{urn:ietf:params:xml:ns:xmpp-tls}starttls" => 'DJabberd::Stanza::StartTLS',
-	     "{urn:ietf:params:xml:ns:xmpp-sasl}challenge" => 'DJabberd::Stanza::SASL',
-	     "{urn:ietf:params:xml:ns:xmpp-sasl}failure" => 'DJabberd::Stanza::SASL',
-	     "{urn:ietf:params:xml:ns:xmpp-sasl}success" => 'DJabberd::Stanza::SASL',
-	     "{http://etherx.jabber.org/streams}features" => 'DJabberd::Stanza::StreamFeatures'
-	);
 
 	if ($self->xmllog->is_info) {
 	    $self->log_incoming_data($node);
@@ -162,7 +157,7 @@ sub on_stanza_received {
 	}
 	if($node->element eq "{jabber:client}presence")
 	{
-		$stanza->on_recv_from_server($self);
+		$stanza->on_recv_from_server_proxycon($self);
 	}
 	if($node->element eq "{jabber:client}message")
 	{

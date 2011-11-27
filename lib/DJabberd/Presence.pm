@@ -51,6 +51,34 @@ sub is_directed {
     return 1;
 }
 
+
+sub on_recv_from_server_proxycon {
+	my ($self, $conn) = @_;
+	
+	my $to = $self->to_jid;
+	if (! $to) {
+		warn "Can't process a presence to nobody.\n";
+	 	$conn->close;
+		return;
+	}
+	my $newto = DJabberd::JID->new($xmpproxy::userdb->{proxy2local}->{$to->as_bare_string});
+	$self->set_to($newto);
+	$DJabberd::Stats::counter{"c2s-presence"}++;
+	$self->deliver;
+}
+
+
+sub initial_presence {
+    my $self = shift;
+    my $conn = shift;
+    my $message = shift || 'Default Message';
+    my $xml = qq{<presence><status>$message</status></presence>};
+    $conn->log_outgoing_data($xml);
+    $conn->write($xml);
+}
+
+
+
 sub on_recv_from_server {
     my ($self, $conn) = @_;
     $DJabberd::Stats::counter{"s2si-Presence"}++;
@@ -191,6 +219,7 @@ sub process_outbound {
     my $type      = $self->type || "available";
 
 
+    
     return 0 unless $conn->bound_jid;
     return $self->fail($conn->vhost, "bogus type") unless $type =~ /^\w+$/;
 
