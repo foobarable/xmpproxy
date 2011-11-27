@@ -50,7 +50,6 @@ use FindBin qw($Bin);
 
 use DJabberd;
 use DJabberd::Log;
-use DJabberd::ClientHandler;
 use DJabberd::Plugin::Ping;
 use DJabberd::Delivery::Proxy;
 use DJabberd::Delivery::Local;

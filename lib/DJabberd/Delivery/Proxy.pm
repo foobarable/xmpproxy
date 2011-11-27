@@ -46,7 +46,7 @@ sub deliver {
 		my @conns = $vhost->find_conns_of_bare($from);
 		foreach my $c (@conns)
 		{
-			if ($c->carbon() and ( not $from->eq($c->bound_jid()))
+			if ($c->carbon() and ( not $from->eq($c->bound_jid())))
 			{
 				my $mirrorfrom = DJabberd::JID->new($from->as_bare_string());
 				my $mirrorto = DJabberd::JID->new($from);
