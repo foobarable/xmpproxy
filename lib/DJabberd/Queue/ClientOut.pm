@@ -43,7 +43,10 @@ sub new {
 sub fetch_roster
 {	
 	my $self = shift;
-	DJabberd::Client::IQ->send_request_roster($self);
+	if(not $self->{state} == NO_CONN)
+	{	
+		DJabberd::Client::IQ->send_request_roster($self);
+	}
 }
 
 
