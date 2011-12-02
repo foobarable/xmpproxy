@@ -155,13 +155,16 @@ sub send_bind_resource
 {
 	my DJabberd::IQ $self = shift;
 	my $conn = shift;
-	$conn->log->info( "Binding resource " . $conn->{queue}->resource . " to " . $conn->{queue}->jid );
-	my $xml =
-	    "<iq type='set' id='$conn->{stream_id}'><bind xmlns='urn:ietf:params:xml:ns:xmpp-bind'><resource>"
-	  . $conn->{queue}->resource
-	  . "</resource></bind></iq>";
-	$conn->log_outgoing_data($xml);
-	$conn->write($xml);
+	if($conn)
+	{
+		$conn->log->info( "Binding resource " . $conn->{queue}->resource . " to " . $conn->{queue}->jid );
+		my $xml =
+		    "<iq type='set' id='$conn->{stream_id}'><bind xmlns='urn:ietf:params:xml:ns:xmpp-bind'><resource>"
+		  . $conn->{queue}->resource
+		  . "</resource></bind></iq>";
+		$conn->log_outgoing_data($xml);
+		$conn->write($xml);
+	}
 }
 
 sub process_iq_resultbind
@@ -180,13 +183,16 @@ sub send_iq_session
 {
 	my DJabberd::IQ $self = shift;
 	my $conn = shift;
-	my $xml =
-	    "<iq to='"
-	  . $conn->{queue}->domain()
-	  . "' type='set' id='$conn->{stream_id}'> <session xmlns='urn:ietf:params:xml:ns:xmpp-session'/></iq>";
-	$conn->log->info( "Requesting session for " . $conn->{queue}->jid() );
-	$conn->log_outgoing_data($xml);
-	$conn->write($xml);
+	if($conn)
+	{
+		my $xml =
+		    "<iq to='"
+		  . $conn->{queue}->domain()
+		  . "' type='set' id='$conn->{stream_id}'> <session xmlns='urn:ietf:params:xml:ns:xmpp-session'/></iq>";
+		$conn->log->info( "Requesting session for " . $conn->{queue}->jid() );
+		$conn->log_outgoing_data($xml);
+		$conn->write($xml);
+	}
 }
 
 sub process_iq_resultsession
@@ -204,11 +210,14 @@ sub send_request_roster
 	my DJabberd::IQ $self = shift;
 	my $queue             = shift;
 	my $conn              = $queue->{connection};
-	$conn->log->info( "Requesting roster for " . $conn->{queue}->jid() );
+	if($conn)
+	{
+		$conn->log->info( "Requesting roster for " . $conn->{queue}->jid() );
 
-	my $xml = "<iq type='get' id='rosterplz'><query xmlns='jabber:iq:roster'/></iq>";
-	$conn->log_outgoing_data($xml);
-	$conn->write($xml);
+		my $xml = "<iq type='get' id='rosterplz'><query xmlns='jabber:iq:roster'/></iq>";
+		$conn->log_outgoing_data($xml);
+		$conn->write($xml);
+	}
 }
 
 sub process_iq_resultroster
