@@ -60,6 +60,7 @@ use DJabberd::Delivery::Local;
 use DJabberd::Delivery::OfflineStorage;
 use DJabberd::Delivery::OfflineStorage::InMemoryOnly;
 use DJabberd::Authen::Proxy;
+use DJabberd::Bot::Admin;
 use DJabberd::PresenceChecker::Local;
 use DJabberd::RosterStorage::Proxy;
 use xmpproxy::UserDB;
@@ -75,6 +76,8 @@ my $roster          = DJabberd::RosterStorage::Proxy->new();
 my $proxydelivery   = DJabberd::Delivery::Proxy->new();
 my $localdelivery   = DJabberd::Delivery::Local->new();
 my $offlinedelivery = DJabberd::Delivery::OfflineStorage::InMemoryOnly->new();
+my $adminbot        = DJabberd::Bot::Admin->new();
+
 
 my $vhost = DJabberd::VHost->new(
 	server_name => DJabberd::Config::Config::get_host(),
@@ -88,7 +91,7 @@ my $vhost = DJabberd::VHost->new(
 	#register required plugins
 	plugins => [
 
-		#$client,
+		$adminbot,
 		$auth,
 		$roster,
 		$proxydelivery,
