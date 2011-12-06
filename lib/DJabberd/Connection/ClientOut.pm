@@ -144,7 +144,7 @@ sub on_stanza_received
 
 		if ( $self->{rcvd_features}->as_xml() =~ m/bind/ )
 		{
-			DJabberd::Client::IQ->send_bind_resource($self);
+			DJabberd::IQ->send_bind_resource($self);
 		}
 
 		#TODO: Implement old auth methods as well

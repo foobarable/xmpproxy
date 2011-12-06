@@ -72,7 +72,7 @@ sub on_recv_from_server_proxycon
 	$self->deliver;
 }
 
-sub initial_presence
+sub send_initial_presence
 {
 	my $self    = shift;
 	my $conn    = shift;
