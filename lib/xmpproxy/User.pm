@@ -97,15 +97,14 @@ sub get_roster
 	#TODO: Howto properly reset this hash reference?
 	#$self->{jid2queue} = undef;
 	#delete $self->{jid2queue};
-	
+
 	#Add admin bot to the roster
 	my $adminsubscription = DJabberd::Subscription->new();
-	my $adminjid = new DJabberd::JID("root" . "@" . $self->{vhost}->server_name() . "/xmpproxy");
+	my $adminjid          = new DJabberd::JID( "root" . "@" . $self->{vhost}->server_name() . "/xmpproxy" );
 	$adminsubscription->set_to();
 	$adminsubscription->set_from();
-	my $adminbot = new DJabberd::RosterItem(jid => $adminjid, name => "root", subscription => $adminsubscription ) ;
+	my $adminbot = new DJabberd::RosterItem( jid => $adminjid, name => "root", subscription => $adminsubscription );
 	$roster->add($adminbot);
-	
 
 	foreach my $client ( keys( %{ $self->{queues} } ) )
 	{

@@ -155,7 +155,7 @@ sub send_bind_resource
 {
 	my DJabberd::IQ $self = shift;
 	my $conn = shift;
-	if($conn)
+	if ($conn)
 	{
 		$conn->log->info( "Binding resource " . $conn->{queue}->resource . " to " . $conn->{queue}->jid );
 		my $xml =
@@ -183,7 +183,7 @@ sub send_iq_session
 {
 	my DJabberd::IQ $self = shift;
 	my $conn = shift;
-	if($conn)
+	if ($conn)
 	{
 		my $xml =
 		    "<iq to='"
@@ -210,7 +210,7 @@ sub send_request_roster
 	my DJabberd::IQ $self = shift;
 	my $queue             = shift;
 	my $conn              = $queue->{connection};
-	if($conn)
+	if ($conn)
 	{
 		$conn->log->info( "Requesting roster for " . $conn->{queue}->jid() );
 

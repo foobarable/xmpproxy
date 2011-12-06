@@ -78,7 +78,6 @@ my $localdelivery   = DJabberd::Delivery::Local->new();
 my $offlinedelivery = DJabberd::Delivery::OfflineStorage::InMemoryOnly->new();
 my $adminbot        = DJabberd::Bot::Admin->new();
 
-
 my $vhost = DJabberd::VHost->new(
 	server_name => DJabberd::Config::Config::get_host(),
 
