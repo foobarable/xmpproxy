@@ -1,0 +1,617 @@
+\hypertarget{class_d_jabberd_1_1_connection}{
+\section{\-Connection \-Class \-Reference}
+\label{class_d_jabberd_1_1_connection}\index{\-Connection@{\-Connection}}
+}
+\-Inheritance diagram for \-Connection\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_d_jabberd_1_1_connection}
+\end{center}
+\end{figure}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_d_jabberd_1_1_connection_1_1_client_in}{\-Client\-In}
+\item 
+class \hyperlink{class_d_jabberd_1_1_connection_1_1_client_out}{\-Client\-Out}
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{Indent}\paragraph*{\-Public \-Class \-Methods}
+\begin{DoxyCompactItemize}
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a5be9a75bf16adc9c8313713dda4e72bf}{new} (scalar class, scalar sock, scalar server)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\paragraph*{\-Public \-Object \-Methods}
+\begin{DoxyCompactItemize}
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a92833ff4c3bf394f167dacdfe5348b09}{log\-\_\-outgoing\-\_\-data} (scalar text)
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_aca6449f4be97bb1b3c3ec4c137a8f1c4}{log\-\_\-incoming\-\_\-data} (scalar node)
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a9e1c246b2a680005868cc7b69ef0abe5}{set\-\_\-rcvd\-\_\-features} (scalar feat\-\_\-stanza)
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a9a0450f4a2556fc040fbc8c5e6d46931}{set\-\_\-bound\-\_\-jid} (scalar jid)
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a2761bd89d4e3fa7198bcbcf5037c45ce}{set\-\_\-to\-\_\-host} (scalar host)
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a515e0bf1c50c78032fc61fb9c05239a7}{to\-\_\-host} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a76ada7980b6968dbc4b2ff26e41db639}{set\-\_\-version} (scalar verob)
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a20f80b8db409f5e9611a004888a07487}{version} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_aebeddca43d2d7fa92549488fa2f99a87}{stream\-\_\-id} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a7566c2d6473bf8744372e942036c348c}{set\-\_\-carbon} (scalar carb)
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_af8d1ca6c130e8aa67084effd85aab4b6}{carbon} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_af2f53e4524c091ae2072fbd1b5a7c0e3}{run\-\_\-hook\-\_\-chain} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_abb914c19b39f6b70f59e7af11fab5db1}{set\-\_\-vhost} (scalar vhost)
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a0458c9ae427b63840d6220f178631bc8}{on\-\_\-stanza\-\_\-received} (scalar node)
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a9d756fb0ea7ba97c48724ec4d34e23b6}{process\-\_\-incoming\-\_\-stanza\-\_\-from\-\_\-s2s\-\_\-out} (scalar node)
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a9b3ede81a6f6e218144fd96e9af46fc8}{send\-\_\-stanza} (scalar stanza)
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a15673b5e1abcde591e2f11c1dda3bb83}{write\-\_\-stanza} (scalar stanza)
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_aa844e67e8b5949a89c71774aa5104a0f}{ssl} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a252816c54bfe80800fa4efcaef2e7ebd}{sasl} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_adc2637c765ac6c7963be969aaccf8a14}{on\-\_\-incomplete\-\_\-write} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_ac8daeea408788a2c38c76a972ffec5ac}{write\-\_\-when\-\_\-readable} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a4c9ebbfb4790deafa6e4882af8bd8ddc}{write} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a755aed2cff949bfd9f4fb9c28e87fea0}{event\-\_\-write} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a77651612edbf51f20312a3c1f7769bfe}{stream\-\_\-error} (scalar err, scalar info)
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a2640089a6ba7e45fd49e20d243b0cdd7}{close\-\_\-no\-\_\-vhost} (scalar vhost)
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a4330afd9b80a28b8973024c94d781785}{close\-\_\-stream} (scalar err)
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a925785b4f273c531cbecf342461e8f1a}{add\-\_\-disconnect\-\_\-handler} (scalar callback)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\paragraph*{\-Public \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a6b3f674a6dea6a030b0a929799c016f9}{log} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_ab1e34b9467c8e056ca21888b35fbdd51}{xmllog} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_aa4a669c10ab58454685db37d6b63ca69}{handler} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_ace31eac7e5fa7b0985da3724df78220e}{vhost} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a924e52e7e94a2e321fd4bf4063319707}{server} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a93618f2ca51965d88c57e79648b73b01}{bound\-\_\-jid} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a7a3d54aed42b99e99cfe42984f7c74d1}{new\-\_\-iq\-\_\-id} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_aaeb487aae8ffeab6d9daadc2e2dd14f2}{discard\-\_\-parser} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a217036b47401e05e6df62990faf7fa11}{borrow\-\_\-a\-\_\-parser} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a052f1e95d068010f537b15f7f43d57aa}{return\-\_\-parser} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_aa7d0aa5420e8596a8a68589a4d5160cd}{is\-\_\-server} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a0658ff79c96ce74eb311963cf21be7f9}{restart\-\_\-stream} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a3468c60c43a823234a38b879ccedb991}{event\-\_\-read} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a9a53b1e335fa929e6c505c1364e06723}{on\-\_\-stream\-\_\-start} (scalar ss)
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a9da43b0a6f7b7f011796c311b4b60c7c}{start\-\_\-init\-\_\-stream} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a805d3da1fc71f45c7667c607f1ed7051}{start\-\_\-stream\-\_\-back} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a5ee0b26f0c3c30404de8cba4744ad2ea}{end\-\_\-stream} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_af34e4d1557ea1071210432a2e4ef3871}{close} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a8f56a7142e4cddabb01d281bfab7506f}{event\-\_\-err} ()
+\item 
+retval \hyperlink{class_d_jabberd_1_1_connection_a97cdf44a50aaddeb0b998d835acd3377}{event\-\_\-hup} ()
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\paragraph*{\-Protected \-Object \-Methods}
+\begin{DoxyCompactItemize}
+\item 
+protected retval \hyperlink{class_d_jabberd_1_1_connection_ae54be92682b9a89db9513546df5a09c3}{\-\_\-run\-\_\-callback\-\_\-list} (scalar listref, list args)
+\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_d_jabberd_1_1_connection_ae54be92682b9a89db9513546df5a09c3}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!\-\_\-run\-\_\-callback\-\_\-list@{\-\_\-run\-\_\-callback\-\_\-list}}
+\index{\-\_\-run\-\_\-callback\-\_\-list@{\-\_\-run\-\_\-callback\-\_\-list}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{\-\_\-run\-\_\-callback\-\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}protected retval \-\_\-run\-\_\-callback\-\_\-list (
+\begin{DoxyParamCaption}
+\item[{scalar}]{listref, }
+\item[{list}]{args}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_ae54be92682b9a89db9513546df5a09c3}
+\hypertarget{class_d_jabberd_1_1_connection_a925785b4f273c531cbecf342461e8f1a}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!add\-\_\-disconnect\-\_\-handler@{add\-\_\-disconnect\-\_\-handler}}
+\index{add\-\_\-disconnect\-\_\-handler@{add\-\_\-disconnect\-\_\-handler}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{add\-\_\-disconnect\-\_\-handler}]{\setlength{\rightskip}{0pt plus 5cm}retval add\-\_\-disconnect\-\_\-handler (
+\begin{DoxyParamCaption}
+\item[{scalar}]{callback}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a925785b4f273c531cbecf342461e8f1a}
+\hypertarget{class_d_jabberd_1_1_connection_a217036b47401e05e6df62990faf7fa11}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!borrow\-\_\-a\-\_\-parser@{borrow\-\_\-a\-\_\-parser}}
+\index{borrow\-\_\-a\-\_\-parser@{borrow\-\_\-a\-\_\-parser}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{borrow\-\_\-a\-\_\-parser}]{\setlength{\rightskip}{0pt plus 5cm}retval borrow\-\_\-a\-\_\-parser (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a217036b47401e05e6df62990faf7fa11}
+\hypertarget{class_d_jabberd_1_1_connection_a93618f2ca51965d88c57e79648b73b01}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!bound\-\_\-jid@{bound\-\_\-jid}}
+\index{bound\-\_\-jid@{bound\-\_\-jid}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{bound\-\_\-jid}]{\setlength{\rightskip}{0pt plus 5cm}retval bound\-\_\-jid (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a93618f2ca51965d88c57e79648b73b01}
+\hypertarget{class_d_jabberd_1_1_connection_af8d1ca6c130e8aa67084effd85aab4b6}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!carbon@{carbon}}
+\index{carbon@{carbon}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{carbon}]{\setlength{\rightskip}{0pt plus 5cm}retval carbon (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_af8d1ca6c130e8aa67084effd85aab4b6}
+\hypertarget{class_d_jabberd_1_1_connection_af34e4d1557ea1071210432a2e4ef3871}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!close@{close}}
+\index{close@{close}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{close}]{\setlength{\rightskip}{0pt plus 5cm}retval close (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_af34e4d1557ea1071210432a2e4ef3871}
+
+
+\-Reimplemented in \hyperlink{class_d_jabberd_1_1_connection_1_1_client_out_af34e4d1557ea1071210432a2e4ef3871}{\-Connection\-::\-Client\-Out}, and \hyperlink{class_d_jabberd_1_1_connection_1_1_client_in_af34e4d1557ea1071210432a2e4ef3871}{\-Connection\-::\-Client\-In}.
+
+\hypertarget{class_d_jabberd_1_1_connection_a2640089a6ba7e45fd49e20d243b0cdd7}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!close\-\_\-no\-\_\-vhost@{close\-\_\-no\-\_\-vhost}}
+\index{close\-\_\-no\-\_\-vhost@{close\-\_\-no\-\_\-vhost}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{close\-\_\-no\-\_\-vhost}]{\setlength{\rightskip}{0pt plus 5cm}retval close\-\_\-no\-\_\-vhost (
+\begin{DoxyParamCaption}
+\item[{scalar}]{vhost}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a2640089a6ba7e45fd49e20d243b0cdd7}
+\hypertarget{class_d_jabberd_1_1_connection_a4330afd9b80a28b8973024c94d781785}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!close\-\_\-stream@{close\-\_\-stream}}
+\index{close\-\_\-stream@{close\-\_\-stream}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{close\-\_\-stream}]{\setlength{\rightskip}{0pt plus 5cm}retval close\-\_\-stream (
+\begin{DoxyParamCaption}
+\item[{scalar}]{err}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a4330afd9b80a28b8973024c94d781785}
+\hypertarget{class_d_jabberd_1_1_connection_aaeb487aae8ffeab6d9daadc2e2dd14f2}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!discard\-\_\-parser@{discard\-\_\-parser}}
+\index{discard\-\_\-parser@{discard\-\_\-parser}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{discard\-\_\-parser}]{\setlength{\rightskip}{0pt plus 5cm}retval discard\-\_\-parser (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_aaeb487aae8ffeab6d9daadc2e2dd14f2}
+\hypertarget{class_d_jabberd_1_1_connection_a5ee0b26f0c3c30404de8cba4744ad2ea}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!end\-\_\-stream@{end\-\_\-stream}}
+\index{end\-\_\-stream@{end\-\_\-stream}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{end\-\_\-stream}]{\setlength{\rightskip}{0pt plus 5cm}retval end\-\_\-stream (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a5ee0b26f0c3c30404de8cba4744ad2ea}
+\hypertarget{class_d_jabberd_1_1_connection_a8f56a7142e4cddabb01d281bfab7506f}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!event\-\_\-err@{event\-\_\-err}}
+\index{event\-\_\-err@{event\-\_\-err}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{event\-\_\-err}]{\setlength{\rightskip}{0pt plus 5cm}retval event\-\_\-err (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a8f56a7142e4cddabb01d281bfab7506f}
+
+
+\-Reimplemented in \hyperlink{class_d_jabberd_1_1_connection_1_1_client_out_a8f56a7142e4cddabb01d281bfab7506f}{\-Connection\-::\-Client\-Out}.
+
+\hypertarget{class_d_jabberd_1_1_connection_a97cdf44a50aaddeb0b998d835acd3377}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!event\-\_\-hup@{event\-\_\-hup}}
+\index{event\-\_\-hup@{event\-\_\-hup}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{event\-\_\-hup}]{\setlength{\rightskip}{0pt plus 5cm}retval event\-\_\-hup (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a97cdf44a50aaddeb0b998d835acd3377}
+
+
+\-Reimplemented in \hyperlink{class_d_jabberd_1_1_connection_1_1_client_out_a97cdf44a50aaddeb0b998d835acd3377}{\-Connection\-::\-Client\-Out}.
+
+\hypertarget{class_d_jabberd_1_1_connection_a3468c60c43a823234a38b879ccedb991}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!event\-\_\-read@{event\-\_\-read}}
+\index{event\-\_\-read@{event\-\_\-read}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{event\-\_\-read}]{\setlength{\rightskip}{0pt plus 5cm}retval event\-\_\-read (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a3468c60c43a823234a38b879ccedb991}
+\hypertarget{class_d_jabberd_1_1_connection_a755aed2cff949bfd9f4fb9c28e87fea0}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!event\-\_\-write@{event\-\_\-write}}
+\index{event\-\_\-write@{event\-\_\-write}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{event\-\_\-write}]{\setlength{\rightskip}{0pt plus 5cm}retval event\-\_\-write (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a755aed2cff949bfd9f4fb9c28e87fea0}
+
+
+\-Reimplemented in \hyperlink{class_d_jabberd_1_1_connection_1_1_client_out_a755aed2cff949bfd9f4fb9c28e87fea0}{\-Connection\-::\-Client\-Out}.
+
+\hypertarget{class_d_jabberd_1_1_connection_aa4a669c10ab58454685db37d6b63ca69}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!handler@{handler}}
+\index{handler@{handler}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{handler}]{\setlength{\rightskip}{0pt plus 5cm}retval handler (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_aa4a669c10ab58454685db37d6b63ca69}
+\hypertarget{class_d_jabberd_1_1_connection_aa7d0aa5420e8596a8a68589a4d5160cd}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!is\-\_\-server@{is\-\_\-server}}
+\index{is\-\_\-server@{is\-\_\-server}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{is\-\_\-server}]{\setlength{\rightskip}{0pt plus 5cm}retval is\-\_\-server (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_aa7d0aa5420e8596a8a68589a4d5160cd}
+
+
+\-Reimplemented in \hyperlink{class_d_jabberd_1_1_connection_1_1_client_in_aa7d0aa5420e8596a8a68589a4d5160cd}{\-Connection\-::\-Client\-In}.
+
+\hypertarget{class_d_jabberd_1_1_connection_a6b3f674a6dea6a030b0a929799c016f9}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!log@{log}}
+\index{log@{log}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{log}]{\setlength{\rightskip}{0pt plus 5cm}retval log (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a6b3f674a6dea6a030b0a929799c016f9}
+\hypertarget{class_d_jabberd_1_1_connection_aca6449f4be97bb1b3c3ec4c137a8f1c4}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!log\-\_\-incoming\-\_\-data@{log\-\_\-incoming\-\_\-data}}
+\index{log\-\_\-incoming\-\_\-data@{log\-\_\-incoming\-\_\-data}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{log\-\_\-incoming\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}retval log\-\_\-incoming\-\_\-data (
+\begin{DoxyParamCaption}
+\item[{scalar}]{node}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_aca6449f4be97bb1b3c3ec4c137a8f1c4}
+\hypertarget{class_d_jabberd_1_1_connection_a92833ff4c3bf394f167dacdfe5348b09}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!log\-\_\-outgoing\-\_\-data@{log\-\_\-outgoing\-\_\-data}}
+\index{log\-\_\-outgoing\-\_\-data@{log\-\_\-outgoing\-\_\-data}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{log\-\_\-outgoing\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}retval log\-\_\-outgoing\-\_\-data (
+\begin{DoxyParamCaption}
+\item[{scalar}]{text}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a92833ff4c3bf394f167dacdfe5348b09}
+\hypertarget{class_d_jabberd_1_1_connection_a5be9a75bf16adc9c8313713dda4e72bf}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!new@{new}}
+\index{new@{new}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{new}]{\setlength{\rightskip}{0pt plus 5cm}retval new (
+\begin{DoxyParamCaption}
+\item[{scalar}]{class, }
+\item[{scalar}]{sock, }
+\item[{scalar}]{server}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a5be9a75bf16adc9c8313713dda4e72bf}
+\hypertarget{class_d_jabberd_1_1_connection_a7a3d54aed42b99e99cfe42984f7c74d1}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!new\-\_\-iq\-\_\-id@{new\-\_\-iq\-\_\-id}}
+\index{new\-\_\-iq\-\_\-id@{new\-\_\-iq\-\_\-id}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{new\-\_\-iq\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}retval new\-\_\-iq\-\_\-id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a7a3d54aed42b99e99cfe42984f7c74d1}
+\hypertarget{class_d_jabberd_1_1_connection_adc2637c765ac6c7963be969aaccf8a14}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!on\-\_\-incomplete\-\_\-write@{on\-\_\-incomplete\-\_\-write}}
+\index{on\-\_\-incomplete\-\_\-write@{on\-\_\-incomplete\-\_\-write}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{on\-\_\-incomplete\-\_\-write}]{\setlength{\rightskip}{0pt plus 5cm}retval on\-\_\-incomplete\-\_\-write (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_adc2637c765ac6c7963be969aaccf8a14}
+\hypertarget{class_d_jabberd_1_1_connection_a0458c9ae427b63840d6220f178631bc8}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!on\-\_\-stanza\-\_\-received@{on\-\_\-stanza\-\_\-received}}
+\index{on\-\_\-stanza\-\_\-received@{on\-\_\-stanza\-\_\-received}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{on\-\_\-stanza\-\_\-received}]{\setlength{\rightskip}{0pt plus 5cm}retval on\-\_\-stanza\-\_\-received (
+\begin{DoxyParamCaption}
+\item[{scalar}]{node}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a0458c9ae427b63840d6220f178631bc8}
+
+
+\-Reimplemented in \hyperlink{class_d_jabberd_1_1_connection_1_1_client_out_a0458c9ae427b63840d6220f178631bc8}{\-Connection\-::\-Client\-Out}, and \hyperlink{class_d_jabberd_1_1_connection_1_1_client_in_a0458c9ae427b63840d6220f178631bc8}{\-Connection\-::\-Client\-In}.
+
+\hypertarget{class_d_jabberd_1_1_connection_a9a53b1e335fa929e6c505c1364e06723}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!on\-\_\-stream\-\_\-start@{on\-\_\-stream\-\_\-start}}
+\index{on\-\_\-stream\-\_\-start@{on\-\_\-stream\-\_\-start}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{on\-\_\-stream\-\_\-start}]{\setlength{\rightskip}{0pt plus 5cm}retval on\-\_\-stream\-\_\-start (
+\begin{DoxyParamCaption}
+\item[{scalar}]{ss}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a9a53b1e335fa929e6c505c1364e06723}
+
+
+\-Reimplemented in \hyperlink{class_d_jabberd_1_1_connection_1_1_client_in_a9a53b1e335fa929e6c505c1364e06723}{\-Connection\-::\-Client\-In}, and \hyperlink{class_d_jabberd_1_1_connection_1_1_client_out_a9a53b1e335fa929e6c505c1364e06723}{\-Connection\-::\-Client\-Out}.
+
+\hypertarget{class_d_jabberd_1_1_connection_a9d756fb0ea7ba97c48724ec4d34e23b6}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!process\-\_\-incoming\-\_\-stanza\-\_\-from\-\_\-s2s\-\_\-out@{process\-\_\-incoming\-\_\-stanza\-\_\-from\-\_\-s2s\-\_\-out}}
+\index{process\-\_\-incoming\-\_\-stanza\-\_\-from\-\_\-s2s\-\_\-out@{process\-\_\-incoming\-\_\-stanza\-\_\-from\-\_\-s2s\-\_\-out}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{process\-\_\-incoming\-\_\-stanza\-\_\-from\-\_\-s2s\-\_\-out}]{\setlength{\rightskip}{0pt plus 5cm}retval process\-\_\-incoming\-\_\-stanza\-\_\-from\-\_\-s2s\-\_\-out (
+\begin{DoxyParamCaption}
+\item[{scalar}]{node}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a9d756fb0ea7ba97c48724ec4d34e23b6}
+\hypertarget{class_d_jabberd_1_1_connection_a0658ff79c96ce74eb311963cf21be7f9}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!restart\-\_\-stream@{restart\-\_\-stream}}
+\index{restart\-\_\-stream@{restart\-\_\-stream}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{restart\-\_\-stream}]{\setlength{\rightskip}{0pt plus 5cm}retval restart\-\_\-stream (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a0658ff79c96ce74eb311963cf21be7f9}
+
+
+\-Reimplemented in \hyperlink{class_d_jabberd_1_1_connection_1_1_client_out_a0658ff79c96ce74eb311963cf21be7f9}{\-Connection\-::\-Client\-Out}.
+
+\hypertarget{class_d_jabberd_1_1_connection_a052f1e95d068010f537b15f7f43d57aa}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!return\-\_\-parser@{return\-\_\-parser}}
+\index{return\-\_\-parser@{return\-\_\-parser}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{return\-\_\-parser}]{\setlength{\rightskip}{0pt plus 5cm}retval return\-\_\-parser (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a052f1e95d068010f537b15f7f43d57aa}
+\hypertarget{class_d_jabberd_1_1_connection_af2f53e4524c091ae2072fbd1b5a7c0e3}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!run\-\_\-hook\-\_\-chain@{run\-\_\-hook\-\_\-chain}}
+\index{run\-\_\-hook\-\_\-chain@{run\-\_\-hook\-\_\-chain}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{run\-\_\-hook\-\_\-chain}]{\setlength{\rightskip}{0pt plus 5cm}retval run\-\_\-hook\-\_\-chain (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_af2f53e4524c091ae2072fbd1b5a7c0e3}
+\hypertarget{class_d_jabberd_1_1_connection_a252816c54bfe80800fa4efcaef2e7ebd}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!sasl@{sasl}}
+\index{sasl@{sasl}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{sasl}]{\setlength{\rightskip}{0pt plus 5cm}retval sasl (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a252816c54bfe80800fa4efcaef2e7ebd}
+\hypertarget{class_d_jabberd_1_1_connection_a9b3ede81a6f6e218144fd96e9af46fc8}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!send\-\_\-stanza@{send\-\_\-stanza}}
+\index{send\-\_\-stanza@{send\-\_\-stanza}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{send\-\_\-stanza}]{\setlength{\rightskip}{0pt plus 5cm}retval send\-\_\-stanza (
+\begin{DoxyParamCaption}
+\item[{scalar}]{stanza}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a9b3ede81a6f6e218144fd96e9af46fc8}
+\hypertarget{class_d_jabberd_1_1_connection_a924e52e7e94a2e321fd4bf4063319707}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!server@{server}}
+\index{server@{server}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{server}]{\setlength{\rightskip}{0pt plus 5cm}retval server (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a924e52e7e94a2e321fd4bf4063319707}
+\hypertarget{class_d_jabberd_1_1_connection_a9a0450f4a2556fc040fbc8c5e6d46931}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!set\-\_\-bound\-\_\-jid@{set\-\_\-bound\-\_\-jid}}
+\index{set\-\_\-bound\-\_\-jid@{set\-\_\-bound\-\_\-jid}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{set\-\_\-bound\-\_\-jid}]{\setlength{\rightskip}{0pt plus 5cm}retval set\-\_\-bound\-\_\-jid (
+\begin{DoxyParamCaption}
+\item[{scalar}]{jid}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a9a0450f4a2556fc040fbc8c5e6d46931}
+\hypertarget{class_d_jabberd_1_1_connection_a7566c2d6473bf8744372e942036c348c}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!set\-\_\-carbon@{set\-\_\-carbon}}
+\index{set\-\_\-carbon@{set\-\_\-carbon}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{set\-\_\-carbon}]{\setlength{\rightskip}{0pt plus 5cm}retval set\-\_\-carbon (
+\begin{DoxyParamCaption}
+\item[{scalar}]{carb}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a7566c2d6473bf8744372e942036c348c}
+\hypertarget{class_d_jabberd_1_1_connection_a9e1c246b2a680005868cc7b69ef0abe5}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!set\-\_\-rcvd\-\_\-features@{set\-\_\-rcvd\-\_\-features}}
+\index{set\-\_\-rcvd\-\_\-features@{set\-\_\-rcvd\-\_\-features}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{set\-\_\-rcvd\-\_\-features}]{\setlength{\rightskip}{0pt plus 5cm}retval set\-\_\-rcvd\-\_\-features (
+\begin{DoxyParamCaption}
+\item[{scalar}]{feat\-\_\-stanza}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a9e1c246b2a680005868cc7b69ef0abe5}
+\hypertarget{class_d_jabberd_1_1_connection_a2761bd89d4e3fa7198bcbcf5037c45ce}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!set\-\_\-to\-\_\-host@{set\-\_\-to\-\_\-host}}
+\index{set\-\_\-to\-\_\-host@{set\-\_\-to\-\_\-host}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{set\-\_\-to\-\_\-host}]{\setlength{\rightskip}{0pt plus 5cm}retval set\-\_\-to\-\_\-host (
+\begin{DoxyParamCaption}
+\item[{scalar}]{host}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a2761bd89d4e3fa7198bcbcf5037c45ce}
+\hypertarget{class_d_jabberd_1_1_connection_a76ada7980b6968dbc4b2ff26e41db639}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!set\-\_\-version@{set\-\_\-version}}
+\index{set\-\_\-version@{set\-\_\-version}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{set\-\_\-version}]{\setlength{\rightskip}{0pt plus 5cm}retval set\-\_\-version (
+\begin{DoxyParamCaption}
+\item[{scalar}]{verob}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a76ada7980b6968dbc4b2ff26e41db639}
+\hypertarget{class_d_jabberd_1_1_connection_abb914c19b39f6b70f59e7af11fab5db1}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!set\-\_\-vhost@{set\-\_\-vhost}}
+\index{set\-\_\-vhost@{set\-\_\-vhost}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{set\-\_\-vhost}]{\setlength{\rightskip}{0pt plus 5cm}retval set\-\_\-vhost (
+\begin{DoxyParamCaption}
+\item[{scalar}]{vhost}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_abb914c19b39f6b70f59e7af11fab5db1}
+\hypertarget{class_d_jabberd_1_1_connection_aa844e67e8b5949a89c71774aa5104a0f}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!ssl@{ssl}}
+\index{ssl@{ssl}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{ssl}]{\setlength{\rightskip}{0pt plus 5cm}retval ssl (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_aa844e67e8b5949a89c71774aa5104a0f}
+\hypertarget{class_d_jabberd_1_1_connection_a9da43b0a6f7b7f011796c311b4b60c7c}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!start\-\_\-init\-\_\-stream@{start\-\_\-init\-\_\-stream}}
+\index{start\-\_\-init\-\_\-stream@{start\-\_\-init\-\_\-stream}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{start\-\_\-init\-\_\-stream}]{\setlength{\rightskip}{0pt plus 5cm}retval start\-\_\-init\-\_\-stream (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a9da43b0a6f7b7f011796c311b4b60c7c}
+\hypertarget{class_d_jabberd_1_1_connection_a805d3da1fc71f45c7667c607f1ed7051}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!start\-\_\-stream\-\_\-back@{start\-\_\-stream\-\_\-back}}
+\index{start\-\_\-stream\-\_\-back@{start\-\_\-stream\-\_\-back}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{start\-\_\-stream\-\_\-back}]{\setlength{\rightskip}{0pt plus 5cm}retval start\-\_\-stream\-\_\-back (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a805d3da1fc71f45c7667c607f1ed7051}
+\hypertarget{class_d_jabberd_1_1_connection_a77651612edbf51f20312a3c1f7769bfe}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!stream\-\_\-error@{stream\-\_\-error}}
+\index{stream\-\_\-error@{stream\-\_\-error}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{stream\-\_\-error}]{\setlength{\rightskip}{0pt plus 5cm}retval stream\-\_\-error (
+\begin{DoxyParamCaption}
+\item[{scalar}]{err, }
+\item[{scalar}]{info}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a77651612edbf51f20312a3c1f7769bfe}
+\hypertarget{class_d_jabberd_1_1_connection_aebeddca43d2d7fa92549488fa2f99a87}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!stream\-\_\-id@{stream\-\_\-id}}
+\index{stream\-\_\-id@{stream\-\_\-id}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{stream\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}retval stream\-\_\-id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_aebeddca43d2d7fa92549488fa2f99a87}
+\hypertarget{class_d_jabberd_1_1_connection_a515e0bf1c50c78032fc61fb9c05239a7}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!to\-\_\-host@{to\-\_\-host}}
+\index{to\-\_\-host@{to\-\_\-host}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{to\-\_\-host}]{\setlength{\rightskip}{0pt plus 5cm}retval to\-\_\-host (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a515e0bf1c50c78032fc61fb9c05239a7}
+\hypertarget{class_d_jabberd_1_1_connection_a20f80b8db409f5e9611a004888a07487}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!version@{version}}
+\index{version@{version}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{version}]{\setlength{\rightskip}{0pt plus 5cm}retval version (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a20f80b8db409f5e9611a004888a07487}
+\hypertarget{class_d_jabberd_1_1_connection_ace31eac7e5fa7b0985da3724df78220e}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!vhost@{vhost}}
+\index{vhost@{vhost}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{vhost}]{\setlength{\rightskip}{0pt plus 5cm}retval vhost (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_ace31eac7e5fa7b0985da3724df78220e}
+\hypertarget{class_d_jabberd_1_1_connection_a4c9ebbfb4790deafa6e4882af8bd8ddc}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!write@{write}}
+\index{write@{write}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{write}]{\setlength{\rightskip}{0pt plus 5cm}retval write (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a4c9ebbfb4790deafa6e4882af8bd8ddc}
+\hypertarget{class_d_jabberd_1_1_connection_a15673b5e1abcde591e2f11c1dda3bb83}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!write\-\_\-stanza@{write\-\_\-stanza}}
+\index{write\-\_\-stanza@{write\-\_\-stanza}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{write\-\_\-stanza}]{\setlength{\rightskip}{0pt plus 5cm}retval write\-\_\-stanza (
+\begin{DoxyParamCaption}
+\item[{scalar}]{stanza}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_a15673b5e1abcde591e2f11c1dda3bb83}
+\hypertarget{class_d_jabberd_1_1_connection_ac8daeea408788a2c38c76a972ffec5ac}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!write\-\_\-when\-\_\-readable@{write\-\_\-when\-\_\-readable}}
+\index{write\-\_\-when\-\_\-readable@{write\-\_\-when\-\_\-readable}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{write\-\_\-when\-\_\-readable}]{\setlength{\rightskip}{0pt plus 5cm}retval write\-\_\-when\-\_\-readable (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_ac8daeea408788a2c38c76a972ffec5ac}
+\hypertarget{class_d_jabberd_1_1_connection_ab1e34b9467c8e056ca21888b35fbdd51}{
+\index{\-D\-Jabberd\-::\-Connection@{\-D\-Jabberd\-::\-Connection}!xmllog@{xmllog}}
+\index{xmllog@{xmllog}!DJabberd::Connection@{\-D\-Jabberd\-::\-Connection}}
+\subsubsection[{xmllog}]{\setlength{\rightskip}{0pt plus 5cm}retval xmllog (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_d_jabberd_1_1_connection_ab1e34b9467c8e056ca21888b35fbdd51}
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+lib/\-D\-Jabberd/\hyperlink{_connection_8pm}{\-Connection.\-pm}\end{DoxyCompactItemize}
