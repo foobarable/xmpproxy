@@ -9,6 +9,10 @@ use Data::Dumper;
 our $logger = DJabberd::Log->get_logger();
 our $config = DJabberd::Config::Config->get_config;
 
+## @method
+# @brief
+# @param 
+# @return 
 sub new
 {
 	my $class = shift;
@@ -18,6 +22,10 @@ sub new
 	return $self;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub _init
 {
 	my $self  = shift;
@@ -35,6 +43,10 @@ sub _init
 	$self->create_from_config();
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub add_user
 {
 	my $self     = shift;
@@ -53,12 +65,20 @@ sub add_user
 	return 1;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub delete_user
 {
 	my $self = shift;
 
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub print_db
 {
 	my $self = shift;
@@ -66,6 +86,10 @@ sub print_db
 
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub create_from_config
 {
 	my $self = shift;

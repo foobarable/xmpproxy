@@ -9,6 +9,12 @@ use DJabberd::RosterItem;
 use Data::Dumper;
 our $logger = DJabberd::Log->get_logger();
 
+## @method new
+# @brief Constructor. Every argument is passed to the _init method.
+# @param $name
+# @param 
+#
+# @return 
 sub new
 {
 	my $class = shift;
@@ -18,14 +24,19 @@ sub new
 	return $self;
 }
 
+## @method
+# @brief
+# @return 
 sub _init
 {
 	my $self   = shift;
 	my $name   = shift;
 	my $passwd = shift;
 	my $vhost  = shift;
-	$self->{queues}    = {};
-	$self->{jid2queue} = {};
+	$self->{queues}       = {};
+	$self->{jid2queue}    = {};
+	$self->{defaultqueue} = undef;
+	$self->{pendingiq}    = {};
 	if ( defined($name) && defined($passwd) && defined($vhost) )
 	{
 		$self->{name}   = $name;
@@ -40,12 +51,17 @@ sub _init
 
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub add_account
 {
 	my $self     = shift;
 	my $jid      = shift;
 	my $password = shift;
 	my $resource = shift;
+
 	if ( not defined( $self->{queues}->{$jid} ) )
 	{
 		$self->{queues}->{$jid} = new DJabberd::Queue::ClientOut(
@@ -61,15 +77,40 @@ sub add_account
 		return 0;
 	}
 
+	if ( scalar( keys( %{ $self->{queues} } ) ) == 1 )
+	{
+
+		$self->{defaultqueue} = $self->{queues}->{ ( keys( %{ $self->{queues} } ) )[0] };
+	}
+
 	return 1;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub delete_account
 {
 	my $self = shift;
+	die "delete_account not implemented yet";
 
 }
 
+## @method
+# @brief
+# @param 
+# @return 
+sub queues
+{
+	my $self = shift;
+	return $self->{queues};
+}
+
+## @method
+# @brief
+# @param 
+# @return 
 sub fetch_rosters
 {
 	my $self = shift;
@@ -81,6 +122,10 @@ sub fetch_rosters
 
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub set_vhost
 {
 	my ( $self, $vh ) = @_;
@@ -89,6 +134,68 @@ sub set_vhost
 	$self->{vhost} = $vh;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
+sub find_conns_by_jid
+{
+	my $self       = shift;
+	my $jid_string = shift;
+	my @conns      = ();
+
+	foreach my $client ( keys( %{ $self->queues } ) )
+	{
+		foreach my $item ( $self->{queues}->{$client}->{roster}->items() )
+		{
+			my $rosterjid = $item->jid->as_string;
+			if ( $jid_string eq $rosterjid )
+			{
+				push( @conns, $self->{queues}->{$client}->{connection} );
+			}
+		}
+	}
+	if ( scalar(@conns) == 0 )
+	{
+		push( @conns, $self->{defaultqueue}->{connection} );
+	}
+
+	return @conns;
+}
+
+## @method
+# @brief
+# @param 
+# @return 
+sub find_queues_by_jid
+{
+	my $self       = shift;
+	my $jid_string = shift;
+	my @queues     = ();
+
+	foreach my $client ( keys( %{ $self->queues } ) )
+	{
+		foreach my $item ( $self->{queues}->{$client}->{roster}->items() )
+		{
+			my $rosterjid = $item->jid->as_string;
+			if ( $jid_string eq $rosterjid )
+			{
+				push( @queues, $self->{queues}->{$client} );
+			}
+		}
+	}
+	if ( scalar(@queues) == 0 )
+	{
+		push( @queues, $self->{defaultqueue} );
+	}
+
+	return @queues;
+}
+
+## @method
+# @brief
+# @param 
+# @return 
 sub get_roster
 {
 	my $self   = shift;

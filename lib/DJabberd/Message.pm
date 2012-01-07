@@ -2,6 +2,10 @@ package DJabberd::Message;
 use strict;
 use base qw(DJabberd::Stanza);
 
+## @method
+# @brief
+# @param 
+# @return 
 sub on_recv_from_client
 {
 	my ( $self, $conn ) = @_;
@@ -18,6 +22,10 @@ sub on_recv_from_client
 	$self->deliver;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub on_recv_from_server
 {
 	my ( $self, $conn ) = @_;
@@ -35,6 +43,10 @@ sub on_recv_from_server
 	$self->deliver;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub process
 {
 	my ( $self, $conn ) = @_;

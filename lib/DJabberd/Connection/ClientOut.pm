@@ -25,6 +25,10 @@ my %element2class = (
 	"{http://etherx.jabber.org/streams}features"  => 'DJabberd::Stanza::StreamFeatures'
 );
 
+## @method
+# @brief
+# @param 
+# @return 
 sub new
 {
 	my ( $class, %opts ) = @_;
@@ -61,6 +65,10 @@ sub new
 	return $self;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub restart_stream
 {
 	my $self = shift;
@@ -72,17 +80,29 @@ sub restart_stream
 	$self->write($xml);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub namespace
 {
 	return "jabber:client";
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub start_connecting
 {
 	my $self = shift;
 	$self->watch_write(1);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub on_connected
 {
 	my $self = shift;
@@ -93,6 +113,10 @@ sub on_connected
 	$self->watch_read(1);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub event_write
 {
 
@@ -109,6 +133,10 @@ sub event_write
 	}
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub on_stream_start
 {
 	my ( $self, $ss ) = @_;
@@ -126,6 +154,10 @@ sub on_stream_start
 
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub on_stanza_received
 {
 	my ( $self, $node ) = @_;
@@ -134,6 +166,13 @@ sub on_stanza_received
 	{
 		$self->log_incoming_data($node);
 	}
+	if ( $node->element eq "{http://etherx.jabber.org/streams}error" )
+	{
+
+		#TODO: handle this
+		return 1;
+	}
+
 	my $class = $element2class{ $node->element };
 	my $stanza = $class->downbless( $node, $self );
 
@@ -191,6 +230,10 @@ sub on_stanza_received
 	return $self->stream_error("unsupported-stanza-type") unless $class;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub event_err
 {
 	my $self = shift;
@@ -198,12 +241,20 @@ sub event_err
 	return $self->SUPER::event_err;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub event_hup
 {
 	my $self = shift;
 	return $self->event_err;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub close
 {
 	my $self = shift;

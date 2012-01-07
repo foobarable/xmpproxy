@@ -39,14 +39,16 @@ my $commandroot = new xmpproxy::Command(
 	"coderef"     => undef,
 	"subcommands" => {
 		"user" => new xmpproxy::Command(
-			"name"        => "user",
-			"helptext"    => "Manages users for this server. Only administrative users are able to use this command. Available subcommands are \"add\", \"del\", \"list\" and \"set\"",
+			"name" => "user",
+			"helptext" =>
+"Manages users for this server. Only administrative users are able to use this command. Available subcommands are \"add\", \"del\", \"list\" and \"set\"",
 			"coderef"     => \&process_user_command,
 			"subcommands" => {
 				"set" => new xmpproxy::Command(
-					"name"        => "set",
-					"coderef"     => \&process_user_set_command,
-					"helptext"    => "Set attributes of a user. Possible attributes are jid and passwd \n Syntax: \"account <id> set attribute=value",
+					"name"    => "set",
+					"coderef" => \&process_user_set_command,
+					"helptext" =>
+"Set attributes of a user. Possible attributes are jid and passwd \n Syntax: \"account <id> set attribute=value",
 					"subcommands" => undef
 				),
 				"add" => new xmpproxy::Command(
@@ -114,6 +116,10 @@ my $commandroot = new xmpproxy::Command(
 
 $commandroot->{subcommands}->{help}->{subcommands} = $commandroot->{subcommands};
 
+## @method
+# @brief
+# @param 
+# @return 
 sub process_account_command
 {
 	my $self   = shift;
@@ -122,6 +128,10 @@ sub process_account_command
 	return $result;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub process_account_add_command
 {
 	my $self   = shift;
@@ -131,6 +141,10 @@ sub process_account_add_command
 
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub process_account_del_command
 {
 	my $self   = shift;
@@ -140,6 +154,10 @@ sub process_account_del_command
 
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub process_account_list_command
 {
 	my $self   = shift;
@@ -149,6 +167,10 @@ sub process_account_list_command
 
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub process_account_set_command
 {
 	my $self   = shift;
@@ -158,6 +180,10 @@ sub process_account_set_command
 
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub process_user_command
 {
 	my $self   = shift;
@@ -166,6 +192,10 @@ sub process_user_command
 	return $result;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub process_user_add_command
 {
 	my $self   = shift;
@@ -174,6 +204,10 @@ sub process_user_add_command
 	return $result;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub process_user_del_command
 {
 	my $self   = shift;
@@ -183,6 +217,10 @@ sub process_user_del_command
 
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub process_user_list_command
 {
 	my $self   = shift;
@@ -192,16 +230,27 @@ sub process_user_list_command
 
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub process_help_command
 {
 	my $self   = shift;
 	my @args   = @_;
 	my $result = "";
-	$result = "Available commands: " . join( " ", keys( $self->subcommands ) .". Use help <command> to receive further information on how to use a specific command");
-	
+	$result = "Available commands: "
+	  . join( " ",
+		keys( $self->subcommands )
+		  . ". Use help <command> to receive further information on how to use a specific command" );
+
 	return $result;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub new
 {
 	my $class = shift;
@@ -212,6 +261,10 @@ sub new
 	return $self;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub register
 {
 	my $self   = shift;
@@ -229,6 +282,10 @@ sub register
 
 ### retrieve the bots name
 ### falling back to a default
+## @method
+# @brief
+# @param 
+# @return 
 sub name
 {
 	my $self = shift;
@@ -236,6 +293,10 @@ sub name
 }
 
 ### process any incoming messages
+## @method
+# @brief
+# @param 
+# @return 
 sub process_text
 {
 	my ( $self, $text, $from, $ctx ) = @_;
@@ -245,9 +306,9 @@ sub process_text
 	my @commandparts = split( " ", $text );
 	my $result       = "";
 	my $command      = $commandroot->find_command(@commandparts);
-	if ( defined($command->coderef) )
+	if ( defined( $command->coderef ) )
 	{
-		$result = &{$command->coderef}($command,@commandparts);
+		$result = &{ $command->coderef }( $command, @commandparts );
 	}
 	else
 	{

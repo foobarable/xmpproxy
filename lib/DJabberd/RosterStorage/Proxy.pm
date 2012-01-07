@@ -6,7 +6,12 @@ use base 'DJabberd::RosterStorage';
 use DJabberd::Log;
 use DJabberd::RosterItem;
 our $logger = DJabberd::Log->get_logger();
+use Data::Dumper;
 
+## @method
+# @brief
+# @param 
+# @return 
 sub finalize
 {
 
@@ -21,8 +26,16 @@ sub finalize
 	#    return $self;
 }
 
-sub blocking { 0 }
+## @method
+# @brief
+# @param 
+# @return 
+sub blocking { 1 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub get_roster
 {
 
@@ -34,33 +47,44 @@ sub get_roster
 	$cb->set_roster( $xmpproxy::userdb->{users}->{$user}->get_roster() );
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub set_roster_item
 {
 
-	#    my ($self, $cb, $jid, $ritem) = @_;
-	#    my $jidstr = $jid->as_bare_string;
-	#    my $rjidstr = $ritem->jid->as_bare_string;
-	#
-	#    $self->{rosters}->{$jidstr}->{$rjidstr} = {
-	#        jid          => $rjidstr,
-	#        name         => $ritem->name,
-	#        groups       => [$ritem->groups],
-	#        subscription => $ritem->subscription->as_bitmask,
-	#    };
-	#
-	#    $logger->debug("Set roster item");
-	#    $cb->done($ritem);
+	my ( $self, $cb, $jid, $ritem ) = @_;
+	my $jidstr  = $jid->as_bare_string;
+	my $rjidstr = $ritem->jid->as_bare_string;
+	my $user    = $jid->node();
+
+	# $xmpproxy::userdb->{users}->{$node}->{$rjidstr} = {
+	#    jid          => $rjidstr,
+	#    name         => $ritem->name,
+	#    groups       => [$ritem->groups],
+	#    subscription => $ritem->subscription->as_bitmask,
+	#};
+
+	$logger->error( "Set roster item: " . $jidstr . " " . $user );
+	$cb->done($ritem);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub addupdate_roster_item
 {
 	my ( $self, $cb, $jid, $ritem ) = @_;
 
-	#    my $jidstr = $jid->as_bare_string;
-	#    my $rjidstr = $ritem->jid->as_bare_string;
-	#
-	#    my $olditem = $self->{rosters}->{$jidstr}->{$rjidstr};
-	#
+	my $jidstr  = $jid->as_bare_string;
+	my $rjidstr = $ritem->jid->as_bare_string;
+	my $user    = $jid->node();
+	$logger->error( "Addupdate roster item: " . $jidstr . " " . $user );
+
+	my $olditem = $self->{rosters}->{$jidstr}->{$rjidstr};
+
 	#    my $newitem = $self->{rosters}->{$jidstr}->{$rjidstr} = {
 	#        jid          => $rjidstr,
 	#        name         => $ritem->name,
@@ -78,6 +102,10 @@ sub addupdate_roster_item
 	$cb->done($ritem);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub delete_roster_item
 {
 	my ( $self, $cb, $jid, $ritem ) = @_;
@@ -92,29 +120,50 @@ sub delete_roster_item
 	$cb->done;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub load_roster_item
 {
 	my ( $self, $jid, $contact_jid, $cb ) = @_;
 
-	#
-##    my $jidstr = $jid->as_bare_string;
-	#    my $cjidstr = $contact_jid->as_bare_string;
-	#
-	#    my $options = $self->{rosters}->{$jidstr}->{$cjidstr};
-	#
-	#    unless (defined $options) {
-	#        $cb->set(undef);
-	#        return;
-	#    }
-	#
-	#    my $subscription = DJabberd::Subscription->from_bitmask($options->{subscription});
-	#
-	#    my $item = DJabberd::RosterItem->new(%$options, subscription => $subscription);
-	#
-	#    $cb->set($item);
+	my $jidstr  = $jid->as_bare_string;
+	my $cjidstr = $contact_jid->as_bare_string;
+
+	my $user  = $xmpproxy::userdb->{users}->{ $jid->node() };
+	my $queue = $user->{queues}->{$jidstr};
+
+	#	$logger->error(Dumper($user->{jid2queue}));
+	$logger->warn( "Node: ", $jidstr, "  Contact jid: ", $contact_jid, "  User: $user", "  Queue: $queue" );
+
+	my $options;
+	foreach my $item ( @{ $queue->roster()->items() } )
+	{
+		if ( $item->jid_as_bare_string eq $cjidstr )
+		{
+			$options = $item;
+		}
+	}
+
+	unless ( defined $options )
+	{
+		$cb->set(undef);
+		return;
+	}
+
+	my $subscription = DJabberd::Subscription->from_bitmask( $options->{subscription} );
+
+	my $item = DJabberd::RosterItem->new( %$options, subscription => $subscription );
+
+	$cb->set($item);
 	return;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub wipe_roster
 {
 	my ( $self, $cb, $jid ) = @_;

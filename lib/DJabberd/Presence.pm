@@ -7,6 +7,10 @@ use fields (
 	,    # bool: if set, don't load roster item for this probe.  it's a trusted probe.  (internally generated)
 );
 
+## @method
+# @brief
+# @param 
+# @return 
 sub clone
 {
 	my $self  = shift;
@@ -28,6 +32,10 @@ sub clone
 # used by DJabberd::PresenceChecker::Local.
 my %last_bcast;    # barejidstring -> { full_jid_string -> $cloned_pres_stanza }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub forget_last_presence
 {
 	my ( $class, $jid ) = @_;
@@ -38,6 +46,10 @@ sub forget_last_presence
 	delete $last_bcast{$barestr} unless %$map;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub set_local_presence
 {
 	my ( $class, $jid, $prepkt ) = @_;
@@ -46,6 +58,10 @@ sub set_local_presence
 }
 
 # is this directed presence?  must be to a JID, and must be available/unavailable, not probe/subscribe/etc.
+## @method
+# @brief
+# @param 
+# @return 
 sub is_directed
 {
 	my $self = shift;
@@ -55,6 +71,10 @@ sub is_directed
 	return 1;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub on_recv_from_server_proxycon
 {
 	my ( $self, $conn ) = @_;
@@ -72,6 +92,10 @@ sub on_recv_from_server_proxycon
 	$self->deliver;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub send_initial_presence
 {
 	my $self    = shift;
@@ -82,6 +106,10 @@ sub send_initial_presence
 	$conn->write($xml);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub on_recv_from_server
 {
 	my ( $self, $conn ) = @_;
@@ -89,6 +117,10 @@ sub on_recv_from_server
 	$self->process_inbound( $conn->vhost );
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub on_recv_from_client
 {
 	my ( $self, $conn ) = @_;
@@ -96,6 +128,10 @@ sub on_recv_from_client
 	$self->process_outbound($conn);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub local_presence_info
 {
 	my ( $class, $jid ) = @_;
@@ -104,6 +140,10 @@ sub local_presence_info
 }
 
 # constructor
+## @method
+# @brief
+# @param 
+# @return 
 sub available
 {
 	my ( $class, %opts ) = @_;
@@ -114,7 +154,10 @@ sub available
 	return $class->downbless($xml);
 }
 
-# constructor
+## @method
+# @brief
+# @param 
+# @return 
 sub probe
 {
 	my ( $class, %opts ) = @_;
@@ -134,7 +177,10 @@ sub probe
 	return $class->downbless($xml);
 }
 
-# constructor
+## @method
+# @brief
+# @param 
+# @return 
 sub make_subscribed
 {
 	my ( $class, %opts ) = @_;
@@ -154,7 +200,10 @@ sub make_subscribed
 	return $class->downbless($xml);
 }
 
-# constructor
+## @method
+# @brief
+# @param 
+# @return 
 sub make_subscribe
 {
 	my ( $class, %opts ) = @_;
@@ -174,7 +223,10 @@ sub make_subscribe
 	return $class->downbless($xml);
 }
 
-# constructor
+## @method
+# @brief
+# @param 
+# @return 
 sub available_stanza
 {
 	my ($class) = @_;
@@ -182,7 +234,10 @@ sub available_stanza
 	return $class->downbless($xml);
 }
 
-# constructor
+## @method
+# @brief
+# @param 
+# @return 
 sub unavailable_stanza
 {
 	my ($class) = @_;
@@ -190,6 +245,10 @@ sub unavailable_stanza
 	return $class->downbless($xml);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub is_unavailable
 {
 	my $self = shift;
@@ -197,12 +256,20 @@ sub is_unavailable
 	return $self->type eq 'unavailable';
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub type
 {
 	my $self = shift;
 	return $self->attr("{}type");
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub fail
 {
 	my ( $self, $vhost, $reason ) = @_;
@@ -215,6 +282,10 @@ sub fail
 # like delivery, but handles inbound processing if the target
 # is somebody on our domain.  TODO: IQs are going to need
 # this same out-vs-in processing.  it should be generic.
+## @method
+# @brief
+# @param 
+# @return 
 sub procdeliver
 {
 	my ( $self, $vhost ) = @_;
@@ -245,6 +316,10 @@ sub procdeliver
 	}
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub process
 {
 	confess "No generic 'process' method for $_[0]";
@@ -255,6 +330,10 @@ our %outbound_need_ritem = (
 	unsubscribed => 1,
 );
 
+## @method
+# @brief
+# @param 
+# @return 
 sub process_outbound
 {
 	my ( $self, $conn ) = @_;
@@ -289,6 +368,10 @@ sub process_outbound
 
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub process_inbound
 {
 	my ( $self, $vhost ) = @_;
@@ -331,6 +414,10 @@ sub process_inbound
 	$self->_roster_load_item( $vhost, $to_jid, $from_jid, $call_method );
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub _roster_load_item
 {
 	my ( $self, $vhost, $my_jid, $contact_jid, $call_method ) = @_;
@@ -352,18 +439,30 @@ sub _roster_load_item
 	return 0;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub _process_inbound_available
 {
 	my ( $self, $vhost ) = @_;
 	$self->deliver($vhost);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub _process_inbound_unavailable
 {
 	my ( $self, $vhost ) = @_;
 	$self->deliver($vhost);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub _process_inbound_subscribe
 {
 	my ( $self, $vhost, $ritem, $from_jid ) = @_;
@@ -417,6 +516,10 @@ sub _process_inbound_subscribe
 	);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub _process_inbound_subscribed
 {
 	my ( $self, $vhost, $ritem ) = @_;
@@ -451,6 +554,10 @@ sub _process_inbound_subscribed
 
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub _process_inbound_probe
 {
 	my ( $self, $vhost, $ritem, $from_jid ) = @_;
@@ -476,6 +583,10 @@ sub _process_inbound_probe
 	);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub _process_inbound_unsubscribe
 {
 	my ( $self, $vhost, $ritem ) = @_;
@@ -500,6 +611,10 @@ sub _process_inbound_unsubscribe
 	);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub _process_inbound_unsubscribed
 {
 	my ( $self, $vhost, $ritem ) = @_;
@@ -512,6 +627,10 @@ sub _process_inbound_unsubscribed
 	# keep it in the roster as 'none', don't remove.  client does that with type='remove'
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub broadcast_from
 {
 	my ( $self, $conn ) = @_;
@@ -549,6 +668,10 @@ sub broadcast_from
 	$vhost->get_roster( $from_jid, on_success => $broadcast );
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub _process_outbound_available
 {
 	my ( $self, $conn, $skip_alter ) = @_;
@@ -589,6 +712,10 @@ sub _process_outbound_available
 	$self->broadcast_from($conn);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub _process_outbound_unavailable
 {
 	my ( $self, $conn, $skip_alter ) = @_;
@@ -641,6 +768,10 @@ sub _process_outbound_unavailable
 	$self->broadcast_from($conn);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub _process_outbound_unsubscribe
 {
 	my ( $self, $conn, $ritem ) = @_;
@@ -675,6 +806,10 @@ sub _process_outbound_unsubscribe
 
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub _process_outbound_unsubscribed
 {
 	my ( $self, $conn, $ritem ) = @_;
@@ -723,6 +858,10 @@ sub _process_outbound_unsubscribed
 	);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub _process_outbound_subscribe
 {
 	my ( $self, $conn ) = @_;
@@ -790,6 +929,10 @@ sub _process_outbound_subscribe
 	);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub _process_outbound_subscribed
 {
 	my ( $self, $conn ) = @_;
@@ -825,6 +968,10 @@ sub _process_outbound_subscribed
 
 # second stage of outbound 'subscribed' processing, once we load the item and
 # decide to skip processing or not.  see above.
+## @method
+# @brief
+# @param 
+# @return 
 sub _process_outbound_subscribed_with_ritem
 {
 	my ( $self, $conn, $ritem ) = @_;

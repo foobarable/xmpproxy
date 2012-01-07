@@ -28,6 +28,7 @@ sub find_command
 {
 	my $self         = shift;
 	my @commandparts = @_;
+
 	#print( ref($self) . " " . join( " ", @commandparts ) . "\n" );
 	my $nextcommand = undef;
 	if ( scalar(@commandparts) > 0 and defined( $self->subcommands ) )
@@ -37,6 +38,7 @@ sub find_command
 
 	if ( ( not defined($nextcommand) ) or ( ref($nextcommand) ne "xmpproxy::Command" ) )
 	{
+
 		#print( "Returning coderef.." . "\n" );
 		return $self;
 	}

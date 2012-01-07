@@ -14,6 +14,10 @@ use fields (
 	,    # undef or arrayref of presence type='subscribe' packets to be redelivered when we become available
 );
 
+## @method
+# @brief
+# @param 
+# @return 
 sub note_pend_in_subscription
 {
 	my ( $self, $pres_packet ) = @_;
@@ -31,42 +35,70 @@ sub note_pend_in_subscription
 	}
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub directed_presence
 {
 	my $self = shift;
 	return keys %{ $self->{directed_presence} };
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub add_directed_presence
 {
 	my ( $self, $to_jid ) = @_;
 	( $self->{directed_presence} ||= {} )->{$to_jid} = 1;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub clear_directed_presence
 {
 	my $self = shift;
 	delete $self->{directed_presence};
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub requested_roster
 {
 	my $self = shift;
 	return $self->{requested_roster};
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub set_requested_roster
 {
 	my ( $self, $val ) = @_;
 	$self->{requested_roster} = $val;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub set_available
 {
 	my ( $self, $val ) = @_;
 	$self->{is_available} = $val;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub is_available
 {
 	my $self = shift;
@@ -75,6 +107,10 @@ sub is_available
 
 # called when a presence broadcast is received.  on first time,
 # returns tru.
+## @method
+# @brief
+# @param 
+# @return 
 sub is_initial_presence
 {
 	my $self = shift;
@@ -82,6 +118,10 @@ sub is_initial_presence
 	return $self->{got_initial_presence} = 1;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub on_initial_presence
 {
 	my $self = shift;
@@ -92,6 +132,10 @@ sub on_initial_presence
 	$self->vhost->hook_chain_fast( 'OnInitialPresence', [$self], {} );
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub send_resource_presences
 {
 	my $self = shift;
@@ -118,6 +162,10 @@ sub send_resource_presences
 	);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub send_presence_probes
 {
 	my $self = shift;
@@ -146,6 +194,10 @@ sub send_presence_probes
 	$self->vhost->get_roster( $self->bound_jid, on_success => $send_probes );
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub send_pending_sub_requests
 {
 	my $self = shift;
@@ -157,6 +209,10 @@ sub send_pending_sub_requests
 	$self->{pend_in_subscriptions} = undef;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub close
 {
 	my $self = shift;
@@ -197,11 +253,19 @@ sub close
 	$self->SUPER::close;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub namespace
 {
 	return "jabber:client";
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub on_stream_start
 {
 	my DJabberd::Connection $self = shift;
@@ -239,6 +303,10 @@ sub on_stream_start
 	$self->start_stream_back( $ss, %opts );
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub is_server { 0 }
 
 my %element2class = (
@@ -248,6 +316,10 @@ my %element2class = (
 	"{urn:ietf:params:xml:ns:xmpp-tls}starttls" => 'DJabberd::Stanza::StartTLS',
 );
 
+## @method
+# @brief
+# @param 
+# @return 
 sub on_stanza_received
 {
 	my ( $self, $node ) = @_;
@@ -285,6 +357,10 @@ sub on_stanza_received
 	);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub is_authenticated_jid
 {
 	my ( $self, $jid ) = @_;
@@ -297,6 +373,10 @@ sub is_authenticated_jid
 # This is not really a method, but gets invoked as a hookchain item
 # so if you subclass this class, this will still get called
 
+## @method
+# @brief
+# @param 
+# @return 
 sub filter_incoming_client_builtin
 {
 	my ( $vhost, $cb, $stanza, $self ) = @_;

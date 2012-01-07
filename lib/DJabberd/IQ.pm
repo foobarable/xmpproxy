@@ -4,10 +4,17 @@ use base qw(DJabberd::Stanza);
 use DJabberd::Util qw(exml);
 use DJabberd::Roster;
 use Digest::SHA1;
+use Data::Dumper;
 
 use DJabberd::Log;
 our $logger = DJabberd::Log->get_logger();
 
+
+
+## @method on_recv_from_client
+# @brief Method getting called when an IQ is received from a client connected to xmpproxy 
+# @param $conn The connection the IQ arrived on
+# @return nothing
 sub on_recv_from_client
 {
 	my ( $self, $conn ) = @_;
@@ -22,6 +29,10 @@ sub on_recv_from_client
 	$self->deliver;
 }
 
+## @method on_recv_from_server
+# @brief Method getting called when an IQ is received the  
+# @param $conn The connection the IQ arrived on 
+# @return nothing 
 sub on_recv_from_server
 {
 	my ( $self, $conn ) = @_;
@@ -35,9 +46,10 @@ sub on_recv_from_server
 		return;
 	}
 
-	$self->deliver;
+	#$self->deliver;
 }
 
+#Hashref that contains iq-signature to sub mapping
 my $iq_handler = {
 	'get-{jabber:iq:roster}query'                      => \&process_iq_getroster,
 	'set-{jabber:iq:roster}query'                      => \&process_iq_setroster,
@@ -59,12 +71,17 @@ my $iq_handler = {
 	'set-{djabberd:test}query'      => \&process_iq_set_djabberd_test,
 
 	#client side iq handlers
+	#'result-{jabber:iq:roster}query'                      => \&process_iq_setroster,
 	'result-{jabber:iq:roster}query'                      => \&process_iq_resultroster,
 	'result-{urn:ietf:params:xml:ns:xmpp-session}session' => \&process_iq_resultsession,
 	'result-{urn:ietf:params:xml:ns:xmpp-bind}bind'       => \&process_iq_resultbind,
 };
 
 # DO NOT OVERRIDE THIS
+## @method process
+# @brief Runs the hookchain that calls the specific handling function 
+# @param $conn The connection of the IQ that is processed 
+# @return nothing 
 sub process
 {
 	my DJabberd::IQ $self = shift;
@@ -102,6 +119,9 @@ sub process
 	);
 }
 
+## @method signature
+# @brief Aggregates the signature of the IQ. The signature consists of the type and the element of the IQ. 
+# @return The signature
 sub signature
 {
 	my $iq = shift;
@@ -111,12 +131,32 @@ sub signature
 	return $iq->type . "-" . ( $fc ? $fc->element : "(BOGUS)" );
 }
 
+## @method fowrward
+# @brief Forwards the IQ to a given connection. The from and to attributes should be set accordingly before calling this function
+# @param $newconn The connection the IQ shall be forwarded to
+# @return nothing
+sub forward
+{
+	my DJabberd::IQ $self = shift;
+	my $newconn           = shift;
+	my $xml               = $self->as_xml;
+	$newconn->log_outgoing_data($xml);
+	$newconn->write($xml);
+}
+
+## @method send_result
+# @brief Calls send reply with \"result\" as type 
+# @return nothing
 sub send_result
 {
 	my DJabberd::IQ $self = shift;
 	$self->send_reply("result");
 }
 
+## @method send_error 
+# @brief Replies with an error message
+# @param $raw The content of the error message. The caller must send well-formed XML (but we do the wrapping element)
+# @return nothing
 sub send_error
 {
 	my DJabberd::IQ $self = shift;
@@ -124,7 +164,10 @@ sub send_error
 	$self->send_reply( "error", $self->innards_as_xml . "\n" . $raw );
 }
 
-# caller must send well-formed XML (but we do the wrapping element)
+## @method send_result_raw
+# @brief Sends a raw xml result. The caller must send well-formed XML (but we do the wrapping element)
+# @param $raw The content of the message. 
+# @return nothing
 sub send_result_raw
 {
 	my DJabberd::IQ $self = shift;
@@ -132,6 +175,11 @@ sub send_result_raw
 	return $self->send_reply( "result", $raw );
 }
 
+## @method send_reply
+# @brief Sends a reply to an IQ 
+# @param $type The type of the IQ. Can be set, get error or cancel 
+# @param $raw The raw xml of the IQ. The caller must send well-formed XML (but we do the wrapping element).
+# @return nothing 
 sub send_reply
 {
 	my DJabberd::IQ $self = shift;
@@ -151,6 +199,10 @@ sub send_reply
 	$conn->write( \$xml );
 }
 
+## @method send_bind_resource
+# @brief Sends a bind request on a specific connection
+# @param $conn The connection the bind request is sent to.
+# @return nothing 
 sub send_bind_resource
 {
 	my DJabberd::IQ $self = shift;
@@ -167,6 +219,11 @@ sub send_bind_resource
 	}
 }
 
+## @method process_iq_resultbind
+# @brief Processes the result of the bind request and tries to start a session afterwards.
+# @param $conn The connection the bind result was received on
+# @param $self A reference to the IQ object  
+# @return nothing 
 sub process_iq_resultbind
 {
 	my $conn = shift;
@@ -176,9 +233,14 @@ sub process_iq_resultbind
 
 	#TODO: Actually parse xml package
 	$conn->{queue}->{jid} = $conn->{queue}->jid() . "/" . $conn->{queue}->resource();
+	$conn->set_bound_jid( new DJabberd::JID( $conn->{queue}->{jid} ) );
 	$self->send_iq_session($conn);
 }
 
+## @method send_iq_session
+# @brief Sends an IQ to request to start a session
+# @param $conn The connection the session should be started on
+# @return nothing 
 sub send_iq_session
 {
 	my DJabberd::IQ $self = shift;
@@ -195,6 +257,11 @@ sub send_iq_session
 	}
 }
 
+## @method process_iq_resultsession
+# @brief Processes the result of the session request and sends an initial presence afterwards.  
+# @param $conn The connection the session result was received on 
+# @param $self A reference to the IQ object
+# @return nothing
 sub process_iq_resultsession
 {
 	my $conn = shift;
@@ -205,6 +272,10 @@ sub process_iq_resultsession
 
 }
 
+## @method send_request_roster 
+# @brief Sends an IQ to request a roster on a specific connection
+# @param $queue A queue the roster request will be sent out
+# @return nothing
 sub send_request_roster
 {
 	my DJabberd::IQ $self = shift;
@@ -220,6 +291,11 @@ sub send_request_roster
 	}
 }
 
+## @method process_iq_resultroster
+# @brief Processes the received roster and stores it in the userdatabase for this account. Later on all the stored rosters are merged when a client requests a roster.
+# @param $conn The connection the result was received on
+# @param $self A reference to the IQ object
+# @return 
 sub process_iq_resultroster
 {
 	my $conn = shift;
@@ -248,6 +324,11 @@ sub process_iq_resultroster
 
 }
 
+## @method process_iq_setcarbon
+# @brief Sets the carbon flag for a connection if received 
+# @param $conn The connection the carbon flag is set
+# @param $iq Reference to the refering IQ, used to send a result
+# @return 
 sub process_iq_setcarbon
 {
 	my ( $conn, $iq ) = @_;
@@ -255,6 +336,13 @@ sub process_iq_setcarbon
 	$conn->set_carbon(1);
 }
 
+##########
+
+## @method process_iq_disco_info_query
+# @brief Processes disco info queries
+# @param $conn The connection the carbon flag is set
+# @param $iq Reference to the refering IQ, used to send a result
+# @return nothing
 sub process_iq_disco_info_query
 {
 	my ( $conn, $iq ) = @_;
@@ -285,6 +373,11 @@ sub process_iq_disco_info_query
 	$iq->send_reply( 'result', $xml );
 }
 
+## @method process_iq_disco_items_query
+# @brief Processes disco items queries
+# @param $conn The connection the iq arrived on
+# @param $iq Reference to the refering IQ, used to send a result
+# @return nothing
 sub process_iq_disco_items_query
 {
 	my ( $conn, $iq ) = @_;
@@ -301,6 +394,11 @@ sub process_iq_disco_items_query
 	$iq->send_reply( 'result', $xml );
 }
 
+## @method process_iq_get_roster
+# @brief Processes a "roster get" request and runs the "RosterGet" event that DJabberd::Rosterstorage plugins can handle
+# @param $conn The connection the iq arrived on
+# @param $iq Reference to the refering IQ, used to send a result
+# @return nothing
 sub process_iq_getroster
 {
 	my ( $conn, $iq ) = @_;
@@ -355,9 +453,16 @@ sub process_iq_getroster
 	return 1;
 }
 
+## @method process_iq_set_roster
+# @brief Processes a "roster set" request. This request is forwarded to the actual xmpp server and caches the changes until the request is confirmed by the actual xmpp server. Then the client is informed that the changes to the roster were committed.
+# @param $conn The connection the iq arrived on
+# @param $iq Reference to the refering IQ, used to send a result
+# @return nothing
 sub process_iq_setroster
 {
 	my ( $conn, $iq ) = @_;
+
+	#$conn->log->error($iq->as_xml());
 
 	my $item = $iq->query->first_element;
 	unless ( $item && $item->element eq "{jabber:iq:roster}item" )
@@ -400,7 +505,19 @@ sub process_iq_setroster
 			push @groups, $ele->first_child;
 		}
 	}
+	my $bj = $conn->bound_jid;
+	unless ($bj)
+	{
+		$iq->send_error( qq{<error type='auth'>}
+			  . qq{<not-authorized xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/>}
+			  . qq{<text xmlns='urn:ietf:params:xml:ns:xmpp-stanzas' xml:lang='en'>}
+			  . qq{You need to be authenticated before requesting a roster.}
+			  . qq{</text>}
+			  . qq{</error>} );
+		return;
+	}
 
+	
 	my $ritem = DJabberd::RosterItem->new(
 		jid    => $jid,
 		name   => $name,
@@ -408,51 +525,94 @@ sub process_iq_setroster
 		groups => \@groups,
 	);
 
-	# TODO if ($removing), send unsubscribe/unsubscribed presence
-	# stanzas.  See RFC3921 8.6
+	my $id = $iq->id();
 
-	# {=add-item-to-roster}
-	my $phase = $removing ? "RosterRemoveItem" : "RosterAddUpdateItem";
-	$conn->vhost->run_hook_chain(
-		phase   => $phase,
-		args    => [ $conn->bound_jid, $ritem ],
-		methods => {
-			done => sub {
-				my ( $self, $ritem_final ) = @_;
+	#searches in which connections roster the item is we want to edit/add
+	#if added, the default queue is being used
+	my @queues = $xmpproxy::userdb->{users}->{ $bj->node() }->find_queues_by_jid($jid);
 
-				# the RosterRemoveItem isn't required to return the final item
-				$ritem_final = $ritem if $removing;
+	my $is_outgoing = $conn->vhost->handles_jid($bj);
+	my $is_incoming = !$is_outgoing;
+	$conn->log->error("Bound JID: $bj | IS_OUTGOING: $is_outgoing");
+	$conn->log->error( scalar(@queues) );
 
-				$iq->send_result;
-				$conn->vhost->roster_push( $conn->bound_jid, $ritem_final );
+	foreach my $queue (@queues)
+	{
+		$queue->{receivediqs}->{$id} = 1;
+		if ( exists( $queue->{sentiqs}->{$id} ) )
+		{
 
-				# TODO: section 8.6: must send a
-				# bunch of presence
-				# unsubscribe/unsubscribed messages
-			},
-			error => sub {    # TODO What sort of error stat is being hit here?
-				$iq->send_error;
-			},
-		},
-		fallback => sub {
-			if ($removing)
-			{
-
-				# NOTE: we used to send an error here, but clients get
-				# out of sync and we need to let them think a delete
-				# happened even if it didn't.
-				$iq->send_result;
-			}
-			else
-			{    # TODO ACK, This one as well
-				$iq->send_error;
-			}
+			#	delete($queue->{sentiqs}->{$id});
 		}
-	);
+		if ( $is_outgoing && exists( $queue->{receivediqs}->{$id} ) )
+		{
+			$conn->log->error("Forwarding!");
+			$queue->{sentiqs}->{$id} = $iq->from->as_string;
+			$xmpproxy::userdb->{users}->{ $bj->node() }->{pendingiqs}->{$id} = $iq->from->as_string;
+			$iq->set_from( new DJabberd::JID( $xmpproxy::userdb->{users}->{ $bj->node() }->{defaultqueue}->jid ) );
+			$iq->forward( $queue->{connection} );
+			$queue->{receivediqs}->{$id} = 1;
+			return;
+		}
+	}
+	my $to = $iq->to_jid;
+	if ( $is_incoming && $to )
+	{
+		my $newto = DJabberd::JID->new( $xmpproxy::userdb->{proxy2local}->{ $to->as_bare_string } );
+		$conn->log->error( Dumper( $xmpproxy::userdb->{proxy2local} ) );
+		my @conns = $conn->vhost->find_conns_of_bare($newto);
+		$logger->error( "CONN: ", $conn, ref($conn) );
+
+		# TODO if ($removing), send unsubscribe/unsubscribed presence
+		# stanzas.  See RFC3921 8.6
+		# {=add-item-to-roster}
+		my $phase = $removing ? "RosterRemoveItem" : "RosterAddUpdateItem";
+		$conn->vhost->run_hook_chain(
+			phase   => $phase,
+			args    => [ $conn->bound_jid, $ritem ],
+			methods => {
+				done => sub {
+					my ( $self, $ritem_final ) = @_;
+
+					# the RosterRemoveItem isn't required to return the final item
+					$ritem_final = $ritem if $removing;
+
+					$iq->send_result;
+					$conn->vhost->roster_push( $conn->bound_jid, $ritem_final );
+
+					# TODO: section 8.6: must send a
+					# bunch of presence
+					# unsubscribe/unsubscribed messages
+				},
+				error => sub {    # TODO What sort of error stat is being hit here?
+					$iq->send_error;
+				},
+			},
+			fallback => sub {
+				if ($removing)
+				{
+
+					# NOTE: we used to send an error here, but clients get
+					# out of sync and we need to let them think a delete
+					# happened even if it didn't.
+					$iq->send_result;
+				}
+				else
+				{    # TODO ACK, This one as well
+					$iq->send_error;
+				}
+			}
+		);
+	}
 
 	return 1;
 }
 
+## @method process_iq_getregister
+# @brief Provides In-Band registration by handling the register get command.
+# @param $conn The connection the iq arrived on
+# @param $iq Reference to the refering IQ, used to send a result
+# @return nothing
 sub process_iq_getregister
 {
 	my ( $conn, $iq ) = @_;
@@ -510,6 +670,11 @@ sub process_iq_getregister
 	);
 }
 
+## @method process_iq_setregister
+# @brief Provides In-Band registration by handling the register set command.
+# @param $conn The connection the iq arrived on
+# @param $iq Reference to the refering IQ, used to send a result
+# @return nothing
 sub process_iq_setregister
 {
 	my ( $conn, $iq ) = @_;
@@ -625,6 +790,11 @@ sub process_iq_setregister
 
 }
 
+## @method process_iq_getauth
+# @brief Provides old authentication via jabber:iq:auth. This way is deprecated, SASL should be prefered
+# @param $conn The connection the iq arrived on
+# @param $iq Reference to the refering IQ, used to send a result
+# @return nothing
 sub process_iq_getauth
 {
 	my ( $conn, $iq ) = @_;
@@ -658,6 +828,11 @@ sub process_iq_getauth
 	return 1;
 }
 
+## @method process_iq_getauth
+# @brief Provides old authentication via jabber:iq:auth. This way is deprecated, SASL should be prefered
+# @param $conn The connection the iq arrived on
+# @param $iq Reference to the refering IQ, used to send a result
+# @return nothing
 sub process_iq_setauth
 {
 	my ( $conn, $iq ) = @_;
@@ -804,10 +979,11 @@ sub process_iq_setauth
 	return 1;    # signal that we've handled it
 }
 
-## sessions have been deprecated, see appendix E of:
-## http://xmpp.org/internet-drafts/draft-saintandre-rfc3921bis-07.html
-## BUT, we have to advertise session support since, libpurple REQUIRES it
-## (sigh)
+## @method process_iq_session
+# @brief Provides xmpp sessions. Sessions have been deprecated, see appendix E of: http://xmpp.org/internet-drafts/draft-saintandre-rfc3921bis-07.html BUT, we have to advertise session support since, libpurple REQUIRES it (sigh)
+# @param $conn The connection the iq arrived on
+# @param $iq Reference to the refering IQ, used to send a result
+# @return nothing
 sub process_iq_session
 {
 	my ( $conn, $iq ) = @_;
@@ -820,6 +996,11 @@ sub process_iq_session
 	$conn->write( \$xml );
 }
 
+## @method process_iq_bind
+# @brief Processes a bind request that binds a resource to an already authenticated bare JID.
+# @param $conn The connection the iq arrived on
+# @param $iq Reference to the refering IQ, used to send a result
+# @return nothing
 sub process_iq_bind
 {
 	my ( $conn, $iq ) = @_;
@@ -827,6 +1008,7 @@ sub process_iq_bind
 # <iq type='set' id='purple88621b5d'><bind xmlns='urn:ietf:params:xml:ns:xmpp-bind'><resource>yann</resource></bind></iq>
 	my $id = $iq->id;
 
+	
 	my $query = $iq->bind
 	  or die;
 
@@ -924,54 +1106,33 @@ EOX
 	return 1;
 }
 
-sub process_iq_set_djabberd_test
-{
-	my ( $conn, $iq ) = @_;
-
-	# <iq type='set' id='foo'><query xmlns='djabberd:test'>some command</query></iq>
-	my $id = $iq->id;
-
-	unless ( $ENV{DJABBERD_TEST_COMMANDS} )
-	{
-		$iq->send_error;
-		return;
-	}
-
-	my $query = $iq->query
-	  or die;
-	my $command = $query->first_child;
-
-	if ( $command eq "write error" )
-	{
-		$conn->set_writer_func(
-			sub {
-				my ( $bref, $to_write, $offset ) = @_;
-				$conn->close;
-				return 0;
-			}
-		);
-		$iq->send_result_raw("<wont_get_to_you_anyway/>");
-		return;
-	}
-
-	$iq->send_result_raw("<unknown-command/>");
-}
-
+## @method id
+# @brief Getter method for the id attribute of the IQ
+# @return The id of the IQ
 sub id
 {
 	return $_[0]->attr("{}id");
 }
 
+## @method type
+# @brief Getter method for the type attribute of the IQ
+# @return The type of the IQ 
 sub type
 {
 	return $_[0]->attr("{}type");
 }
 
+## @method from
+# @brief Getter method for the from attribute of the IQ
+# @return The from attribute of the IQ 
 sub from
 {
 	return $_[0]->attr("{}from");
 }
 
+## @method query
+# @brief Checks if there is a query element in the IQ and returns it
+# @return The query element
 sub query
 {
 	my $self  = shift;
@@ -983,6 +1144,9 @@ sub query
 	return $child;
 }
 
+## @method bind
+# @brief Checks if there is a bind element in the IQ and returns it
+# @return The bind element
 sub bind
 {
 	my $self  = shift;
@@ -994,6 +1158,9 @@ sub bind
 	return $child;
 }
 
+## @method deliver_when_unavailable
+# @brief ???
+# @return  ???
 sub deliver_when_unavailable
 {
 	my $self = shift;
@@ -1001,6 +1168,9 @@ sub deliver_when_unavailable
 	  || $self->type   eq "error";
 }
 
+## @method make_response
+# @brief Creates a proper response to the IQ
+# @return the response-IQ
 sub make_response
 {
 	my ($self) = @_;

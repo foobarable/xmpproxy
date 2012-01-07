@@ -4,7 +4,7 @@ use warnings;
 
 use base 'DJabberd::Queue';
 use DJabberd::Queue qw(NO_CONN RESOLVING);
-use fields ( 'jid', 'passwd', 'resource', 'user', 'domain', 'del_source', 'roster' );
+use fields ( 'jid', 'passwd', 'resource', 'user', 'domain', 'del_source', 'roster', 'sentiqs', 'receivediqs' );
 
 use DJabberd::Connection::ClientOut;
 
@@ -12,6 +12,10 @@ use DJabberd::Log;
 
 our $logger = DJabberd::Log->get_logger;
 
+## @method
+# @brief
+# @param 
+# @return 
 sub new
 {
 	my ( $class, %opts ) = @_;
@@ -20,18 +24,25 @@ sub new
 	my $passwd = delete $opts{passwd} or Carp::confess "Password required";
 	my $resource = delete $opts{resource};
 	my $self     = fields::new($class);
+
+	#TODO: Migrate this to DJabberd::JID
 	$self->{jid}    = $jid;
 	$self->{passwd} = $passwd;
 	( $self->{user}, $self->{domain} ) = ( split( /@/, $self->{jid} ) )[ 0 .. 1 ];
 
 	defined($resource) ? $self->{resource} = $resource : $self->{resource} = "xmppproxy";
-	$self->{roster} = DJabberd::Roster->new;
-
+	$self->{roster}      = DJabberd::Roster->new;
+	$self->{sentiqs}     = {};
+	$self->{receivediqs} = {};
 	$self->SUPER::new(%opts);
 	$self->start_connecting;
 	return $self;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub fetch_roster
 {
 	my $self = shift;
@@ -41,42 +52,80 @@ sub fetch_roster
 	}
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub give_up_connecting
 {
 	my $self = shift;
 	$logger->error("Connection error while connecting to $self->{domain}, giving up");
 }
 
+## @method
+# @brief
+# @param 
+# @return 
+sub roster
+{
+	my $self = shift;
+	return $self->{roster};
+}
+
+## @method
+# @brief
+# @param 
+# @return 
 sub jid
 {
 	my $self = shift;
 	return $self->{jid};
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub user
 {
 	my $self = shift;
 	return $self->{user};
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub passwd
 {
 	my $self = shift;
 	return $self->{passwd};
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub resource
 {
 	my $self = shift;
 	return $self->{resource};
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub domain
 {
 	my $self = shift;
 	return $self->{domain};
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub queue_stanza
 {
 	my $self = shift;
@@ -85,6 +134,10 @@ sub queue_stanza
 	return $self->SUPER::enqueue(@_);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub start_connecting
 {
 	my $self = shift;
@@ -111,6 +164,10 @@ sub start_connecting
 	);
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub new_connection
 {
 	my $self = shift;

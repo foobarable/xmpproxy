@@ -34,6 +34,10 @@ Piers Harding, piers@cpan.org.
 
 =cut
 
+## @method
+# @brief
+# @param 
+# @return 
 sub run_after { ("DJabberd::Delivery::Proxy") }
 
 sub set_config_types
@@ -42,6 +46,10 @@ sub set_config_types
 	$self->{types} = { map { lc($_) => 1 } grep( /^(IQ|Message|Presence)$/i, split( /\s+/, $types ) ) };
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub new
 {
 	my $class = shift;
@@ -50,6 +58,10 @@ sub new
 	return $self;
 }
 
+## @method
+# @brief
+# @param 
+# @return 
 sub register
 {
 	my ( $self, $vhost ) = @_;
@@ -60,6 +72,10 @@ sub register
 
 # OnIntialPresence is used to determine that a user is now available
 # and can receive stored offline messages
+## @method
+# @brief
+# @param 
+# @return 
 sub on_initial_presence
 {
 	my ( $self, $vhost, $cb, $conn ) = @_;
@@ -84,6 +100,10 @@ sub on_initial_presence
 
 # hit the end of the delivery chain and we know that the user
 # cannot accept the message -> store it offline for later
+## @method
+# @brief
+# @param 
+# @return 
 sub deliver
 {
 	my ( $self, $vhost, $cb, $stanza ) = @_;
