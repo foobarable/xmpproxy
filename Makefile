@@ -1,7 +1,7 @@
 .PHONY: doc tidy
 
 all: 
-	${MAKE} tidy
+	${MAKE} doc
 
 tidy: 
 	perltidy -b xmpproxy.pl
