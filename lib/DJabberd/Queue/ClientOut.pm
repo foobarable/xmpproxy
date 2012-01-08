@@ -14,8 +14,8 @@ our $logger = DJabberd::Log->get_logger;
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub new
 {
 	my ( $class, %opts ) = @_;
@@ -41,8 +41,8 @@ sub new
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub fetch_roster
 {
 	my $self = shift;
@@ -54,8 +54,8 @@ sub fetch_roster
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub give_up_connecting
 {
 	my $self = shift;
@@ -64,8 +64,8 @@ sub give_up_connecting
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub roster
 {
 	my $self = shift;
@@ -74,8 +74,8 @@ sub roster
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub jid
 {
 	my $self = shift;
@@ -84,8 +84,8 @@ sub jid
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub user
 {
 	my $self = shift;
@@ -94,8 +94,8 @@ sub user
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub passwd
 {
 	my $self = shift;
@@ -104,8 +104,8 @@ sub passwd
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub resource
 {
 	my $self = shift;
@@ -114,8 +114,8 @@ sub resource
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub domain
 {
 	my $self = shift;
@@ -124,8 +124,8 @@ sub domain
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub queue_stanza
 {
 	my $self = shift;
@@ -136,8 +136,8 @@ sub queue_stanza
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub start_connecting
 {
 	my $self = shift;
@@ -166,8 +166,8 @@ sub start_connecting
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub new_connection
 {
 	my $self = shift;

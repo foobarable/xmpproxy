@@ -118,8 +118,8 @@ $commandroot->{subcommands}->{help}->{subcommands} = $commandroot->{subcommands}
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub process_account_command
 {
 	my $self   = shift;
@@ -130,8 +130,8 @@ sub process_account_command
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub process_account_add_command
 {
 	my $self   = shift;
@@ -143,8 +143,8 @@ sub process_account_add_command
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub process_account_del_command
 {
 	my $self   = shift;
@@ -156,8 +156,8 @@ sub process_account_del_command
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub process_account_list_command
 {
 	my $self   = shift;
@@ -169,8 +169,8 @@ sub process_account_list_command
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub process_account_set_command
 {
 	my $self   = shift;
@@ -182,8 +182,8 @@ sub process_account_set_command
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub process_user_command
 {
 	my $self   = shift;
@@ -194,8 +194,8 @@ sub process_user_command
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub process_user_add_command
 {
 	my $self   = shift;
@@ -206,8 +206,8 @@ sub process_user_add_command
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub process_user_del_command
 {
 	my $self   = shift;
@@ -219,8 +219,8 @@ sub process_user_del_command
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub process_user_list_command
 {
 	my $self   = shift;
@@ -232,8 +232,8 @@ sub process_user_list_command
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub process_help_command
 {
 	my $self   = shift;
@@ -249,8 +249,8 @@ sub process_help_command
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub new
 {
 	my $class = shift;
@@ -263,8 +263,8 @@ sub new
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub register
 {
 	my $self   = shift;
@@ -284,8 +284,8 @@ sub register
 ### falling back to a default
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub name
 {
 	my $self = shift;
@@ -295,8 +295,8 @@ sub name
 ### process any incoming messages
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub process_text
 {
 	my ( $self, $text, $from, $ctx ) = @_;

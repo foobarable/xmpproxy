@@ -36,8 +36,8 @@ Piers Harding, piers@cpan.org.
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub run_after { ("DJabberd::Delivery::Proxy") }
 
 sub set_config_types
@@ -48,8 +48,8 @@ sub set_config_types
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub new
 {
 	my $class = shift;
@@ -60,8 +60,8 @@ sub new
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub register
 {
 	my ( $self, $vhost ) = @_;
@@ -74,8 +74,8 @@ sub register
 # and can receive stored offline messages
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub on_initial_presence
 {
 	my ( $self, $vhost, $cb, $conn ) = @_;
@@ -102,8 +102,8 @@ sub on_initial_presence
 # cannot accept the message -> store it offline for later
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub deliver
 {
 	my ( $self, $vhost, $cb, $stanza ) = @_;

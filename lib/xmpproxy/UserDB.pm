@@ -9,10 +9,9 @@ use Data::Dumper;
 our $logger = DJabberd::Log->get_logger();
 our $config = DJabberd::Config::Config->get_config;
 
-## @method
-# @brief
-# @param 
-# @return 
+## @method new
+# @brief Constructor. Parameters are forwarded to the _init
+# @return
 sub new
 {
 	my $class = shift;
@@ -24,8 +23,8 @@ sub new
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub _init
 {
 	my $self  = shift;
@@ -45,8 +44,8 @@ sub _init
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub add_user
 {
 	my $self     = shift;
@@ -67,8 +66,8 @@ sub add_user
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub delete_user
 {
 	my $self = shift;
@@ -77,8 +76,8 @@ sub delete_user
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub print_db
 {
 	my $self = shift;
@@ -88,8 +87,8 @@ sub print_db
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub create_from_config
 {
 	my $self = shift;

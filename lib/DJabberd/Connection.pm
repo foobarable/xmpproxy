@@ -72,7 +72,7 @@ our %LOGMAP;
 # @brief Constructor for a connection object. Initializes data but does not yet start connecting.
 # @param $sock the socket of the connection
 # @param $server A DJabberd server object the connection belongs to
-# @return 
+# @return
 sub new
 {
 	my ( $class, $sock, $server ) = @_;
@@ -96,7 +96,7 @@ sub new
 	my $fromip = $self->peer_ip_string || "<undef>";
 
 	#will get set in DJabberd::IQ if connection supports message carbons
-	$self->{carbon} = 0; 
+	$self->{carbon} = 0;
 
 	# a health check monitor doesn't get an id assigned/wasted on it, and doesn't log
 	# so it's less annoying to look at:
@@ -122,8 +122,8 @@ sub new
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub log
 {
 	return $_[0]->{log};
@@ -131,8 +131,8 @@ sub log
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub xmllog
 {
 	return $_[0]->{xmllog};
@@ -140,8 +140,8 @@ sub xmllog
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub handler
 {
 	return $_[0]->{saxhandler};
@@ -149,8 +149,8 @@ sub handler
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub vhost
 {
 	my DJabberd::Connection $self = $_[0];
@@ -159,8 +159,8 @@ sub vhost
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub server
 {
 	my DJabberd::Connection $self = $_[0];
@@ -169,8 +169,8 @@ sub server
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub bound_jid
 {
 	my DJabberd::Connection $self = $_[0];
@@ -179,8 +179,8 @@ sub bound_jid
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub new_iq_id
 {
 	my DJabberd::Connection $self = shift;
@@ -190,8 +190,8 @@ sub new_iq_id
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub log_outgoing_data
 {
 	my ( $self, $text ) = @_;
@@ -211,8 +211,8 @@ sub log_outgoing_data
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub log_incoming_data
 {
 	my ( $self, $node ) = @_;
@@ -230,8 +230,8 @@ sub log_incoming_data
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub discard_parser
 {
 	my DJabberd::Connection $self = shift;
@@ -253,8 +253,8 @@ my %free_parsers;    # $ns -> [ [parser,handler]* ]
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub borrow_a_parser
 {
 	my DJabberd::Connection $self = $_[0];
@@ -309,8 +309,8 @@ sub borrow_a_parser
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub return_parser
 {
 	my DJabberd::Connection $self = $_[0];
@@ -348,8 +348,8 @@ sub return_parser
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub set_rcvd_features
 {
 	my ( $self, $feat_stanza ) = @_;
@@ -358,8 +358,8 @@ sub set_rcvd_features
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub set_bound_jid
 {
 	my ( $self, $jid ) = @_;
@@ -369,8 +369,8 @@ sub set_bound_jid
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub set_to_host
 {
 	my ( $self, $host ) = @_;
@@ -379,8 +379,8 @@ sub set_to_host
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub to_host
 {
 	my $self = shift;
@@ -390,8 +390,8 @@ sub to_host
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub set_version
 {
 	my ( $self, $verob ) = @_;
@@ -400,8 +400,8 @@ sub set_version
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub version
 {
 	my $self = shift;
@@ -411,8 +411,8 @@ sub version
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub stream_id
 {
 	my $self = shift;
@@ -421,8 +421,8 @@ sub stream_id
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub set_carbon
 {
 	my ( $self, $carb ) = @_;
@@ -431,8 +431,8 @@ sub set_carbon
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub carbon
 {
 	my $self = shift;
@@ -442,8 +442,8 @@ sub carbon
 # only use this run_hook_chain when
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub run_hook_chain
 {
 	my $self = shift;
@@ -467,8 +467,8 @@ sub run_hook_chain
 # enabled for the vhost
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub set_vhost
 {
 	my ( $self, $vhost ) = @_;
@@ -481,8 +481,8 @@ sub set_vhost
 # called by DJabberd::SAXHandler
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub on_stanza_received
 {
 	my ( $self, $node ) = @_;
@@ -492,8 +492,8 @@ sub on_stanza_received
 # subclasses should override returning 0 or 1
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub is_server
 {
 	die "Undefined 'is_server' for $_[0]";
@@ -501,8 +501,8 @@ sub is_server
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub process_incoming_stanza_from_s2s_out
 {
 	my ( $self, $node ) = @_;
@@ -525,8 +525,8 @@ sub process_incoming_stanza_from_s2s_out
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub send_stanza
 {
 	my ( $self, $stanza ) = @_;
@@ -568,8 +568,8 @@ sub send_stanza
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub write_stanza
 {
 	my ( $self, $stanza ) = @_;
@@ -619,8 +619,8 @@ sub write_stanza
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub namespace
 {
 	my $self = shift;
@@ -630,8 +630,8 @@ sub namespace
 # return SSL state object.  more useful as a boolean if conn is in SSL mode.
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub ssl
 {
 	my $self = shift;
@@ -642,8 +642,8 @@ sub ssl
 # if SASL is being or has been negotiated
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub sasl
 {
 	my $self = shift;
@@ -654,8 +654,8 @@ sub sasl
 # enables writability.  but we want to do nothing if we're waiting for a read for SSL
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub on_incomplete_write
 {
 	my $self = shift;
@@ -667,8 +667,8 @@ sub on_incomplete_write
 # so we need to (at least temporarily) go readable and then process writes.
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub write_when_readable
 {
 	my $self = shift;
@@ -685,8 +685,8 @@ sub write_when_readable
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub restart_stream
 {
 	my DJabberd::Connection $self = shift;
@@ -705,8 +705,8 @@ sub restart_stream
 # eval is being annoying
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub write
 {
 	my $self = shift;
@@ -724,8 +724,8 @@ sub write
 # DJabberd::Connection
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub event_read
 {
 	my DJabberd::Connection $self = shift;
@@ -842,8 +842,8 @@ sub event_read
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub on_stream_start
 {
 	my DJabberd::Connection $self = shift;
@@ -855,8 +855,8 @@ sub on_stream_start
 # when we're the client of a stream (we're talking first)
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub start_init_stream
 {
 	my DJabberd::Connection $self = shift;
@@ -888,8 +888,8 @@ qq{<?xml version="1.0" encoding="UTF-8"?><stream:stream $to xmlns:stream='http:/
 # started one with us (the $ss object)
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub start_stream_back
 {
 	my DJabberd::Connection $self = shift;
@@ -988,8 +988,8 @@ qq{<?xml version="1.0" encoding="UTF-8"?><stream:stream $from_attr id="$id" $ver
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub end_stream
 {
 	my DJabberd::Connection $self = shift;
@@ -999,8 +999,8 @@ sub end_stream
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub event_write
 {
 	my $self = shift;
@@ -1010,8 +1010,8 @@ sub event_write
 # info is optional descriptive text
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub stream_error
 {
 	my ( $self, $err, $info ) = @_;
@@ -1039,8 +1039,8 @@ qq{<?xml version='1.0'?><stream:stream xmlns='jabber:client' xmlns:stream='http:
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub close_no_vhost
 {
 	my ( $self, $vhost ) = @_;
@@ -1075,8 +1075,8 @@ sub close_no_vhost
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub close_stream
 {
 	my ( $self, $err ) = @_;
@@ -1086,8 +1086,8 @@ sub close_stream
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub add_disconnect_handler
 {
 	my ( $self, $callback ) = @_;
@@ -1097,8 +1097,8 @@ sub add_disconnect_handler
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub _run_callback_list
 {
 	my ( $self, $listref, @args ) = @_;
@@ -1116,8 +1116,8 @@ sub _run_callback_list
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub close
 {
 	my DJabberd::Connection $self = shift;
@@ -1163,14 +1163,14 @@ sub close
 # DJabberd::Connection
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub event_err { my $self = shift; $self->close; }
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub event_hup { my $self = shift; $self->close; }
 
 # Local Variables:

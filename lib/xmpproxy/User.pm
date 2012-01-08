@@ -10,11 +10,8 @@ use Data::Dumper;
 our $logger = DJabberd::Log->get_logger();
 
 ## @method new
-# @brief Constructor. Every argument is passed to the _init method.
-# @param $name
-# @param 
-#
-# @return 
+# @brief Constructor. Every argument is passed to the _init method. 
+# @return Reference to the own object
 sub new
 {
 	my $class = shift;
@@ -24,9 +21,12 @@ sub new
 	return $self;
 }
 
-## @method
-# @brief
-# @return 
+## @method _init 
+# @brief Initialisation method. Checks data and sets several values in the object
+# @param $name The name of the user. 
+# @param $passwd The password the user can authenticate itself
+# @param $vhost A reference to the vhost object
+# @return nothing 
 sub _init
 {
 	my $self   = shift;
@@ -51,10 +51,12 @@ sub _init
 
 }
 
-## @method
-# @brief
-# @param 
-# @return 
+## @method add_account
+# @brief Adds an account to a users. Needs a jid, a password and a resource as input.
+# @param $jid The JID xmpproxy should connect to
+# @param $password The password for the given JID
+# @param $resource The resource xmmproxy should try to bind the bare JID to.
+# @return 0 if error, 1 if success.
 sub add_account
 {
 	my $self     = shift;
@@ -86,10 +88,10 @@ sub add_account
 	return 1;
 }
 
-## @method
-# @brief
-# @param 
-# @return 
+## @method delete_account 
+# @brief Deletes an account from a user. Not implemented yet.
+# @param $jid The JID of the account that should be deleted
+# @return 0 if error, 1 if sucess
 sub delete_account
 {
 	my $self = shift;
@@ -97,20 +99,18 @@ sub delete_account
 
 }
 
-## @method
-# @brief
-# @param 
-# @return 
+## @method queues
+# @brief Getter method for the reference to the queues hash
+# @return Reference to a hash containing all the queues for this user
 sub queues
 {
 	my $self = shift;
 	return $self->{queues};
 }
 
-## @method
-# @brief
-# @param 
-# @return 
+## @method fetch_rosters
+# @brief Loops through all accounts and sends a roster get request for them
+# @return nothing
 sub fetch_rosters
 {
 	my $self = shift;
@@ -122,10 +122,10 @@ sub fetch_rosters
 
 }
 
-## @method
-# @brief
-# @param 
-# @return 
+## @method set_vhost
+# @brief Sets the vhost this user belongs to 
+# @param $vh Reference to the vhost object
+# @return nothing
 sub set_vhost
 {
 	my ( $self, $vh ) = @_;
@@ -134,10 +134,10 @@ sub set_vhost
 	$self->{vhost} = $vh;
 }
 
-## @method
-# @brief
-# @param 
-# @return 
+## @method find_conns_by_jid
+# @brief Searches all connections with a specific JID in their roster.
+# @param $jid_string The JID that is searched in the Rosters  
+# @return nothing
 sub find_conns_by_jid
 {
 	my $self       = shift;
@@ -163,10 +163,10 @@ sub find_conns_by_jid
 	return @conns;
 }
 
-## @method
-# @brief
-# @param 
-# @return 
+## @method find_queues_by_jid
+# @brief Searches all queues with a specific JID in their roster.
+# @param $jid_string The JID that is searched in the Rosters  
+# @return nothing
 sub find_queues_by_jid
 {
 	my $self       = shift;
@@ -192,10 +192,9 @@ sub find_queues_by_jid
 	return @queues;
 }
 
-## @method
-# @brief
-# @param 
-# @return 
+## @method get_roster
+# @brief Goes through all queues and aggregates their roster items into one roster that is beeing delivered by the proxy rosterstorage plugin
+# @return Reference to the merged roster
 sub get_roster
 {
 	my $self   = shift;

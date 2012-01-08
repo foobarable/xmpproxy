@@ -10,8 +10,8 @@ use Data::Dumper;
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub finalize
 {
 
@@ -28,14 +28,14 @@ sub finalize
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub blocking { 1 }
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub get_roster
 {
 
@@ -49,8 +49,8 @@ sub get_roster
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub set_roster_item
 {
 
@@ -72,8 +72,8 @@ sub set_roster_item
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub addupdate_roster_item
 {
 	my ( $self, $cb, $jid, $ritem ) = @_;
@@ -104,8 +104,8 @@ sub addupdate_roster_item
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub delete_roster_item
 {
 	my ( $self, $cb, $jid, $ritem ) = @_;
@@ -122,8 +122,8 @@ sub delete_roster_item
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub load_roster_item
 {
 	my ( $self, $jid, $contact_jid, $cb ) = @_;
@@ -162,8 +162,8 @@ sub load_roster_item
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub wipe_roster
 {
 	my ( $self, $cb, $jid ) = @_;

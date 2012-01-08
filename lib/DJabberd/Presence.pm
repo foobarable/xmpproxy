@@ -9,8 +9,8 @@ use fields (
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub clone
 {
 	my $self  = shift;
@@ -34,8 +34,8 @@ my %last_bcast;    # barejidstring -> { full_jid_string -> $cloned_pres_stanza }
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub forget_last_presence
 {
 	my ( $class, $jid ) = @_;
@@ -48,8 +48,8 @@ sub forget_last_presence
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub set_local_presence
 {
 	my ( $class, $jid, $prepkt ) = @_;
@@ -60,8 +60,8 @@ sub set_local_presence
 # is this directed presence?  must be to a JID, and must be available/unavailable, not probe/subscribe/etc.
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub is_directed
 {
 	my $self = shift;
@@ -73,8 +73,8 @@ sub is_directed
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub on_recv_from_server_proxycon
 {
 	my ( $self, $conn ) = @_;
@@ -94,8 +94,8 @@ sub on_recv_from_server_proxycon
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub send_initial_presence
 {
 	my $self    = shift;
@@ -108,8 +108,8 @@ sub send_initial_presence
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub on_recv_from_server
 {
 	my ( $self, $conn ) = @_;
@@ -119,8 +119,8 @@ sub on_recv_from_server
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub on_recv_from_client
 {
 	my ( $self, $conn ) = @_;
@@ -130,8 +130,8 @@ sub on_recv_from_client
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub local_presence_info
 {
 	my ( $class, $jid ) = @_;
@@ -142,8 +142,8 @@ sub local_presence_info
 # constructor
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub available
 {
 	my ( $class, %opts ) = @_;
@@ -156,8 +156,8 @@ sub available
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub probe
 {
 	my ( $class, %opts ) = @_;
@@ -179,8 +179,8 @@ sub probe
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub make_subscribed
 {
 	my ( $class, %opts ) = @_;
@@ -202,8 +202,8 @@ sub make_subscribed
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub make_subscribe
 {
 	my ( $class, %opts ) = @_;
@@ -225,8 +225,8 @@ sub make_subscribe
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub available_stanza
 {
 	my ($class) = @_;
@@ -236,8 +236,8 @@ sub available_stanza
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub unavailable_stanza
 {
 	my ($class) = @_;
@@ -247,8 +247,8 @@ sub unavailable_stanza
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub is_unavailable
 {
 	my $self = shift;
@@ -258,8 +258,8 @@ sub is_unavailable
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub type
 {
 	my $self = shift;
@@ -268,8 +268,8 @@ sub type
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub fail
 {
 	my ( $self, $vhost, $reason ) = @_;
@@ -284,8 +284,8 @@ sub fail
 # this same out-vs-in processing.  it should be generic.
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub procdeliver
 {
 	my ( $self, $vhost ) = @_;
@@ -318,8 +318,8 @@ sub procdeliver
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub process
 {
 	confess "No generic 'process' method for $_[0]";
@@ -332,8 +332,8 @@ our %outbound_need_ritem = (
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub process_outbound
 {
 	my ( $self, $conn ) = @_;
@@ -370,8 +370,8 @@ sub process_outbound
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub process_inbound
 {
 	my ( $self, $vhost ) = @_;
@@ -416,8 +416,8 @@ sub process_inbound
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub _roster_load_item
 {
 	my ( $self, $vhost, $my_jid, $contact_jid, $call_method ) = @_;
@@ -441,8 +441,8 @@ sub _roster_load_item
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub _process_inbound_available
 {
 	my ( $self, $vhost ) = @_;
@@ -451,8 +451,8 @@ sub _process_inbound_available
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub _process_inbound_unavailable
 {
 	my ( $self, $vhost ) = @_;
@@ -461,8 +461,8 @@ sub _process_inbound_unavailable
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub _process_inbound_subscribe
 {
 	my ( $self, $vhost, $ritem, $from_jid ) = @_;
@@ -518,8 +518,8 @@ sub _process_inbound_subscribe
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub _process_inbound_subscribed
 {
 	my ( $self, $vhost, $ritem ) = @_;
@@ -556,8 +556,8 @@ sub _process_inbound_subscribed
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub _process_inbound_probe
 {
 	my ( $self, $vhost, $ritem, $from_jid ) = @_;
@@ -585,8 +585,8 @@ sub _process_inbound_probe
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub _process_inbound_unsubscribe
 {
 	my ( $self, $vhost, $ritem ) = @_;
@@ -613,8 +613,8 @@ sub _process_inbound_unsubscribe
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub _process_inbound_unsubscribed
 {
 	my ( $self, $vhost, $ritem ) = @_;
@@ -629,8 +629,8 @@ sub _process_inbound_unsubscribed
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub broadcast_from
 {
 	my ( $self, $conn ) = @_;
@@ -670,8 +670,8 @@ sub broadcast_from
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub _process_outbound_available
 {
 	my ( $self, $conn, $skip_alter ) = @_;
@@ -714,8 +714,8 @@ sub _process_outbound_available
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub _process_outbound_unavailable
 {
 	my ( $self, $conn, $skip_alter ) = @_;
@@ -770,8 +770,8 @@ sub _process_outbound_unavailable
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub _process_outbound_unsubscribe
 {
 	my ( $self, $conn, $ritem ) = @_;
@@ -808,8 +808,8 @@ sub _process_outbound_unsubscribe
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub _process_outbound_unsubscribed
 {
 	my ( $self, $conn, $ritem ) = @_;
@@ -860,8 +860,8 @@ sub _process_outbound_unsubscribed
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub _process_outbound_subscribe
 {
 	my ( $self, $conn ) = @_;
@@ -931,8 +931,8 @@ sub _process_outbound_subscribe
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub _process_outbound_subscribed
 {
 	my ( $self, $conn ) = @_;
@@ -970,8 +970,8 @@ sub _process_outbound_subscribed
 # decide to skip processing or not.  see above.
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub _process_outbound_subscribed_with_ritem
 {
 	my ( $self, $conn, $ritem ) = @_;

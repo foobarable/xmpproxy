@@ -31,8 +31,8 @@ Register the vhost with the module.
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub register
 {
 	my ( $self, $vhost ) = @_;
@@ -68,8 +68,8 @@ sub register
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub _get_ping
 {
 	my ( $self, $vhost, $iq ) = @_;

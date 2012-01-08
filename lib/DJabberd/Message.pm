@@ -4,8 +4,8 @@ use base qw(DJabberd::Stanza);
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub on_recv_from_client
 {
 	my ( $self, $conn ) = @_;
@@ -24,8 +24,8 @@ sub on_recv_from_client
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub on_recv_from_server
 {
 	my ( $self, $conn ) = @_;
@@ -45,8 +45,8 @@ sub on_recv_from_server
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub process
 {
 	my ( $self, $conn ) = @_;

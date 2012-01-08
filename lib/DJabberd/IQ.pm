@@ -9,10 +9,8 @@ use Data::Dumper;
 use DJabberd::Log;
 our $logger = DJabberd::Log->get_logger();
 
-
-
 ## @method on_recv_from_client
-# @brief Method getting called when an IQ is received from a client connected to xmpproxy 
+# @brief Method getting called when an IQ is received from a client connected to xmpproxy
 # @param $conn The connection the IQ arrived on
 # @return nothing
 sub on_recv_from_client
@@ -30,9 +28,9 @@ sub on_recv_from_client
 }
 
 ## @method on_recv_from_server
-# @brief Method getting called when an IQ is received the  
-# @param $conn The connection the IQ arrived on 
-# @return nothing 
+# @brief Method getting called when an IQ is received the
+# @param $conn The connection the IQ arrived on
+# @return nothing
 sub on_recv_from_server
 {
 	my ( $self, $conn ) = @_;
@@ -79,9 +77,9 @@ my $iq_handler = {
 
 # DO NOT OVERRIDE THIS
 ## @method process
-# @brief Runs the hookchain that calls the specific handling function 
-# @param $conn The connection of the IQ that is processed 
-# @return nothing 
+# @brief Runs the hookchain that calls the specific handling function
+# @param $conn The connection of the IQ that is processed
+# @return nothing
 sub process
 {
 	my DJabberd::IQ $self = shift;
@@ -120,7 +118,7 @@ sub process
 }
 
 ## @method signature
-# @brief Aggregates the signature of the IQ. The signature consists of the type and the element of the IQ. 
+# @brief Aggregates the signature of the IQ. The signature consists of the type and the element of the IQ.
 # @return The signature
 sub signature
 {
@@ -145,7 +143,7 @@ sub forward
 }
 
 ## @method send_result
-# @brief Calls send reply with \"result\" as type 
+# @brief Calls send reply with \"result\" as type
 # @return nothing
 sub send_result
 {
@@ -153,7 +151,7 @@ sub send_result
 	$self->send_reply("result");
 }
 
-## @method send_error 
+## @method send_error
 # @brief Replies with an error message
 # @param $raw The content of the error message. The caller must send well-formed XML (but we do the wrapping element)
 # @return nothing
@@ -166,7 +164,7 @@ sub send_error
 
 ## @method send_result_raw
 # @brief Sends a raw xml result. The caller must send well-formed XML (but we do the wrapping element)
-# @param $raw The content of the message. 
+# @param $raw The content of the message.
 # @return nothing
 sub send_result_raw
 {
@@ -176,10 +174,10 @@ sub send_result_raw
 }
 
 ## @method send_reply
-# @brief Sends a reply to an IQ 
-# @param $type The type of the IQ. Can be set, get error or cancel 
+# @brief Sends a reply to an IQ
+# @param $type The type of the IQ. Can be set, get error or cancel
 # @param $raw The raw xml of the IQ. The caller must send well-formed XML (but we do the wrapping element).
-# @return nothing 
+# @return nothing
 sub send_reply
 {
 	my DJabberd::IQ $self = shift;
@@ -202,7 +200,7 @@ sub send_reply
 ## @method send_bind_resource
 # @brief Sends a bind request on a specific connection
 # @param $conn The connection the bind request is sent to.
-# @return nothing 
+# @return nothing
 sub send_bind_resource
 {
 	my DJabberd::IQ $self = shift;
@@ -222,8 +220,8 @@ sub send_bind_resource
 ## @method process_iq_resultbind
 # @brief Processes the result of the bind request and tries to start a session afterwards.
 # @param $conn The connection the bind result was received on
-# @param $self A reference to the IQ object  
-# @return nothing 
+# @param $self A reference to the IQ object
+# @return nothing
 sub process_iq_resultbind
 {
 	my $conn = shift;
@@ -240,7 +238,7 @@ sub process_iq_resultbind
 ## @method send_iq_session
 # @brief Sends an IQ to request to start a session
 # @param $conn The connection the session should be started on
-# @return nothing 
+# @return nothing
 sub send_iq_session
 {
 	my DJabberd::IQ $self = shift;
@@ -258,8 +256,8 @@ sub send_iq_session
 }
 
 ## @method process_iq_resultsession
-# @brief Processes the result of the session request and sends an initial presence afterwards.  
-# @param $conn The connection the session result was received on 
+# @brief Processes the result of the session request and sends an initial presence afterwards.
+# @param $conn The connection the session result was received on
 # @param $self A reference to the IQ object
 # @return nothing
 sub process_iq_resultsession
@@ -272,7 +270,7 @@ sub process_iq_resultsession
 
 }
 
-## @method send_request_roster 
+## @method send_request_roster
 # @brief Sends an IQ to request a roster on a specific connection
 # @param $queue A queue the roster request will be sent out
 # @return nothing
@@ -295,7 +293,7 @@ sub send_request_roster
 # @brief Processes the received roster and stores it in the userdatabase for this account. Later on all the stored rosters are merged when a client requests a roster.
 # @param $conn The connection the result was received on
 # @param $self A reference to the IQ object
-# @return 
+# @return
 sub process_iq_resultroster
 {
 	my $conn = shift;
@@ -325,10 +323,10 @@ sub process_iq_resultroster
 }
 
 ## @method process_iq_setcarbon
-# @brief Sets the carbon flag for a connection if received 
+# @brief Sets the carbon flag for a connection if received
 # @param $conn The connection the carbon flag is set
 # @param $iq Reference to the refering IQ, used to send a result
-# @return 
+# @return
 sub process_iq_setcarbon
 {
 	my ( $conn, $iq ) = @_;
@@ -517,7 +515,6 @@ sub process_iq_setroster
 		return;
 	}
 
-	
 	my $ritem = DJabberd::RosterItem->new(
 		jid    => $jid,
 		name   => $name,
@@ -1008,7 +1005,6 @@ sub process_iq_bind
 # <iq type='set' id='purple88621b5d'><bind xmlns='urn:ietf:params:xml:ns:xmpp-bind'><resource>yann</resource></bind></iq>
 	my $id = $iq->id;
 
-	
 	my $query = $iq->bind
 	  or die;
 
@@ -1116,7 +1112,7 @@ sub id
 
 ## @method type
 # @brief Getter method for the type attribute of the IQ
-# @return The type of the IQ 
+# @return The type of the IQ
 sub type
 {
 	return $_[0]->attr("{}type");
@@ -1124,7 +1120,7 @@ sub type
 
 ## @method from
 # @brief Getter method for the from attribute of the IQ
-# @return The from attribute of the IQ 
+# @return The from attribute of the IQ
 sub from
 {
 	return $_[0]->attr("{}from");

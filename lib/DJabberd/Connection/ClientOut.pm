@@ -27,8 +27,8 @@ my %element2class = (
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub new
 {
 	my ( $class, %opts ) = @_;
@@ -67,8 +67,8 @@ sub new
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub restart_stream
 {
 	my $self = shift;
@@ -82,8 +82,8 @@ sub restart_stream
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub namespace
 {
 	return "jabber:client";
@@ -91,8 +91,8 @@ sub namespace
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub start_connecting
 {
 	my $self = shift;
@@ -101,8 +101,8 @@ sub start_connecting
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub on_connected
 {
 	my $self = shift;
@@ -115,8 +115,8 @@ sub on_connected
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub event_write
 {
 
@@ -135,8 +135,8 @@ sub event_write
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub on_stream_start
 {
 	my ( $self, $ss ) = @_;
@@ -156,8 +156,8 @@ sub on_stream_start
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub on_stanza_received
 {
 	my ( $self, $node ) = @_;
@@ -232,8 +232,8 @@ sub on_stanza_received
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub event_err
 {
 	my $self = shift;
@@ -243,8 +243,8 @@ sub event_err
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub event_hup
 {
 	my $self = shift;
@@ -253,8 +253,8 @@ sub event_hup
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub close
 {
 	my $self = shift;

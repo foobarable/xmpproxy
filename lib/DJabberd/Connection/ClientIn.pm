@@ -16,8 +16,8 @@ use fields (
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub note_pend_in_subscription
 {
 	my ( $self, $pres_packet ) = @_;
@@ -37,8 +37,8 @@ sub note_pend_in_subscription
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub directed_presence
 {
 	my $self = shift;
@@ -47,8 +47,8 @@ sub directed_presence
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub add_directed_presence
 {
 	my ( $self, $to_jid ) = @_;
@@ -57,8 +57,8 @@ sub add_directed_presence
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub clear_directed_presence
 {
 	my $self = shift;
@@ -67,8 +67,8 @@ sub clear_directed_presence
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub requested_roster
 {
 	my $self = shift;
@@ -77,8 +77,8 @@ sub requested_roster
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub set_requested_roster
 {
 	my ( $self, $val ) = @_;
@@ -87,8 +87,8 @@ sub set_requested_roster
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub set_available
 {
 	my ( $self, $val ) = @_;
@@ -97,8 +97,8 @@ sub set_available
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub is_available
 {
 	my $self = shift;
@@ -109,8 +109,8 @@ sub is_available
 # returns tru.
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub is_initial_presence
 {
 	my $self = shift;
@@ -120,8 +120,8 @@ sub is_initial_presence
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub on_initial_presence
 {
 	my $self = shift;
@@ -134,8 +134,8 @@ sub on_initial_presence
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub send_resource_presences
 {
 	my $self = shift;
@@ -164,8 +164,8 @@ sub send_resource_presences
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub send_presence_probes
 {
 	my $self = shift;
@@ -196,8 +196,8 @@ sub send_presence_probes
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub send_pending_sub_requests
 {
 	my $self = shift;
@@ -211,8 +211,8 @@ sub send_pending_sub_requests
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub close
 {
 	my $self = shift;
@@ -255,8 +255,8 @@ sub close
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub namespace
 {
 	return "jabber:client";
@@ -264,8 +264,8 @@ sub namespace
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub on_stream_start
 {
 	my DJabberd::Connection $self = shift;
@@ -305,8 +305,8 @@ sub on_stream_start
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub is_server { 0 }
 
 my %element2class = (
@@ -318,8 +318,8 @@ my %element2class = (
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub on_stanza_received
 {
 	my ( $self, $node ) = @_;
@@ -359,8 +359,8 @@ sub on_stanza_received
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub is_authenticated_jid
 {
 	my ( $self, $jid ) = @_;
@@ -375,8 +375,8 @@ sub is_authenticated_jid
 
 ## @method
 # @brief
-# @param 
-# @return 
+# @param
+# @return
 sub filter_incoming_client_builtin
 {
 	my ( $vhost, $cb, $stanza, $self ) = @_;
