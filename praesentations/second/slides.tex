@@ -1,0 +1,330 @@
+\documentclass[notes=hide,yellow]{beamer}
+
+% (c) 2008 Steffen Klemer <moh AT gmx BEEP org>
+% This work is licensed under the Creative Commons Attribution-Share Alike 3.0
+% Germany License. To view a copy of this license, visit
+% http://creativecommons.org/licenses/by-sa/3.0/de/ or send a letter to Creative
+% Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+%
+% See http://www.noch-mehr-davon.de/vortr.shtml
+% Permissions beyond the scope of this license may be available at the same site
+%
+% Template based on: Copyright 2004 by Till Tantau <tantau@users.sourceforge.net>.
+
+
+\mode<presentation>
+{
+%	\usetheme{AnnArbor} %Szeged
+%	\usetheme{Berkeley}
+	\usetheme{Frankfurt}
+%	\usecolortheme{rose} %oder beaver oder rose oder orchid, albatross, rose
+% 	\useinnertheme{circles}
+%	\useoutertheme{split}
+%	\setbeamercovered{invisible} %or transparent
+% 	\usefottheme{professionalfonts}
+% 	\usefonttheme[onlymath]{serif}
+        %\setbeamercovered{invisible}
+%	\setbeamertemplate{navigation symbols}{}
+}
+
+\usepackage{amsmath,amssymb,latexsym}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{wasysym}
+\usepackage{ucs}
+\usepackage{listings}
+\usepackage{stmaryrd}
+\usepackage{hyperref}
+\usepackage{graphics}
+\usepackage{colortbl}
+
+\usepackage{tikz}
+\tikzstyle{every picture}+=[remember picture]
+\usetikzlibrary{arrows}
+\usetikzlibrary{shadows}
+\usetikzlibrary{fit}
+\usetikzlibrary{shapes}
+\usetikzlibrary{backgrounds}
+
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=12pt,inner sep=0pt]
+\tikzstyle{selected vertex} = [vertex, fill=red!24]
+\tikzstyle{blue selected vertex} = [vertex, fill=blue!25]
+\tikzstyle{edge} = [draw,thick,-]
+\tikzstyle{weight} = [font=\small]
+\tikzstyle{selected edge} = [draw,line width=5pt,-,red!50]
+\tikzstyle{ignored edge} = [draw,line width=5pt,-,black!20]
+\tikzstyle{small vertex}=[circle,fill=black!25,minimum size=8pt, inner sep=0pt]
+\tikzstyle{small selected vertex}=[circle,fill=red!25,minimum size=8pt, inner sep=0pt]
+
+
+
+%\usepackage[ngerman]{babel}
+%\usepackage[utf8x]{inputenc}
+
+
+
+
+\title{ Distributed Filesystems}
+\subtitle{ }
+\author{Ralph Krimmel}
+
+
+
+\begin{document}
+	\begin{frame}
+		\titlepage
+	\end{frame}
+
+	\begin{frame}
+		\tableofcontents
+	\end{frame}
+
+\section{Definition}
+\subsection*{}
+\begin{frame}
+\frametitle{Definition}
+	\begin{block}{Definition}
+		In computing, a distributed file system or network file system is any file system that allows access to files from multiple hosts via a computer network.$[1]$
+	\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Nothing new...}
+
+		E.g. NFS developed by Sun Microsystems in 1984, but for NFS $<$ Version 4:
+		
+		\begin{itemize}
+			\item Bad performance for huge number of clients 
+			\item Hardly scalable
+			\item Not fault tolerant
+		\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Requirements for modern distributed filesystems}
+	\begin{block}{Requirements}
+	\begin{itemize}
+		\item Performance
+		\item Scalability
+		\item Reliability
+		\item Availability
+	\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Modern DFS}
+	There are several approaches reaching this requirements. \\
+	We will have a look on how Google took care for those in GFS	
+\end{frame}
+
+\section{GFS}
+\subsection*{}
+\begin{frame}
+	\frametitle{Short introduction into GFS - Cluster}
+	\begin{block}{GFS cluster}
+		\begin{itemize}
+			\item A single master server
+			\item Multiple chunkservers
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Short introduction into GFS - Chunks}
+	\begin{block}{Chunk}
+		\begin{itemize}
+			
+			\item Files are divided into chunks %fixed size
+			\item Identified by an 64 bit chunk handle
+			\item Chunks are stored as files on linux filesystems of the chunkservers
+		\end{itemize}
+	\end{block}
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Short introduction into GFS - Master server}
+	The master server stores and manages all the metadata
+	\begin{block}{Master}
+	\begin{itemize}
+		\item Namespace (/foo/bar/.../)
+		\item Access Control
+		\item File $\rightarrow$ Chunk Mapping
+		\item Location of chunks
+	\end{itemize}
+	\end{block}
+	All metadata is stored in memory, some is synced to disc
+\end{frame}
+
+\begin{frame}
+	\frametitle{Short introduction into GFS - Overview}
+	\includegraphics[scale=0.45]{gfs_overview.png}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Short introduction into GFS - Master server}
+	Additional tasks for the masterserver:	
+	\begin{block}{Master}
+	\begin{itemize}
+		%raussuchen
+		\item Chunk lease managment %mutation order, primary chunk, and so on..
+		\item Garbage collection
+		\item Chunk migration
+	\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Short introduction into GFS - Operations}
+	\begin{itemize}
+		\item Not POSIX compatible
+		\item Standard operations: create, delete, close, read, write
+		\item Snapshot %copy of file or directory cost for low cost
+		\item Record append
+	\end{itemize}
+\end{frame}
+
+\section{Reliability}
+\subsection*{}
+\begin{frame}
+	\frametitle{Reliability}
+	Problems: Component failures are the norm
+	
+	\begin{itemize}
+		\item System consists of inexpensive hardware 	
+		\item Application bugs %theres software that always crashes 
+		\item Human failure % what was this cable for?
+		\item Operating system bugs % ever used windows?
+		\item Failures of 
+		\begin{itemize}
+			\item Harddisks
+			\item Memory
+			\item Connectors
+			\item Networking
+			\item ...
+		\end{itemize}
+	\end{itemize}		
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Reliability in GFS}
+	
+	\begin{itemize}
+		\item Each chunk is replicated on multiple chunkservers
+		\item Master polls chunkservers periodically for state 	
+		\item Re-Replication
+		\item Chunk placement
+	\end{itemize}
+
+\end{frame}
+
+
+
+
+\section{Performance}
+\subsection*{}
+\begin{frame}
+	\frametitle{Performance}
+	Observe the workload
+	\begin{itemize}
+		\item Mean file size % adjust block sizes, chunk sizes
+		\item Kind of file access % read/write ratio, random reads? random writes? 
+		\item Network topology % how much bandwidth do i have 
+	\end{itemize}		
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Performance}
+	Avoid bottlenecks!\\
+	
+	Master must not be overloaded.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Performance in GFS}
+	\begin{itemize}
+		\item Master stores metadata in RAM.	
+		\item Data flow is decoupled from control flow
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Performance in GFS}
+	\includegraphics[scale=0.45]{flow.png}
+\end{frame}
+
+
+\section{Scalability}
+\subsection*{}
+\begin{frame}
+	\frametitle{Scalability}
+	To scale up in GFS, just add new chunkservers.\\
+	Any problem with this?
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{ Scalability - GFS }
+	Problem: Master stores all metadata in memory. 
+\end{frame}
+
+\begin{frame}
+	\frametitle{ Scalability - GFS }
+	Namespace data is saved using prefix compression. \\
+	Master needs only 64 bytes of metadata for every chunk. \\
+	$\Rightarrow$ No limitation in practice.
+\end{frame}
+
+\section{Availability}
+\subsection*{}
+\begin{frame}
+	\frametitle{Availability}
+	Maximize the time all files are accessable.
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Availability}
+	\begin{itemize}
+		\item Replication
+		\item Stale Replica detection 
+		\item Replica placement 
+		\item Fast Recovery
+		\item Master Replication
+	\end{itemize}
+\end{frame}
+
+
+\section{Conclusion}
+\subsection*{}
+
+\begin{frame}
+\frametitle{Conclusion}
+	\begin{itemize}
+		\item Not trivial
+		\item Observe your environment
+		\item Choose or develope a filesystem fitting to your environment
+		\item Adjust parameters
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+%too lazy for bibtex
+	\frametitle{References}
+	$[1]$ Galvin Silberschatz (1994). Operating System concepts, chapter 17 Distributed file systems. Addison-Wesley Publishing Company. \\ 
+	$[2]$ Sanjay Ghemawat, Howard Gobioff and Shun-Tak Leung (2003). The Google File System. \url{http://labs.google.com/papers/gfs-sosp2003.pdf}
+\end{frame}
+
+\begin{frame}
+	Thank you for your attention.
+\end{frame}
+
+\end{document}
+

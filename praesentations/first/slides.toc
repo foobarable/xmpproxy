@@ -1,0 +1,4 @@
+\beamer@endinputifotherversion {3.12pt}
+\beamer@sectionintoc {1}{What is XMPP?}{2}{0}{1}
+\beamer@sectionintoc {2}{One problem with XMPP}{3}{0}{2}
+\beamer@sectionintoc {3}{xmpproxy}{9}{0}{3}

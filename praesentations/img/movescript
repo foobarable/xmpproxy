@@ -1,0 +1,7 @@
+#!/bin/bash
+mv multiple-clients-Seite\ 001.pdf conversation1.pdf
+mv multiple-clients-Seite\ 002.pdf conversation2.pdf
+mv multiple-clients-Seite\ 003.pdf conversation3.pdf
+mv multiple-clients-Seite\ 004.pdf proxy1.pdf
+mv multiple-clients-Seite\ 005.pdf proxy2.pdf
+mv multiple-clients-Seite\ 006.pdf proxy3.pdf
