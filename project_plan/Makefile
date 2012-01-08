@@ -11,7 +11,7 @@ show: all
 all: $(PDF) $(GNUPLOT) $(INKSCAPE)  
 	pdflatex --halt-on-error ./$(FILE).tex
 
-lab.aux:
+plan.aux:
 	pdflatex --halt-on-error ./$(FILE).tex
 
 
