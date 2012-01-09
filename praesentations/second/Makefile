@@ -2,7 +2,7 @@ GNUPLOT = $(addsuffix .pdf, $(basename $(wildcard *.plot)))
 INKSCAPE = $(addsuffix .pdf, $(basename $(wildcard *.svg)))
 DIRS= `find -maxdepth 1  -type d ! -wholename \*.svn\* | grep /`
 PDF = $(addsuffix .pdf, $(basename $(wildcard *.eps)))
-FILE = "plan"
+FILE = "slides"
 
 
 show: all
@@ -11,7 +11,7 @@ show: all
 all: $(PDF) $(GNUPLOT) $(INKSCAPE)  
 	pdflatex --halt-on-error ./$(FILE).tex
 
-plan.aux:
+slides.aux:
 	pdflatex --halt-on-error ./$(FILE).tex
 
 

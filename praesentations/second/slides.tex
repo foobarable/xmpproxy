@@ -1,3 +1,4 @@
+\pdfminorversion=4
 \documentclass[notes=hide,yellow]{beamer}
 
 % (c) 2008 Steffen Klemer <moh AT gmx BEEP org>
@@ -40,6 +41,7 @@
 \usepackage{hyperref}
 \usepackage{graphics}
 \usepackage{colortbl}
+\usepackage{url}
 
 \usepackage{tikz}
 \tikzstyle{every picture}+=[remember picture]
@@ -67,264 +69,149 @@
 
 
 
-\title{ Distributed Filesystems}
-\subtitle{ }
+\title{ xmpproxy}
+\subtitle{A proxy server for xmpp }
 \author{Ralph Krimmel}
-
+\titlegraphic{\includegraphics[width=2cm,height=2cm]{../img/Logo.jpg}}
 
 
 \begin{document}
 	\begin{frame}
-		\titlepage
+		\titlepage 
+	\end{frame}
+
+	\section{About the project}
+	\subsection*{}
+	
+	\begin{frame}
+		\frametitle{Motivation}
+		\begin{block}{Why xmpproxy?}
+			\begin{itemize}
+				\item 24/7 XMPP client running on vserver
+				\item Mobile XMPP clients (laptop/smartphone) caused incomplete logs
+			\end{itemize}
+		\end{block}
 	\end{frame}
 
 	\begin{frame}
-		\tableofcontents
+		\frametitle{Project summary}
+		\begin{block}{Summary}
+			\begin{itemize}
+				\item Language: Perl 
+				\item Version control system: git
+				\item Project page: \url{https://github.com/foobarable/xmpproxy}
+				\item Used software: vim, \LaTeX, doxygen, make, scribus, dia 
+			\end{itemize}
+		\end{block}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Dependencies}
+		\begin{block}{Used software librabries}
+			\begin{itemize}
+				\item djabberd $\geq$ 0.85 
+				\item XML::Simple $\geq$ 2.18 for configuration file reading/writing
+				\item Authen::SASL $\geq$ 2.15 for SASL authentication
+				\item XML::SAX $\geq$ 0.99 for XML parsing
+			\end{itemize}
+		\end{block}
+		
+	\end{frame}
+	\section{Technology}
+	\subsection*{}
+	\begin{frame}
+		\frametitle{User and account management}
+		\begin{block}{User database}
+			\begin{itemize}
+				\item xmpproxy maintains own user database
+				\item Kept in memory
+				\item Synchronized with XML file on action
+				\item Each user can have multiple proxy accounts
+				\item Buddylist stored for every proxy account
+			\end{itemize}
+		\end{block}
 	\end{frame}
 
-\section{Definition}
-\subsection*{}
-\begin{frame}
-\frametitle{Definition}
-	\begin{block}{Definition}
-		In computing, a distributed file system or network file system is any file system that allows access to files from multiple hosts via a computer network.$[1]$
-	\end{block}
-\end{frame}
 
-\begin{frame}
-\frametitle{Nothing new...}
 
-		E.g. NFS developed by Sun Microsystems in 1984, but for NFS $<$ Version 4:
-		
-		\begin{itemize}
-			\item Bad performance for huge number of clients 
-			\item Hardly scalable
-			\item Not fault tolerant
-		\end{itemize}
-\end{frame}
+	\begin{frame}
+		\frametitle{XMPP client inside DJabberd}
+		\begin{block}{Features}
+			\begin{itemize}
+				\item Event based XMPP client inside DJabberd
+				\item Basic functionality
+				\item SASL support for authentication
+			\end{itemize}
+		 \end{block}
+	\end{frame}
 
-\begin{frame}
-	\frametitle{Requirements for modern distributed filesystems}
-	\begin{block}{Requirements}
-	\begin{itemize}
-		\item Performance
-		\item Scalability
-		\item Reliability
-		\item Availability
-	\end{itemize}
-	\end{block}
-\end{frame}
+%	\begin{frame}[fragile]
+%		\frametitle{Configuration file}
+%		\tiny
+%		\begin{verbatim}
+%<config>
+%        <node name="fluttershy"></node>
+%	
+%        <user name="test" passwd="bar" resource="access">
+%	
+%                  <account jid="test@milk-and-cookies.net" passwd="foo" resource="xmpproxy"/>
+%        </user>
+%</config>
+%		\end{verbatim}
+%	\normalsize
+%	\end{frame}
 
-\begin{frame}
-	\frametitle{Modern DFS}
-	There are several approaches reaching this requirements. \\
-	We will have a look on how Google took care for those in GFS	
-\end{frame}
+	\begin{frame}
+		\frametitle{Root admin bot}
+		\begin{block}{Controlling xmpproxy}
+			\begin{itemize}
+				\item \textbf{root} bot in every users buddylist (DJabberd::Bot::Admin) 
+				\item xmpproxy can be controlled by sending this bot messages
+				\item Three main commands: user, account, help
+				\item Subconmmands: add, delete, set\dots
+			\end{itemize}
+		\end{block}
+	\end{frame}
 
-\section{GFS}
-\subsection*{}
-\begin{frame}
-	\frametitle{Short introduction into GFS - Cluster}
-	\begin{block}{GFS cluster}
-		\begin{itemize}
-			\item A single master server
-			\item Multiple chunkservers
-		\end{itemize}
-	\end{block}
-\end{frame}
+	\begin{frame}
+		\frametitle{Message Carbons}
+		\begin{block}{XEP-0280}
+			\begin{itemize}
+				\item XMPP extension protocol
+				
+				\item Needed to mirror an outgoing message
+				\item Still experimental status
+			\end{itemize}
+			$\Rightarrow$ Send complete conversations via a log@$<$host$>$ account
+		\end{block}
 
-\begin{frame}
-	\frametitle{Short introduction into GFS - Chunks}
-	\begin{block}{Chunk}
-		\begin{itemize}
-			
-			\item Files are divided into chunks %fixed size
-			\item Identified by an 64 bit chunk handle
-			\item Chunks are stored as files on linux filesystems of the chunkservers
-		\end{itemize}
-	\end{block}
+	\end{frame}
 	
-\end{frame}
 
-\begin{frame}
-	\frametitle{Short introduction into GFS - Master server}
-	The master server stores and manages all the metadata
-	\begin{block}{Master}
-	\begin{itemize}
-		\item Namespace (/foo/bar/.../)
-		\item Access Control
-		\item File $\rightarrow$ Chunk Mapping
-		\item Location of chunks
-	\end{itemize}
-	\end{block}
-	All metadata is stored in memory, some is synced to disc
-\end{frame}
-
-\begin{frame}
-	\frametitle{Short introduction into GFS - Overview}
-	\includegraphics[scale=0.45]{gfs_overview.png}
-\end{frame}
-
-
-\begin{frame}
-	\frametitle{Short introduction into GFS - Master server}
-	Additional tasks for the masterserver:	
-	\begin{block}{Master}
-	\begin{itemize}
-		%raussuchen
-		\item Chunk lease managment %mutation order, primary chunk, and so on..
-		\item Garbage collection
-		\item Chunk migration
-	\end{itemize}
-	\end{block}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Short introduction into GFS - Operations}
-	\begin{itemize}
-		\item Not POSIX compatible
-		\item Standard operations: create, delete, close, read, write
-		\item Snapshot %copy of file or directory cost for low cost
-		\item Record append
-	\end{itemize}
-\end{frame}
-
-\section{Reliability}
-\subsection*{}
-\begin{frame}
-	\frametitle{Reliability}
-	Problems: Component failures are the norm
-	
-	\begin{itemize}
-		\item System consists of inexpensive hardware 	
-		\item Application bugs %theres software that always crashes 
-		\item Human failure % what was this cable for?
-		\item Operating system bugs % ever used windows?
-		\item Failures of 
-		\begin{itemize}
-			\item Harddisks
-			\item Memory
-			\item Connectors
-			\item Networking
-			\item ...
-		\end{itemize}
-	\end{itemize}		
-	
-\end{frame}
-
-\begin{frame}
-	\frametitle{Reliability in GFS}
-	
-	\begin{itemize}
-		\item Each chunk is replicated on multiple chunkservers
-		\item Master polls chunkservers periodically for state 	
-		\item Re-Replication
-		\item Chunk placement
-	\end{itemize}
-
-\end{frame}
+	\section{Maintaining}
+	\subsection*{}
+	\begin{frame}[fragile]
+		\frametitle{To do}
+		xmpproxy basically working\dots
+		\begin{block}{\dots but there is still a lot of work (including DJabberd TODOS)}
+			\begin{verbatim}
+				$ grep -Ri TODO xmpproxy/lib | wc -l
+				42
+			\end{verbatim}
+		\end{block}
+		\begin{block}{Open (additional) tasks}
+			\begin{itemize}
+				\item SSL/TLS
+				\item Handle/Forward specific IQs
+				\item Add more functions to admin bot
+				\item Implement jingle (audio/video via XMPP)
+				\item Document DJabberd
+			\end{itemize}
+		\end{block}
+	\end{frame}
 
 
-
-
-\section{Performance}
-\subsection*{}
-\begin{frame}
-	\frametitle{Performance}
-	Observe the workload
-	\begin{itemize}
-		\item Mean file size % adjust block sizes, chunk sizes
-		\item Kind of file access % read/write ratio, random reads? random writes? 
-		\item Network topology % how much bandwidth do i have 
-	\end{itemize}		
-\end{frame}
-
-
-\begin{frame}
-	\frametitle{Performance}
-	Avoid bottlenecks!\\
-	
-	Master must not be overloaded.
-\end{frame}
-
-\begin{frame}
-	\frametitle{Performance in GFS}
-	\begin{itemize}
-		\item Master stores metadata in RAM.	
-		\item Data flow is decoupled from control flow
-	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Performance in GFS}
-	\includegraphics[scale=0.45]{flow.png}
-\end{frame}
-
-
-\section{Scalability}
-\subsection*{}
-\begin{frame}
-	\frametitle{Scalability}
-	To scale up in GFS, just add new chunkservers.\\
-	Any problem with this?
-\end{frame}
-
-
-\begin{frame}
-	\frametitle{ Scalability - GFS }
-	Problem: Master stores all metadata in memory. 
-\end{frame}
-
-\begin{frame}
-	\frametitle{ Scalability - GFS }
-	Namespace data is saved using prefix compression. \\
-	Master needs only 64 bytes of metadata for every chunk. \\
-	$\Rightarrow$ No limitation in practice.
-\end{frame}
-
-\section{Availability}
-\subsection*{}
-\begin{frame}
-	\frametitle{Availability}
-	Maximize the time all files are accessable.
-
-\end{frame}
-
-\begin{frame}
-	\frametitle{Availability}
-	\begin{itemize}
-		\item Replication
-		\item Stale Replica detection 
-		\item Replica placement 
-		\item Fast Recovery
-		\item Master Replication
-	\end{itemize}
-\end{frame}
-
-
-\section{Conclusion}
-\subsection*{}
-
-\begin{frame}
-\frametitle{Conclusion}
-	\begin{itemize}
-		\item Not trivial
-		\item Observe your environment
-		\item Choose or develope a filesystem fitting to your environment
-		\item Adjust parameters
-	\end{itemize}
-\end{frame}
-
-\begin{frame}
-%too lazy for bibtex
-	\frametitle{References}
-	$[1]$ Galvin Silberschatz (1994). Operating System concepts, chapter 17 Distributed file systems. Addison-Wesley Publishing Company. \\ 
-	$[2]$ Sanjay Ghemawat, Howard Gobioff and Shun-Tak Leung (2003). The Google File System. \url{http://labs.google.com/papers/gfs-sosp2003.pdf}
-\end{frame}
-
-\begin{frame}
-	Thank you for your attention.
-\end{frame}
 
 \end{document}
+
 
