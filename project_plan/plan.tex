@@ -32,7 +32,7 @@
 
 
 \lstset{ %
-language=C++,                % the language of the code
+language=XML,                % the language of the code
 basicstyle=\footnotesize,       % the size of the fonts that are used for the code
 numbers=left,                   % where to put the line-numbers
 numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
@@ -98,7 +98,7 @@ A possible solution for this issue may be the use of a proxy server as it can be
 	\caption{Two clients connected to a proxy.}
 	\label{fig:2clientsproxy}
 \end{figure}
-
+\newpage
 \section{Technology}
 \subsection{Software choice}
 For implementing the xmpp proxy server several design descisions had to me made. First of all a programming language was chosen. Possible languages were Perl, C, C++ and Java because of the preferences of the author. The criteria for the programming language was first of all the availability of proper libraries that deal with the xmpp protocol, both server and client side.  Unfortunately, this excluded all languages except perl because there are just few xmpp server libraries at all. Therefore the xmpp proxy server will make use of the \texttt{djabberd} xmpp/jabber server although it lacks a proper documentation.
@@ -108,22 +108,59 @@ It is written and maintained by \textit{Brad Fitzpatrick}, \textit{Artur Bergman
 When this document was created, the most recent version of djabberd was 0.85, released on the thirteenth of June in 2011. Having a modular structure, djabberd is a perfect framework for building the required proxy server because it offers hooks for modifying the behaviour of the authentication and authorization process, roster storage and message delivery. Also, \texttt{djabberd} can be used in environments which require a high performance for it is asynchrone/event-based, using epoll on linux 2.6.
 \subsection{xmpproxy}
 \subsubsection{Configuration}
+The configuration of \texttt{xmpproxy} is done via a single xml configuration file. The file, \texttt{proxy.xml}, can be found in the same directory as the \texttt{xmpproxy} executable. The file stores all the non-ephemeral information of the user database (names, passwords, options) and \texttt{xmpproxy} specific options like the node name of the server. 
+Here is an example configuration file:
+\begin{lstlisting}
+<config>
+	<node name="fluttershy"></node>
+
+	<user name="test" passwd="bar" resource="access">
+		<account jid="test@milk-and-cookies.net" passwd="test" resource="xmpproxy"/>
+		<account jid="bla@milk-and-cookies.net" passwd="bla" resource="xmpproxy"/>
+	</user>
+</config>
+\end{lstlisting}
+\textbf{Cave}: The syntax of this file may change in future versions of \texttt{xmpproxy}.
+
+
 \subsubsection{Logging}
+	\texttt{xmpproxy} uses \texttt{log4perl} to create nice looking, configurable log files. It offers five different log levels (ordered from the most to the least verbose):
+	\begin{itemize}
+		\item DEBUG
+		\item INFO
+		\item WARN
+		\item ERROR
+		\item CRITICAL
+	\end{itemize}
+	The desired loglevel can be adjusted by setting the environmental variable ``LOGLEVEL'' to the wanted value, e.g.\\ \texttt{\$ export LOGLEVEL=DEBUG}
+		
+
 \subsubsection{Modules}
-This is just a short description of the available modules. For a full API documentation see refman.pdf
+This is just a short description of the available modules. For a full API documentation see \textit{refman.pdf}
 	\paragraph{xmpproxy::Userdb and xmpproxy::User} 
-	Those are classes for the management of users in xmpproxy. A \texttt{xmpproxy::Userdb} object stores instances of User objects. It also offers methods to add, delete and modify users. A \texttt{xmpproxy::User} object holds information of a user. That information is username, password and a list of \texttt{DJabberd::Queue::ClientOut} objects, which represent a client connection
+	Those are classes for the management of users in xmpproxy. A \texttt{xmpproxy::Userdb} object stores instances of User objects. It also offers methods to add, delete and modify users. A \texttt{xmpproxy::User} object holds information of a user. That information is username, password and a list of \texttt{DJabberd::Queue::ClientOut} objects, which represent a client connection.
 	\paragraph{DJabberd::Authen::Proxy}
-	Module that queries the xmpp user database and checks the provided credentials
+	Module that queries the xmpp user database and checks the provided credentials.
 	\paragraph{Djabberd::Connection::ClientOut and DJabberd::Queue::ClientOut}
 	Those two classes are needed to make DJabberd connecting to another Jabberserver as a client. \texttt{DJabberd::Stanza::SASL} is used if SASL authentication is supported. 
-
+	\paragraph{DJabberd::RosterStorage::Proxy}
+	Module for roster (``buddylist``) managment. Has methods to fetch and modify the rosters for each proxy account. Currently just basic functions for getting rosters.
+	\paragraph{DJabberd::Delivery::Local}
+	The task of this module is to deliver incoming message/presence stanzas properly. To do this, the ''to``-attribute has to be rewritten to deliver the message to \texttt{xmpproxy} users.
+	\paragraph{DJabberd::Delivery::Proxy}
+	Module for delivering all outgoing message/presence stanzas.(Partly) implements XEP-0280(Message carbons). This means that it mirrors all outgoing message stanzas to each connected client. Also, for forwarding purposes, the ''from`` attribute is rewritten.
+	\paragraph{DJabberd::IQ}
+	Module that handles all IQ stanzas. Client side functions have been added.
+	\paragraph{DJabberd::Message}
+	Module that handles all message stanzas. Client side functions have been added.
+	\paragraph{DJabberd::Presence}
+	Module that handles all presence stanzas. Client side functions have been added.
 %\subsection{Net::XMPP}
 %\texttt{Net::XMPP} is a perl package that provides access to XMPP client side functions for the perl programming language. It is maintaned by \textit{Eric Hacker} and versioned 1.02 at the time this document was written.
 %It can be utilized using its object oriented interface. 
 %There are objects available which hold the actual client functions like login, wait for messages, send messages and logout. 
 %Also there are objects for storing and handling Jabber IDs (\texttt{Net::XMPP::JID}), messages (\texttt{Net::XMPP::Message}), presence information (\texttt{Net::XMPP::Presence}) and Info/Query namespaces (\texttt{Net::XMPP::IQ}).  
-
+\newpage
 \section{Tasks}
 The following tasks are to be completed:
 \begin{itemize}
@@ -143,11 +180,11 @@ The following tasks are to be completed:
 	\item Create presentation
 \end{itemize}
 
-
+\newpage
 \section{Schedule}
-The xmpproxy software will be written in the context of the course ``Applied IT Project'' course at the University of Gothenburg. This requires to ``formulate and execute a finite Applied IT project within a limited time-frame''. 
+The \texttt{xmpproxy} software will be written in the context of the course ``Applied IT Project'' course at the University of Gothenburg. This requires to ``formulate and execute a finite Applied IT project within a limited time-frame''. 
 Therefore it is neccessary to schedule the tasks described in the previous sections. 
-Table \ref{tab:estimatedtime} shows the the estimated time every task will take. The minimum required amount of time this project will need is 200 hours. Due to the size of the project, the time plan will cover 280 hours of work. Those 300 hours are distributed over 18 weeks. Four of those 18 weeks won't be available for activity because of exam preparation and as backup time in case of unforseen consequences (illness, design mistakes) or implementation difficulties. The project is beeing executed mid semester while one other 7.5 ECTS course is absolved. That means that 50\% of the effort can be put into xmpproxy. Therefore, the average weekly time used for working on xmpproxy is approximately 20h.
+Table \ref{tab:estimatedtime} shows the the estimated time every task will take. The minimum required amount of time this project will need is 200 hours. Due to the size of the project, the time plan will cover 280 hours of work. Those 300 hours are distributed over 18 weeks. Four of those 18 weeks won't be available for activity because of exam preparation and as backup time in case of unforseen consequences (illness, design mistakes) or implementation difficulties. The project is beeing executed mid semester while one other 7.5 ECTS course is absolved. That means that 50\% of the effort can be put into \texttt{xmpproxy}. Therefore, the average weekly time used for working on \texttt{xmpproxy} is approximately 20h.
 
 
 \begin{table}[h]
@@ -196,7 +233,7 @@ Table \ref{tab:estimatedtime} shows the the estimated time every task will take.
 	\label{tab:estimatedtime}
 \end{table}
 
-
+\newpage
 \section{Literature}
 \begin{itemize}
 	\item \texttt{Programming jabber - extending XML messaging} by DJ Adams\\
@@ -204,7 +241,7 @@ Table \ref{tab:estimatedtime} shows the the estimated time every task will take.
 	\item \url{http://xmpp.org/rfcs/rfc6121.html}\\
 	\item \url{http://xmpp.org/rfcs/rfc6122.html}\\
 	\item \url{http://search.cpan.org/~mart/DJabberd-0.85/}\\
-	\item \url{Unfortunately: All the DJabberd sources}
+	\item All the DJabberd sources
 \end{itemize}
 
 
